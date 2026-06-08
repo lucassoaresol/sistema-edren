@@ -15,7 +15,7 @@
 **Monorepo Setup** - PLANNED
 
 - Configure npm workspaces.
-- Create `apps/web` with Vite, React, TypeScript, and Tailwind CSS.
+- Create `apps/web` with Vite, React, TypeScript, Tailwind CSS, and shadcn/ui.
 - Create `apps/api` with Fastify.
 - Create shared/database package structure as needed.
 
@@ -27,8 +27,9 @@
 
 **Authentication And Permissions** - PLANNED
 
-- Implement email/password login.
+- Implement username/password login.
 - Store passwords with secure hashing.
+- Use HTTP-only session cookies.
 - Add simple profile-based permissions.
 - Support user activation/inactivation.
 

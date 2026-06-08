@@ -14,7 +14,7 @@
 
 **Core:**
 
-- Frontend: Vite + React + TypeScript + Tailwind CSS
+- Frontend: Vite + React + TypeScript + Tailwind CSS + shadcn/ui
 - Backend: Fastify
 - Database: PostgreSQL
 - ORM: Prisma
@@ -23,6 +23,8 @@
 
 - Package manager: npm
 - Repository structure: npm workspaces monorepo
+- Frontend libraries: TanStack Router, TanStack Query, TanStack Table, React Hook Form, Zod, Sonner, Lucide React
+- UI utilities: class-variance-authority, clsx, tailwind-merge
 - Image storage: Cloudinary
 - Deployment target: VPS with Nginx, PM2, and Cloudflared Tunnel
 - API exposure: frontend consumes backend through Nginx at `/api`; no public API domain
@@ -31,7 +33,7 @@
 
 **MVP includes:**
 
-- Authentication with email and password.
+- Authentication with username and password.
 - Basic users and profile-based permissions.
 - Configurable registrations for size grids, sizes, categories, colors, stock locations, sales channels, and payment methods.
 - Initial seeds for profiles, default size grid, categories, colors, stock locations, sales channels, payment methods, and `Cliente Balcao`.
@@ -63,6 +65,11 @@
 
 ## Business Rules
 
+- Users authenticate with a unique `username` and password, not email.
+- User records include display name, username, password hash, profile, and active/inactive status.
+- Authentication uses server-side session cookies with `HttpOnly`, `Secure` in production, and `SameSite=Lax`.
+- JWT is not part of the MVP authentication strategy.
+- CORS is not required by default because frontend and API are served from the same origin via `/api`; Vite and Nginx should proxy `/api` to Fastify.
 - In the MVP, a "piece" means a SKU/product variation with quantity, not an individually tracked unit.
 - Stock is controlled by SKU and location.
 - Product commercial reference belongs to the product; SKUs are product + color + size.
@@ -108,6 +115,7 @@
 - Timeline: TBD.
 - Technical: Start with local development; published dev environment on VPS is not required initially.
 - Technical: The API must not be publicly exposed through a separate domain.
+- Technical: Avoid exposing auth tokens to browser JavaScript; use HTTP-only session cookies instead.
 - Technical: Backups should be documented initially and implemented as basic scripts when the VPS deploy phase starts.
 - Product: Prioritize a small, usable MVP over a broad system.
 

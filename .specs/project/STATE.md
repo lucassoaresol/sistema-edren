@@ -20,6 +20,11 @@
 - Start development locally; published dev environment on VPS is not required initially.
 - Production target is a VPS with Nginx, PM2, PostgreSQL, Cloudflared Tunnel, and API access through `/api` only.
 - Use React with Vite for the frontend because the system will have many internal management screens and reusable UI components.
+- Use shadcn/ui as the frontend component foundation.
+- Use TanStack Router, TanStack Query, TanStack Table, React Hook Form, Zod, Sonner, and Lucide React for frontend routing, server state, tables, forms, validation, notifications, and icons.
+- Use username + password for authentication instead of email + password.
+- Use HTTP-only server-side session cookies for authentication; do not use JWT for the MVP.
+- Do not enable CORS by default because the frontend and API should run behind the same origin through `/api` in dev and production.
 
 ## Blockers
 
@@ -34,7 +39,7 @@
 ## Todos
 
 - Create the initial npm workspaces monorepo.
-- Configure Vite + React + TypeScript + Tailwind in `apps/web`.
+- Configure Vite + React + TypeScript + Tailwind + shadcn/ui in `apps/web`.
 - Configure Fastify in `apps/api`.
 - Configure PostgreSQL and Prisma.
 - Specify the MVP Foundation feature before implementation.
