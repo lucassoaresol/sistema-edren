@@ -119,8 +119,21 @@
 - Technical: Backups should be documented initially and implemented as basic scripts when the VPS deploy phase starts.
 - Product: Prioritize a small, usable MVP over a broad system.
 
+## Visual Identity
+
+- The interface should be predominantly light, elegant, serene, modern, and welcoming.
+- Primary brand color: EDREN green `#294F40` for main actions, titles, active navigation, and strong brand presence.
+- Supporting brand color: bright ivory `#FFD699` for subtle highlights, badges, hover states, and decorative emphasis.
+- Base system colors should use warm light surfaces: background `#FFF8ED`, surface `#FFFCF6`, muted surface `#F6EAD8`, text `#213D33`, muted text `#6F6558`.
+- Avoid a dark theme as the default visual identity.
+- Avoid generic, cold, overly technological, overly colorful, or e-commerce-like visuals.
+- Use the textual brand `EDREN / VESTUARIO FEMININO` if official logo assets are not available; do not invent a symbol or icon as a logo.
+- Prioritize readable UI typography for tables, forms, menus, filters, reports, and operational data.
+- Use `docs/context/GUIA_IDENTIDADE_VISUAL_EDREN.md` as the detailed visual guidance for frontend work.
+
 ## Context Documents
 
 - `docs/context/PROJECT_ORIGINAL_BRIEF.md`: original broad project brief.
 - `docs/context/DEVOLUTIVA_TECNICA_EDREN.md`: technical scope reduction and MVP recommendation.
 - `docs/context/DECISOES_FINAIS_ESPECIFICACAO_EDREN.md`: final practical decisions used to create this official project specification.
+- `docs/context/GUIA_IDENTIDADE_VISUAL_EDREN.md`: visual identity guidance for the frontend.

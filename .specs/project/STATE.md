@@ -25,6 +25,9 @@
 - Use username + password for authentication instead of email + password.
 - Use HTTP-only server-side session cookies for authentication; do not use JWT for the MVP.
 - Do not enable CORS by default because the frontend and API should run behind the same origin through `/api` in dev and production.
+- Follow EDREN's visual identity guide: light, elegant, warm, feminine, modern, and operationally clear.
+- Use EDREN green `#294F40` as the primary color and bright ivory `#FFD699` as a supporting highlight.
+- Avoid a dark theme as the default frontend identity.
 
 ## Blockers
 
@@ -35,6 +38,7 @@
 - The first broad brief was intentionally reduced to a smaller MVP to avoid overbuilding.
 - Configuration data should be editable rather than hardcoded: size grids, categories, colors, stock locations, sales channels, and payment methods.
 - Receivables can be calculated from sale totals minus active payments; formal installments are not needed in the MVP.
+- The initial dark frontend screen conflicted with EDREN's visual identity and should be revised toward the light brand palette.
 
 ## Todos
 

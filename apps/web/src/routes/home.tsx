@@ -22,14 +22,19 @@ const foundations = [
 
 export function HomePage() {
   return (
-    <main className="min-h-screen bg-stone-950 text-stone-50">
+    <main className="min-h-screen bg-edren-background text-edren-text">
       <section className="mx-auto flex min-h-screen max-w-6xl flex-col justify-center px-6 py-12">
         <div className="max-w-3xl">
-          <p className="mb-4 text-sm font-medium uppercase tracking-[0.35em] text-amber-300">
+          <p className="mb-4 text-sm font-medium uppercase tracking-[0.35em] text-edren-green">
             Sistema Interno
           </p>
-          <h1 className="text-5xl font-semibold tracking-tight sm:text-7xl">EDREN</h1>
-          <p className="mt-6 text-lg leading-8 text-stone-300">
+          <h1 className="text-5xl font-semibold tracking-tight text-edren-green sm:text-7xl">
+            EDREN
+          </h1>
+          <p className="mt-2 text-sm uppercase tracking-[0.28em] text-edren-text-muted">
+            Vestuario Feminino
+          </p>
+          <p className="mt-6 text-lg leading-8 text-edren-text-muted">
             Base inicial do sistema de gestao para produtos, estoque, vendas,
             pagamentos e contas a receber.
           </p>
@@ -49,14 +54,14 @@ export function HomePage() {
             return (
               <Card key={item.title}>
                 <CardHeader>
-                  <div className="mb-4 flex size-11 items-center justify-center rounded-xl bg-amber-300 text-stone-950">
+                  <div className="mb-4 flex size-11 items-center justify-center rounded-xl bg-edren-ivory text-edren-green">
                     <Icon className="size-5" />
                   </div>
                   <CardTitle>{item.title}</CardTitle>
                   <CardDescription>{item.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-stone-500">Fundacao preparada para evoluir em telas CRUD.</p>
+                  <p className="text-sm text-edren-text-muted">Fundacao preparada para evoluir em telas CRUD.</p>
                 </CardContent>
               </Card>
             );
