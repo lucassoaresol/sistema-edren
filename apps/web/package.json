@@ -10,13 +10,24 @@
     "typecheck": "tsc -b --pretty false"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.4.0",
+    "@tailwindcss/vite": "latest",
+    "@tanstack/react-query": "^5.101.0",
+    "@tanstack/react-router": "^1.170.15",
+    "@tanstack/react-table": "^8.21.3",
     "@vitejs/plugin-react": "latest",
-    "vite": "latest",
-    "typescript": "latest",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.17.0",
     "react": "latest",
     "react-dom": "latest",
+    "react-hook-form": "^7.78.0",
+    "sonner": "^2.0.7",
+    "tailwind-merge": "^3.6.0",
     "tailwindcss": "latest",
-    "@tailwindcss/vite": "latest"
+    "typescript": "latest",
+    "vite": "latest",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/react": "latest",
