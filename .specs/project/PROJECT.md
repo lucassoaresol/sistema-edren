@@ -14,7 +14,7 @@
 
 **Core:**
 
-- Frontend: Vite + TypeScript + Tailwind CSS
+- Frontend: Vite + React + TypeScript + Tailwind CSS
 - Backend: Fastify
 - Database: PostgreSQL
 - ORM: Prisma

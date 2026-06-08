@@ -15,7 +15,7 @@
 **Monorepo Setup** - PLANNED
 
 - Configure npm workspaces.
-- Create `apps/web` with Vite, TypeScript, and Tailwind CSS.
+- Create `apps/web` with Vite, React, TypeScript, and Tailwind CSS.
 - Create `apps/api` with Fastify.
 - Create shared/database package structure as needed.
 

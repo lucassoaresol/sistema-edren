@@ -19,6 +19,7 @@
 - Model product images for multiple images, but the first interface may support only one main image.
 - Start development locally; published dev environment on VPS is not required initially.
 - Production target is a VPS with Nginx, PM2, PostgreSQL, Cloudflared Tunnel, and API access through `/api` only.
+- Use React with Vite for the frontend because the system will have many internal management screens and reusable UI components.
 
 ## Blockers
 
@@ -33,7 +34,7 @@
 ## Todos
 
 - Create the initial npm workspaces monorepo.
-- Configure Vite + TypeScript + Tailwind in `apps/web`.
+- Configure Vite + React + TypeScript + Tailwind in `apps/web`.
 - Configure Fastify in `apps/api`.
 - Configure PostgreSQL and Prisma.
 - Specify the MVP Foundation feature before implementation.
