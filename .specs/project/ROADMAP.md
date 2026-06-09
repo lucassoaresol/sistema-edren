@@ -22,8 +22,9 @@
 **Database Foundation** - PLANNED
 
 - Configure PostgreSQL and Prisma.
-- Model users, profiles, configurable registrations, products, SKUs, stock, customers, sales, and payments.
-- Add initial seeds for profiles, configuration data, and `Cliente Balcao`.
+- Model users, profiles, sessions, and configurable registrations first.
+- Defer products, SKUs, stock transactions, sales, customers, and payments until operational rules are confirmed.
+- Add initial seeds for profiles and configuration data.
 
 **Authentication And Permissions** - PLANNED
 

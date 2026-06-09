@@ -28,6 +28,8 @@
 - Follow EDREN's visual identity guide: light, elegant, warm, feminine, modern, and operationally clear.
 - Use EDREN green `#294F40` as the primary color and bright ivory `#FFD699` as a supporting highlight.
 - Avoid a dark theme as the default frontend identity.
+- Start Prisma with non-controversial foundation entities only: users, profiles, sessions, size grids, sizes, categories, colors, stock locations, sales channels, and payment methods.
+- Defer product, SKU, customer, stock movement, sale, and payment schema details until operational questions are answered.
 
 ## Blockers
 
@@ -46,6 +48,7 @@
 - Configure Vite + React + TypeScript + Tailwind + shadcn/ui in `apps/web`.
 - Configure Fastify in `apps/api`.
 - Configure PostgreSQL and Prisma.
+- Answer operational questions from `PERGUNTAS_OPERACIONAIS_EDREN.md` before modeling product/sales/stock transaction details.
 - Specify the MVP Foundation feature before implementation.
 - Add backup documentation and scripts during the VPS deploy phase.
 
