@@ -64,6 +64,7 @@
 - The frontend now has an internal app shell with EDREN navigation and a dashboard that consumes `/api/health/db` through TanStack Query.
 - Vite proxy to `/api` was validated against the Fastify API and PostgreSQL health endpoint.
 - Release `v0.1.0` completed as the initial fullstack foundation and published from `main`.
+- Initial admin users are not created by seed or default password; use the terminal-only `npm run users:create-admin` script to create the first administrator with an argon2id password hash.
 
 ## Todos
 

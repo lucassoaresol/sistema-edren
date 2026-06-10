@@ -1,19 +1,21 @@
 # Deploy de Producao EDREN
 
-Passo a passo para publicar a release `v0.1.0` em producao usando:
+Passo a passo para publicar a release `v0.1.1` em producao usando:
 
 - Dominio: `sistema.edren.com.br`
 - Nginx local: porta `8008`
 - API Fastify interna: `127.0.0.1:43101`
-- Frontend estatico: `/var/www/edren`
+- Frontend estatico: `/var/www/sistema-edren`
+- Processo PM2: `sistema-edren-api-prod`
+- Configuracao Nginx: `/etc/nginx/sites-available/sistema-edren`
 - Cloudflared Tunnel apontando para o Nginx
 
 ## 1. Atualizar codigo na release
 
 ```bash
-cd /root/lucas/edren/edren
+cd /root/edren/prod/sistema-edren
 git fetch --tags
-git checkout v0.1.0
+git checkout v0.1.1
 ```
 
 ## 2. Criar `.env` de producao
@@ -47,9 +49,9 @@ npm run build
 ## 4. Publicar frontend no Nginx
 
 ```bash
-mkdir -p /var/www/edren
-rm -rf /var/www/edren/*
-cp -r apps/web/dist/* /var/www/edren/
+mkdir -p /var/www/sistema-edren
+rm -rf /var/www/sistema-edren/*
+cp -r apps/web/dist/* /var/www/sistema-edren/
 ```
 
 ## 5. Subir API com PM2
@@ -57,20 +59,20 @@ cp -r apps/web/dist/* /var/www/edren/
 Primeira vez:
 
 ```bash
-pm2 start apps/api/dist/server.js --name edren-api-prod
+pm2 start apps/api/dist/server.js --name sistema-edren-api-prod
 pm2 save
 ```
 
 Se o processo ja existir:
 
 ```bash
-pm2 restart edren-api-prod
+pm2 restart sistema-edren-api-prod
 ```
 
 ## 6. Criar configuracao do Nginx
 
 ```bash
-nano /etc/nginx/sites-available/edren
+nano /etc/nginx/sites-available/sistema-edren
 ```
 
 Conteudo:
@@ -81,7 +83,7 @@ server {
 
     server_name sistema.edren.com.br;
 
-    root /var/www/edren;
+    root /var/www/sistema-edren;
     index index.html;
 
     location / {
@@ -109,7 +111,7 @@ server {
 Ativar configuracao:
 
 ```bash
-ln -s /etc/nginx/sites-available/edren /etc/nginx/sites-enabled/edren
+ln -s /etc/nginx/sites-available/sistema-edren /etc/nginx/sites-enabled/sistema-edren
 nginx -t
 systemctl reload nginx
 ```
@@ -136,7 +138,7 @@ https://sistema.edren.com.br
         -> Cloudflared
 http://127.0.0.1:8008
         -> Nginx
-/       -> /var/www/edren
+/       -> /var/www/sistema-edren
 /api    -> http://127.0.0.1:43101
 ```
 
@@ -162,7 +164,7 @@ https://sistema.edren.com.br/api/health/db
 Ver logs da API:
 
 ```bash
-pm2 logs edren-api-prod
+pm2 logs sistema-edren-api-prod
 ```
 
 Ver processos PM2:
@@ -174,7 +176,7 @@ pm2 status
 Reiniciar API:
 
 ```bash
-pm2 restart edren-api-prod
+pm2 restart sistema-edren-api-prod
 ```
 
 Validar Nginx:
