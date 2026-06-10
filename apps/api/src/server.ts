@@ -1,5 +1,5 @@
-import { serverConfig } from '@edren/config';
 import { createApp } from './app.js';
+import { env } from './lib/env.js';
 
 const app = await createApp();
 
@@ -17,8 +17,8 @@ process.on('SIGTERM', shutdown);
 
 try {
   await app.listen({
-    host: serverConfig.host,
-    port: serverConfig.port,
+    host: env.HOST,
+    port: env.PORT,
   });
 } catch (error) {
   app.log.error(error);
