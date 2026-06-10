@@ -45,7 +45,7 @@
 
 ## Blockers
 
-- None for project specification consolidation.
+- Applying the initial Prisma migration and running seeds requires an accessible PostgreSQL server; `psql`/`pg_isready` are not installed in the current environment and no local database is reachable here.
 
 ## Lessons
 
@@ -56,11 +56,9 @@
 
 ## Todos
 
-- Create the initial npm workspaces monorepo.
-- Configure Vite + React + TypeScript + Tailwind + shadcn/ui in `apps/web`.
-- Configure Fastify in `apps/api`.
-- Configure PostgreSQL and Prisma.
 - Model product/sales/stock transaction details from `docs/context/DECISOES_OPERACIONAIS_EDREN.md`.
+- Apply `packages/database/prisma/migrations/20260610120000_init/migration.sql` to the dev PostgreSQL database when the database is available.
+- Run `npm run db:seed` after applying the initial migration.
 - Specify the MVP Foundation feature before implementation.
 - Add backup documentation and scripts during the VPS deploy phase.
 
