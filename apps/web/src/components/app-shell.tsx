@@ -10,6 +10,7 @@ import {
   Tags,
   Users,
 } from 'lucide-react';
+import { BrandLogo } from '@/components/brand-logo';
 import { cn } from '@/lib/utils';
 
 const navItems = [
@@ -30,11 +31,7 @@ export function AppShell() {
   return (
     <div className="min-h-screen bg-edren-background text-edren-text">
       <aside className="fixed inset-y-0 left-0 hidden w-72 border-r border-edren-border bg-edren-green px-5 py-6 text-edren-surface lg:flex lg:flex-col">
-        <img
-          alt="EDREN Vestuario Feminino"
-          className="h-auto w-40"
-          src="/brand/edren-logo.svg"
-        />
+        <BrandLogo className="h-8 w-40 text-edren-surface" />
 
         <nav className="mt-10 flex flex-1 flex-col gap-1">
           {navItems.map((item) => {
@@ -68,11 +65,7 @@ export function AppShell() {
         <header className="sticky top-0 z-10 border-b border-edren-border bg-edren-background/90 px-5 py-4 backdrop-blur lg:hidden">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <img
-                alt="EDREN Vestuario Feminino"
-                className="h-auto w-32"
-                src="/brand/edren-logo.svg"
-              />
+              <BrandLogo className="h-7 w-32 text-edren-green" />
             </div>
             <span className="rounded-full bg-edren-ivory px-3 py-1 text-xs font-medium text-edren-green">
               MVP
