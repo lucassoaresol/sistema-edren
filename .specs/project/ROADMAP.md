@@ -22,9 +22,8 @@
 **Database Foundation** - PLANNED
 
 - Configure PostgreSQL and Prisma.
-- Model users, profiles, sessions, and configurable registrations first.
-- Defer products, SKUs, stock transactions, sales, customers, and payments until operational rules are confirmed.
-- Add initial seeds for profiles and configuration data.
+- Model users, profiles, sessions, configurable registrations, collections, products, SKUs, customers, stock, sales, payments, and movement/cancellation reasons according to operational decisions.
+- Add initial seeds for profiles, configuration data, collections, stock locations, sales channels, payment methods, and future/inactive locations.
 
 **Authentication And Permissions** - PLANNED
 
@@ -54,28 +53,40 @@
 - Manage products with commercial reference and optional cost.
 - Manage SKUs by product, color, and size.
 - Upload one main product image while storing images in a multi-image-ready model.
+- Keep product sale price and cost at product/reference level.
+- Allow product without image.
 
 **Customers** - PLANNED
 
 - Manage customers.
 - Use `Cliente Balcao` for fully paid quick sales.
 - Require real customers for sales with open balance.
+- Require name and unique WhatsApp for real customers.
+- Support final customer and sacoleira/revendedora classification.
 
 **Stock Control** - PLANNED
 
 - Track stock balances by SKU and location.
 - Register stock entries.
 - Register stock movements.
+- Require movement reason.
+- Support manual initial stock entry.
+- Restrict manual stock adjustment to administrators.
 - Support condicional and sacoleira only as stock movements with responsible customer/person.
 
 **Sales And Payments** - PLANNED
 
 - Register sales and sale items.
+- Support fast sale flow with product reference search.
 - Reduce stock on confirmed sales.
 - Support multiple and partial payments.
+- Support sale-level discount and discount reason.
+- Require responsible user and sales channel.
+- Allow sale entry after occurrence while preserving sale date and entry date.
 - Calculate receivables from sale total minus active payments.
 - Cancel full sales with required reason, stock return, and payment cancellation/estorno.
 - Cancel/estornar wrong payments with required reason.
+- Restrict payment receipt and sales cancellation to administrators.
 
 ---
 
@@ -94,7 +105,7 @@
 **Minimum Reports** - PLANNED
 
 - Sales by period, day, and month.
-- Stock by product/SKU and location.
+- Stock by product/SKU, reference, and location.
 - Receivables and customers with open balance.
 - Sales by collection and channel.
 

@@ -11,7 +11,7 @@
 - Stock is controlled by SKU and location.
 - Condicional and sacoleira enter the MVP only as stock movements with a responsible customer/person; full modules are Phase 2.
 - Product commercial reference belongs to the product; SKU is identified by product + color + size.
-- Product cost is optional in the MVP.
+- Product cost is a simple product-level field in the MVP.
 - Sales with open balance require a real customer; fully paid quick sales may use seeded `Cliente Balcao`.
 - Sales, payments, and stock movements should preserve history and avoid physical deletion.
 - Full-sale cancellation is part of the MVP and must return stock, cancel/estornar payments, and require a reason.
@@ -29,7 +29,19 @@
 - Use EDREN green `#294F40` as the primary color and bright ivory `#FFD699` as a supporting highlight.
 - Avoid a dark theme as the default frontend identity.
 - Start Prisma with non-controversial foundation entities only: users, profiles, sessions, size grids, sizes, categories, colors, stock locations, sales channels, and payment methods.
-- Defer product, SKU, customer, stock movement, sale, and payment schema details until operational questions are answered.
+- Operational discovery has answered the main product, SKU, customer, stock movement, sale, payment, report, and permission rules for the MVP.
+- Product references are required, unique, manual, and never reused across collections.
+- Product price and cost belong to the product/reference, not SKU.
+- Product image is optional.
+- Initial stock is entered manually.
+- Fabrica and Casa EDREN are active stock locations; Nova Loja starts as future/inactive.
+- Every stock movement requires a reason.
+- Manual stock adjustment is administrator-only.
+- Sales support sale-level discounts, multiple payments, responsible user, required channel, and later entry with actual sale date.
+- Real customers require unique WhatsApp; open-balance sales require a real customer.
+- Payment receipt, sales cancellation, stock adjustment, product price changes, product create/update, cost visibility, and receivables access are administrator-only in the MVP.
+- Sales can only be canceled on the same day in the MVP and return stock to the original location.
+- Priority reports are sales of the day, receivables, and stock by reference.
 
 ## Blockers
 
@@ -48,7 +60,7 @@
 - Configure Vite + React + TypeScript + Tailwind + shadcn/ui in `apps/web`.
 - Configure Fastify in `apps/api`.
 - Configure PostgreSQL and Prisma.
-- Answer operational questions from `PERGUNTAS_OPERACIONAIS_EDREN.md` before modeling product/sales/stock transaction details.
+- Model product/sales/stock transaction details from `docs/context/DECISOES_OPERACIONAIS_EDREN.md`.
 - Specify the MVP Foundation feature before implementation.
 - Add backup documentation and scripts during the VPS deploy phase.
 

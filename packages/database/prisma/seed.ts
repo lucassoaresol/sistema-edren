@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { PrismaClient, UserProfileCode } from '@prisma/client';
+import { ConfigStatus, PrismaClient, UserProfileCode } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -39,28 +39,23 @@ const colors = [
   'Outros',
 ];
 
-const stockLocations = ['Casa EDREN', 'Fabrica', 'Nova Loja'];
+const stockLocations = [
+  { name: 'Casa EDREN', status: ConfigStatus.ACTIVE },
+  { name: 'Fabrica', status: ConfigStatus.ACTIVE },
+  { name: 'Nova Loja', status: ConfigStatus.FUTURE },
+];
 
 const salesChannels = [
-  'Loja fisica',
-  'WhatsApp',
-  'Instagram',
-  'Evento',
-  'Indicacao',
-  'Nova Loja',
-  'Sacoleira',
-  'Outros',
+  { name: 'Casa EDREN', status: ConfigStatus.ACTIVE },
+  { name: 'WhatsApp', status: ConfigStatus.ACTIVE },
+  { name: 'Instagram', status: ConfigStatus.ACTIVE },
+  { name: 'Atacado', status: ConfigStatus.ACTIVE },
+  { name: 'Sacoleira / Revendedora', status: ConfigStatus.ACTIVE },
+  { name: 'Nova loja', status: ConfigStatus.FUTURE },
+  { name: 'Evento EDREN', status: ConfigStatus.ACTIVE },
 ];
 
-const paymentMethods = [
-  'Dinheiro',
-  'Pix',
-  'Cartao',
-  'Crediario',
-  'Transferencia',
-  'Link de pagamento',
-  'Outro',
-];
+const paymentMethods = ['Pix', 'Dinheiro', 'Cartao de credito', 'Cartao de debito', 'Em aberto / contas a receber'];
 
 function slugify(value: string) {
   return value
@@ -135,19 +130,19 @@ async function seedNamedRecords() {
     });
   }
 
-  for (const name of stockLocations) {
+  for (const location of stockLocations) {
     await prisma.stockLocation.upsert({
-      where: { name },
-      update: { isActive: true },
-      create: { name },
+      where: { name: location.name },
+      update: { status: location.status },
+      create: location,
     });
   }
 
-  for (const name of salesChannels) {
+  for (const channel of salesChannels) {
     await prisma.salesChannel.upsert({
-      where: { name },
-      update: { isActive: true },
-      create: { name },
+      where: { name: channel.name },
+      update: { status: channel.status },
+      create: channel,
     });
   }
 
