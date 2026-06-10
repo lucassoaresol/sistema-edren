@@ -13,7 +13,7 @@ Passo a passo para publicar a release `v0.1.1` em producao usando:
 ## 1. Atualizar codigo na release
 
 ```bash
-cd /root/lucas/edren/edren
+cd /root/edren/prod/sistema-edren
 git fetch --tags
 git checkout v0.1.1
 ```
