@@ -5,7 +5,6 @@ import {
   CreditCard,
   Home,
   Package,
-  ReceiptText,
   Settings,
   ShoppingBag,
   Tags,
@@ -31,12 +30,11 @@ export function AppShell() {
   return (
     <div className="min-h-screen bg-edren-background text-edren-text">
       <aside className="fixed inset-y-0 left-0 hidden w-72 border-r border-edren-border bg-edren-green px-5 py-6 text-edren-surface lg:flex lg:flex-col">
-        <div>
-          <p className="text-3xl font-semibold tracking-[0.18em]">EDREN</p>
-          <p className="mt-1 text-xs uppercase tracking-[0.28em] text-edren-ivory">
-            Vestuario Feminino
-          </p>
-        </div>
+        <img
+          alt="EDREN Vestuario Feminino"
+          className="h-auto w-40"
+          src="/brand/edren-logo.svg"
+        />
 
         <nav className="mt-10 flex flex-1 flex-col gap-1">
           {navItems.map((item) => {
@@ -70,10 +68,11 @@ export function AppShell() {
         <header className="sticky top-0 z-10 border-b border-edren-border bg-edren-background/90 px-5 py-4 backdrop-blur lg:hidden">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <p className="text-xl font-semibold tracking-[0.18em] text-edren-green">EDREN</p>
-              <p className="text-[10px] uppercase tracking-[0.22em] text-edren-text-muted">
-                Vestuario Feminino
-              </p>
+              <img
+                alt="EDREN Vestuario Feminino"
+                className="h-auto w-32"
+                src="/brand/edren-logo.svg"
+              />
             </div>
             <span className="rounded-full bg-edren-ivory px-3 py-1 text-xs font-medium text-edren-green">
               MVP
