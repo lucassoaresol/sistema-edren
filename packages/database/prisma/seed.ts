@@ -1,5 +1,11 @@
 import 'dotenv/config';
-import { ConfigStatus, PrismaClient, UserProfileCode } from '@prisma/client';
+import {
+  CollectionStatus,
+  ConfigStatus,
+  CustomerTypeCode,
+  PrismaClient,
+  UserProfileCode,
+} from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -56,6 +62,39 @@ const salesChannels = [
 ];
 
 const paymentMethods = ['Pix', 'Dinheiro', 'Cartao de credito', 'Cartao de debito', 'Em aberto / contas a receber'];
+
+const collections = [
+  { name: 'Solar', status: CollectionStatus.ACTIVE },
+  { name: 'Signature', status: CollectionStatus.ACTIVE },
+  { name: 'Luar', status: CollectionStatus.ACTIVE },
+  { name: 'Apaixonadas pelo Brasil', status: CollectionStatus.ACTIVE },
+  { name: 'Avulsas / Sem colecao definida', status: CollectionStatus.ACTIVE },
+];
+
+const customerTypes = [
+  {
+    code: CustomerTypeCode.FINAL_CUSTOMER,
+    name: 'Cliente final',
+    description: 'Cliente de varejo da EDREN.',
+  },
+  {
+    code: CustomerTypeCode.RESELLER,
+    name: 'Sacoleira / Revendedora',
+    description: 'Cliente que retira pecas para revenda ou acerto posterior.',
+  },
+];
+
+const stockMovementReasons = [
+  'Estoque inicial',
+  'Entrada de estoque',
+  'Transferencia entre locais',
+  'Ajuste manual',
+  'Envio para condicional',
+  'Retorno de condicional',
+  'Envio para sacoleira',
+  'Retorno de sacoleira',
+  'Cancelamento de venda',
+];
 
 function slugify(value: string) {
   return value
@@ -155,10 +194,67 @@ async function seedNamedRecords() {
   }
 }
 
+async function seedCollections() {
+  for (const collection of collections) {
+    await prisma.collection.upsert({
+      where: { name: collection.name },
+      update: { status: collection.status },
+      create: collection,
+    });
+  }
+}
+
+async function seedCustomerTypes() {
+  for (const type of customerTypes) {
+    await prisma.customerType.upsert({
+      where: { code: type.code },
+      update: {
+        name: type.name,
+        description: type.description,
+        isActive: true,
+      },
+      create: type,
+    });
+  }
+
+  const finalCustomer = await prisma.customerType.findUniqueOrThrow({
+    where: { code: CustomerTypeCode.FINAL_CUSTOMER },
+  });
+
+  await prisma.customer.upsert({
+    where: { whatsapp: 'cliente-balcao' },
+    update: {
+      name: 'Cliente Balcao',
+      isCounter: true,
+      isActive: true,
+      typeId: finalCustomer.id,
+    },
+    create: {
+      name: 'Cliente Balcao',
+      whatsapp: 'cliente-balcao',
+      isCounter: true,
+      typeId: finalCustomer.id,
+    },
+  });
+}
+
+async function seedStockMovementReasons() {
+  for (const name of stockMovementReasons) {
+    await prisma.stockMovementReason.upsert({
+      where: { name },
+      update: { isActive: true },
+      create: { name },
+    });
+  }
+}
+
 async function main() {
   await seedProfiles();
   await seedSizeGrid();
   await seedNamedRecords();
+  await seedCollections();
+  await seedCustomerTypes();
+  await seedStockMovementReasons();
 }
 
 main()
