@@ -63,6 +63,7 @@
 - API source should grow by modules under `apps/api/src/modules`, keeping routes, schemas, services, and repositories separated as features are added.
 - The frontend now has an internal app shell with EDREN navigation and a dashboard that consumes `/api/health/db` through TanStack Query.
 - Vite proxy to `/api` was validated against the Fastify API and PostgreSQL health endpoint.
+- Release `v0.1.0` completed as the initial fullstack foundation and published from `main`.
 
 ## Todos
 
