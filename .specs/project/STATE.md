@@ -45,7 +45,7 @@
 
 ## Blockers
 
-- Applying the initial Prisma migration and running seeds requires an accessible PostgreSQL server; `psql`/`pg_isready` are not installed in the current environment and no local database is reachable here.
+- None currently.
 
 ## Lessons
 
@@ -53,12 +53,12 @@
 - Configuration data should be editable rather than hardcoded: size grids, categories, colors, stock locations, sales channels, and payment methods.
 - Receivables can be calculated from sale totals minus active payments; formal installments are not needed in the MVP.
 - The initial dark frontend screen conflicted with EDREN's visual identity and should be revised toward the light brand palette.
+- Prisma config must explicitly load the monorepo root `.env` because `prisma.config.ts` disables Prisma's default environment loading.
+- Initial migration and seed were successfully applied to the dev PostgreSQL database after database credentials were corrected.
 
 ## Todos
 
 - Model product/sales/stock transaction details from `docs/context/DECISOES_OPERACIONAIS_EDREN.md`.
-- Apply `packages/database/prisma/migrations/20260610120000_init/migration.sql` to the dev PostgreSQL database when the database is available.
-- Run `npm run db:seed` after applying the initial migration.
 - Specify the MVP Foundation feature before implementation.
 - Add backup documentation and scripts during the VPS deploy phase.
 
