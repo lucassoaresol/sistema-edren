@@ -1,7 +1,19 @@
 import { serverConfig } from '@edren/config';
 import { createApp } from './app.js';
 
-const app = createApp();
+const app = await createApp();
+
+function shutdown(signal: NodeJS.Signals) {
+  app.log.info({ signal }, 'Shutting down API server');
+
+  app.close().catch((error) => {
+    app.log.error(error, 'Error during API server shutdown');
+    process.exit(1);
+  });
+}
+
+process.on('SIGINT', shutdown);
+process.on('SIGTERM', shutdown);
 
 try {
   await app.listen({

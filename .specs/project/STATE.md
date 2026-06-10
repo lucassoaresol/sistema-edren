@@ -55,6 +55,7 @@
 - The initial dark frontend screen conflicted with EDREN's visual identity and should be revised toward the light brand palette.
 - Prisma config must explicitly load the monorepo root `.env` because `prisma.config.ts` disables Prisma's default environment loading.
 - Initial migration and seed were successfully applied to the dev PostgreSQL database after database credentials were corrected.
+- The API now loads the root `.env` through `@edren/database` and exposes `/api/health/db` to validate database connectivity and seed counts.
 
 ## Todos
 

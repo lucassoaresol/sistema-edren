@@ -1,14 +1,17 @@
 import Fastify from 'fastify';
+import { registerErrorHandler } from './lib/error-handler.js';
+import { prismaPlugin } from './plugins/prisma.js';
+import { healthRoutes } from './routes/health.js';
 
-export function createApp() {
+export async function createApp() {
   const app = Fastify({
     logger: true,
   });
 
-  app.get('/api/health', async () => ({
-    ok: true,
-    service: 'edren-api',
-  }));
+  registerErrorHandler(app);
+
+  await app.register(prismaPlugin);
+  await app.register(healthRoutes, { prefix: '/api/health' });
 
   return app;
 }
