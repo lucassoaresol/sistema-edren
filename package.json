@@ -20,6 +20,7 @@
     "db:push": "npm run db:push -w packages/database",
     "db:seed": "npm run db:seed -w packages/database",
     "db:studio": "npm run db:studio -w packages/database",
+    "users:create-admin": "npm run users:create-admin -w packages/database",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present"
   },

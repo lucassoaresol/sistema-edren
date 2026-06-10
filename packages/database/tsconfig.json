@@ -6,5 +6,5 @@
     "moduleResolution": "NodeNext",
     "types": ["node"]
   },
-  "include": ["src", "prisma", "prisma.config.ts"]
+  "include": ["src", "prisma", "scripts", "prisma.config.ts"]
 }

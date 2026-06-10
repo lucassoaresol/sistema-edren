@@ -13,6 +13,7 @@
     "db:push": "prisma db push",
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio",
+    "users:create-admin": "tsx scripts/create-admin.ts",
     "typecheck": "tsc -p tsconfig.json --pretty false"
   },
   "devDependencies": {
@@ -23,6 +24,7 @@
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
+    "argon2": "^0.44.0",
     "dotenv": "^17.4.2"
   }
 }
