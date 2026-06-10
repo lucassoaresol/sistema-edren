@@ -31,7 +31,7 @@ export function AppShell() {
   return (
     <div className="min-h-screen bg-edren-background text-edren-text">
       <aside className="fixed inset-y-0 left-0 hidden w-72 border-r border-edren-border bg-edren-green px-5 py-6 text-edren-surface lg:flex lg:flex-col">
-        <BrandLogo className="h-8 w-40 text-edren-surface" />
+        <BrandLogo className="mx-auto h-8 w-40 text-edren-surface" />
 
         <nav className="mt-10 flex flex-1 flex-col gap-1">
           {navItems.map((item) => {
