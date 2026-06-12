@@ -47,7 +47,7 @@ export function LoginPage() {
     <main className="flex min-h-screen items-center justify-center bg-edren-background px-5 py-10 text-edren-text">
       <Card className="w-full max-w-md">
         <CardHeader className="items-center text-center">
-          <BrandLogo className="mb-4 h-9 w-44 text-edren-green" />
+          <BrandLogo className="mx-auto mb-4 h-9 w-44 text-edren-green" />
           <CardTitle>Acessar sistema</CardTitle>
           <CardDescription>Entre com seu usuario e senha para continuar.</CardDescription>
         </CardHeader>
