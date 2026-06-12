@@ -43,12 +43,16 @@ async function questionHidden(prompt: string) {
       if (value === '\n' || value === '\r' || value === '\r\n') {
         stdin.off('data', onData);
         stdin.setRawMode(false);
+        stdin.pause();
         stdout.write('\n');
         resolve(buffer);
         return;
       }
 
       if (value === '\u0003') {
+        stdin.off('data', onData);
+        stdin.setRawMode(false);
+        stdin.pause();
         stdout.write('\n');
         process.exit(1);
       }
