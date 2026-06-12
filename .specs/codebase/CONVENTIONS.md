@@ -1,0 +1,30 @@
+# Convencoes
+
+## Codigo
+
+- TypeScript em ESM.
+- Imports relativos no backend com extensao `.js` nos paths compilados.
+- Nomes de arquivos em kebab-case para rotas/componentes utilitarios.
+- Componentes React em PascalCase.
+- Mensagens e textos de UI estao em portugues, mas majoritariamente sem acentos por convencao atual do codigo.
+- Banco usa nomes Prisma em ingles e valores enum em maiusculo.
+
+## API
+
+- Rotas publicadas sob `/api`.
+- Respostas de auth seguem envelope `{ data: ... }`.
+- Erros usam classes em `apps/api/src/lib/errors.ts` e handler central.
+- Validacao de entrada com Zod.
+
+## Frontend
+
+- Alias `@/` aponta para `apps/web/src`.
+- Estado remoto com TanStack Query.
+- Formularios com React Hook Form + Zod.
+- Componentes UI pequenos em `src/components/ui`.
+- Layout responsivo: sidebar fixa em desktop, header/nav horizontal em mobile.
+
+## Git/Processo
+
+- `CONTRIBUTING.md` recomenda branches `main` e `develop`.
+- Commits devem usar Conventional Commits.
