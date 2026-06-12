@@ -6,7 +6,7 @@
 - Imports relativos no backend com extensao `.js` nos paths compilados.
 - Nomes de arquivos em kebab-case para rotas/componentes utilitarios.
 - Componentes React em PascalCase.
-- Mensagens e textos de UI estao em portugues, mas majoritariamente sem acentos por convencao atual do codigo.
+- Mensagens e textos de UI estão em português, mas majoritariamente sem acentos por convenção atual do código.
 - Banco usa nomes Prisma em ingles e valores enum em maiusculo.
 
 ## API

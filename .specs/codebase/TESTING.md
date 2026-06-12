@@ -15,7 +15,7 @@
 ## Gaps
 
 - Nao foram observados testes do frontend.
-- Nao ha testes de dominio para estoque, vendas, pagamentos ou permissoes porque as rotas ainda nao existem.
+- Não há testes de domínio para estoque, vendas, pagamentos ou permissões porque as rotas ainda não existem.
 - Quando venda/estoque forem implementados, testes devem cobrir transacoes, rollback, baixa de estoque, cancelamento e pagamentos parciais.
 
 ## Comandos Relevantes

@@ -9,7 +9,7 @@
 
 - Previsto em `.env.example` por `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY` e `CLOUDINARY_API_SECRET`.
 - Previsto em documentos para imagens de produto.
-- Nao ha integracao de upload implementada no codigo analisado.
+- Não há integração de upload implementada no código analisado.
 
 ## Nginx / Cloudflared / PM2
 

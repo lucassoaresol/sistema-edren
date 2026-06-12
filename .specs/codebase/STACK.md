@@ -27,7 +27,7 @@
 - Prisma Client.
 - Argon2 para hash de senha.
 - `@fastify/cookie` para sessao via cookie assinado.
-- Zod para validacao.
+- Zod para validação.
 - Vitest para testes.
 
 ## Banco

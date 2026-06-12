@@ -8,8 +8,8 @@ packages/
   database/            # Prisma schema, migrations, seed e scripts
   shared/              # pacote compartilhado ainda minimo
   config/              # pacote de config ainda minimo
-  context/             # decisoes e especificacoes de negocio
-  deploy/              # documentacao de producao
+  context/             # decisões e especificações de negócio
+  deploy/              # documentação de produção
 .specs/                # mapeamento spec-driven criado nesta analise
 ```
 
@@ -17,7 +17,7 @@ packages/
 
 - `apps/api/src/app.ts`: cria Fastify, registra plugins e rotas.
 - `apps/api/src/server.ts`: entrada do servidor.
-- `apps/api/src/modules/auth`: autenticacao, sessao, schemas e contexto.
+- `apps/api/src/modules/auth`: autenticação, sessão, schemas e contexto.
 - `apps/api/src/routes/health.ts`: health checks basicos e health do banco.
 - `apps/web/src/router.tsx`: rotas TanStack.
 - `apps/web/src/components/app-shell.tsx`: layout autenticado com menu.

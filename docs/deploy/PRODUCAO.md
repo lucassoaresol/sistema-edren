@@ -1,16 +1,16 @@
-# Deploy de Producao EDREN
+# Deploy de Produção EDREN
 
-Passo a passo para publicar a release `v0.1.1` em producao usando:
+Passo a passo para publicar a release `v0.1.1` em produção usando:
 
-- Dominio: `sistema.edren.com.br`
+- Domínio: `sistema.edren.com.br`
 - Nginx local: porta `8008`
 - API Fastify interna: `127.0.0.1:43101`
-- Frontend estatico: `/var/www/sistema-edren`
+- Frontend estático: `/var/www/sistema-edren`
 - Processo PM2: `sistema-edren-api-prod`
-- Configuracao Nginx: `/etc/nginx/sites-available/sistema-edren`
+- Configuração Nginx: `/etc/nginx/sites-available/sistema-edren`
 - Cloudflared Tunnel apontando para o Nginx
 
-## 1. Atualizar codigo na release
+## 1. Atualizar código na release
 
 ```bash
 cd /root/edren/prod/sistema-edren
@@ -18,13 +18,13 @@ git fetch --tags
 git checkout v0.1.1
 ```
 
-## 2. Criar `.env` de producao
+## 2. Criar `.env` de produção
 
 ```bash
 nano .env
 ```
 
-Conteudo:
+Conteúdo:
 
 ```env
 NODE_ENV=production
@@ -34,9 +34,9 @@ LOG_LEVEL=info
 DATABASE_URL=postgresql://USUARIO:SENHA@127.0.0.1:5432/edren_prod?schema=public
 ```
 
-Substitua `USUARIO` e `SENHA` pelas credenciais reais do banco de producao.
+Substitua `USUARIO` e `SENHA` pelas credenciais reais do banco de produção.
 
-## 3. Instalar dependencias e buildar
+## 3. Instalar dependências e buildar
 
 ```bash
 npm ci
@@ -63,19 +63,19 @@ pm2 start apps/api/dist/server.js --name sistema-edren-api-prod
 pm2 save
 ```
 
-Se o processo ja existir:
+Se o processo já existir:
 
 ```bash
 pm2 restart sistema-edren-api-prod
 ```
 
-## 6. Criar configuracao do Nginx
+## 6. Criar configuração do Nginx
 
 ```bash
 nano /etc/nginx/sites-available/sistema-edren
 ```
 
-Conteudo:
+Conteúdo:
 
 ```nginx
 server {
@@ -108,7 +108,7 @@ server {
 }
 ```
 
-Ativar configuracao:
+Ativar configuração:
 
 ```bash
 ln -s /etc/nginx/sites-available/sistema-edren /etc/nginx/sites-enabled/sistema-edren
@@ -116,7 +116,7 @@ nginx -t
 systemctl reload nginx
 ```
 
-Se o link simbolico ja existir, apenas rode:
+Se o link simbólico já existir, apenas rode:
 
 ```bash
 nginx -t
@@ -159,7 +159,7 @@ https://sistema.edren.com.br/api/health
 https://sistema.edren.com.br/api/health/db
 ```
 
-## 10. Comandos uteis
+## 10. Comandos úteis
 
 Ver logs da API:
 
