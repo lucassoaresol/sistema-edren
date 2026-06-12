@@ -1,7 +1,7 @@
 # Roadmap
 
-**Current Milestone:** MVP Foundation
-**Status:** Planning
+**Current Milestone:** MVP Operations
+**Status:** Foundation released; authentication complete; operations planning
 
 ---
 
@@ -12,26 +12,28 @@
 
 ### Features
 
-**Monorepo Setup** - PLANNED
+**Monorepo Setup** - DONE
 
 - Configure npm workspaces.
 - Create `apps/web` with Vite, React, TypeScript, Tailwind CSS, and shadcn/ui.
 - Create `apps/api` with Fastify.
 - Create shared/database package structure as needed.
 
-**Database Foundation** - PLANNED
+**Database Foundation** - DONE
 
 - Configure PostgreSQL and Prisma.
 - Model users, profiles, sessions, configurable registrations, collections, products, SKUs, customers, stock, sales, payments, and movement/cancellation reasons according to operational decisions.
 - Add initial seeds for profiles, configuration data, collections, stock locations, sales channels, payment methods, and future/inactive locations.
 
-**Authentication And Permissions** - PLANNED
+**Authentication And Permissions** - IN PROGRESS
 
 - Implement username/password login.
 - Store passwords with secure hashing.
 - Use HTTP-only session cookies.
 - Add simple profile-based permissions.
 - Support user activation/inactivation.
+
+**Current status:** username/password login, argon2 password verification, database-backed sessions, signed HTTP-only cookies, protected app shell, login page, admin bootstrap script, and API route coverage are implemented. Fine-grained profile permission enforcement is still pending for future feature screens/actions.
 
 ---
 
@@ -42,7 +44,7 @@
 
 ### Features
 
-**Configurable Registrations** - PLANNED
+**Configurable Registrations** - NEXT
 
 - Manage size grids and sizes.
 - Manage categories, colors, stock locations, sales channels, and payment methods.

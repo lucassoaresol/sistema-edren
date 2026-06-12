@@ -67,11 +67,13 @@
 - Initial admin users are not created by seed or default password; use the terminal-only `npm run users:create-admin` script to create the first administrator with an argon2id password hash.
 - Session authentication implemented with username/password, argon2 verification, signed HTTP-only cookies, database-backed sessions, `/api/auth/login`, `/api/auth/logout`, and `/api/auth/me`.
 - Frontend app shell is protected by `/api/auth/me`; unauthenticated users are redirected to `/login`.
+- API route coverage now uses Vitest and covers health routes plus auth login/me/logout behavior.
+- Specs were initially used mostly as project memory; retroactive specs now exist for MVP Foundation and Session Auth. Future large features should be specified before implementation.
 
 ## Todos
 
-- Model product/sales/stock transaction details from `docs/context/DECISOES_OPERACIONAIS_EDREN.md`.
-- Specify the MVP Foundation feature before implementation.
+- Specify Configurable Registrations before implementation.
+- Model product/sales/stock transaction details from `docs/context/DECISOES_OPERACIONAIS_EDREN.md` when their feature specs are created.
 - Add backup documentation and scripts during the VPS deploy phase.
 
 ## Deferred Ideas
