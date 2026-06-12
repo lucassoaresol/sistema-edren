@@ -16,7 +16,7 @@ Atualizado em: 2026-06-12.
 - Condicional e sacoleira entram no MVP apenas como movimentacoes de estoque com cliente/pessoa responsavel; modulos completos ficam para a Fase 2.
 - A referencia comercial pertence ao produto; o SKU e identificado por produto + cor + tamanho.
 - O custo do produto e opcional no MVP.
-- Vendas com saldo em aberto exigem cliente real; vendas rapidas totalmente pagas podem usar o seed `Cliente Balcao`.
+- Vendas com saldo em aberto exigem cliente real; vendas rapidas totalmente pagas podem usar o seed `Cliente Balcão`.
 - Vendas, pagamentos e movimentacoes de estoque devem preservar historico e evitar exclusao fisica.
 - Cancelamento completo de venda faz parte do MVP e deve retornar estoque, cancelar/estornar pagamentos e exigir motivo.
 - Pagamentos errados sao cancelados/estornados com motivo obrigatorio em vez de excluidos.
@@ -37,7 +37,8 @@ Atualizado em: 2026-06-12.
 - Preco e custo pertencem ao produto/referencia, nao ao SKU.
 - Imagem de produto e opcional.
 - Estoque inicial e lancado manualmente.
-- Fabrica e Casa EDREN sao locais de estoque ativos; Nova Loja comeca como futura/inativa.
+- Fábrica e Casa EDREN sao locais de estoque ativos; locais ou canais que ainda nao existem operacionalmente nao devem ser cadastrados como futuros no MVP.
+- Remover o conceito `FUTURE` dos cadastros configuraveis do MVP; usar apenas ativo/inativo para locais de estoque e canais de venda.
 - Toda movimentacao de estoque exige motivo.
 - Ajuste manual de estoque e restrito a administradores.
 - Vendas suportam desconto no nivel da venda, multiplos pagamentos, usuario responsavel, canal obrigatorio e lancamento posterior com data real da venda.
@@ -52,6 +53,7 @@ Atualizado em: 2026-06-12.
 
 ## Aprendizados
 
+- A proxima fatia de operacoes foi iniciada como spec em `.specs/features/configurable-registrations/spec.md`, antes de implementar os CRUDs de cadastros configuraveis.
 - O primeiro briefing amplo foi reduzido intencionalmente para um MVP menor e mais viavel, evitando overbuilding.
 - Dados de configuracao devem ser editaveis em vez de hardcoded: grades de tamanho, categorias, cores, locais de estoque, canais de venda e formas de pagamento.
 - Recebiveis podem ser calculados a partir do total da venda menos pagamentos ativos; parcelamentos formais nao sao necessarios no MVP.
@@ -72,6 +74,7 @@ Atualizado em: 2026-06-12.
 - O app shell do frontend e protegido por `/api/auth/me`; usuarios nao autenticados sao redirecionados para `/login`.
 - Cobertura de rotas da API agora usa Vitest e cobre health routes e comportamento de auth login/me/logout.
 - Specs foram inicialmente usadas mais como memoria do projeto; specs retroativas agora existem para Fundacao do MVP e Autenticacao por Sessao. Proximas features grandes devem ser especificadas antes da implementacao.
+- Cadastros configuraveis foram implementados com migration para ativo/inativo, seed sem `Nova Loja`, rotas `/api/config`, escrita restrita a administradores, leitura autenticada, testes de API e tela `/configuracoes`.
 
 ## Levantamento Brownfield 2026-06-12
 
@@ -79,7 +82,7 @@ Atualizado em: 2026-06-12.
 - O frontend ja criou a estrutura de menus e placeholders para todos os modulos centrais. Esses placeholders devem virar epicos/tarefas formais no roadmap.
 - O dashboard atual mede `profiles` e `collections` via health check; isso e uma prova fullstack, nao um relatorio de negocio.
 - A autenticacao usa `username`, enquanto parte da especificacao falava em email. A decisao registrada favorece `username`, mas futuras telas de usuario devem manter consistencia.
-- Os seeds usam nomes ASCII sem acentos em alguns registros (`Fabrica`, `Cliente Balcao`, `Calca`). Se a UI final precisar nomes acentuados, ajustar antes de popular producao.
+- Os seeds foram corrigidos para dados visiveis com acentos, incluindo `Fábrica`, `Cliente Balcão`, `Calça`, `Macacão`, formas de pagamento e `Grade P ao GG`.
 - O documento de producao usa porta `43101`, enquanto `.env.example` usa `3001`; isso e aceitavel por ambiente, mas precisa ficar explicito.
 - Ainda nao ha CRUD real para cadastros, produtos, clientes, estoque, vendas ou relatorios.
 - Permissoes por perfil ainda nao sao aplicadas nas funcionalidades.
@@ -90,10 +93,10 @@ Atualizado em: 2026-06-12.
 
 ## Pendencias
 
-- Especificar Configurable Registrations antes da implementacao.
-- Formalizar feature specs para `catalog-config`, `products-skus`, `stock-movements`, `customers`, `sales-payments` e `reports-mvp`.
+- Formalizar a proxima feature `products-and-collections` antes da implementacao.
+- Formalizar feature specs para `products-skus`, `stock-movements`, `customers`, `sales-payments` e `reports-mvp`.
 - Modelar detalhes de transacoes de produto/venda/estoque a partir de `docs/context/DECISOES_OPERACIONAIS_EDREN.md` quando suas specs forem criadas.
-- Implementar primeiro CRUDs de cadastros configuraveis e produtos/SKUs antes de venda.
+- Implementar produtos/SKUs antes de venda.
 - Projetar venda/estoque como transacao unica no backend para evitar saldo inconsistente.
 - Criar matriz simples de permissoes antes das primeiras rotas administrativas.
 - Adicionar documentacao e scripts de backup durante a fase de deploy no VPS.
@@ -107,6 +110,7 @@ Atualizado em: 2026-06-12.
 - Parcelamentos formais, juros, multas e cobranca automatica.
 - Trocas e devolucoes parciais.
 - Exportacoes, graficos, dashboard avancado e metas.
+- Paginacao, busca textual, filtros por status e ordenacao configuravel nos cadastros configuraveis quando o volume de dados justificar.
 - E-commerce, integracoes com WhatsApp/Instagram, gateway de pagamento, notas fiscais, codigo de barras, etiquetas, app mobile nativo, producao avancada, contabilidade, BI, IA e automacao de marketing.
 
 ## Preferencias

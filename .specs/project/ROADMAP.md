@@ -40,7 +40,7 @@
 
 ### Funcionalidades
 
-**Configurable Registrations** - PROXIMA
+**Configurable Registrations** - FEITO
 
 - Gerenciar grades de tamanho e tamanhos.
 - Gerenciar categorias, cores, locais de estoque, canais de venda e formas de pagamento.
@@ -57,7 +57,7 @@
 **Customers** - PLANEJADA
 
 - Gerenciar clientes.
-- Usar `Cliente Balcao` para vendas rapidas totalmente pagas.
+- Usar `Cliente Balcão` para vendas rapidas totalmente pagas.
 - Exigir cliente real para vendas com saldo em aberto.
 - Exigir nome e WhatsApp unico para clientes reais.
 - Suportar classificacao de cliente final e sacoleira/revendedora.
@@ -136,7 +136,7 @@
 - Autenticacao: implementada para login/logout/me; falta CRUD de usuarios e enforcement de permissoes por perfil nas acoes de negocio.
 - Cadastros configuraveis: modelados e seedados; faltam endpoints e telas CRUD.
 - Produtos/SKUs/estoque: modelados; faltam fluxos operacionais e atualizacao transacional de saldos.
-- Clientes: modelados e Cliente Balcao seedado; falta CRUD e historico financeiro.
+- Clientes: modelados e Cliente Balcão seedado; falta CRUD e historico financeiro.
 - Vendas/pagamentos: modelados; falta API transacional, baixa de estoque, cancelamento e contas a receber calculadas.
 - Relatorios: ainda nao implementados; dashboard atual e apenas uma prova fullstack.
 - Deploy: documento de producao existe; nao foi validado nesta analise.

@@ -13,12 +13,6 @@ enum UserProfileCode {
   SELLER_OPERATOR
 }
 
-enum ConfigStatus {
-  ACTIVE
-  INACTIVE
-  FUTURE
-}
-
 enum CollectionStatus {
   ACTIVE
   ARCHIVED
@@ -149,7 +143,7 @@ model StockLocation {
   id          String   @id @default(cuid())
   name        String   @unique
   description String?
-  status      ConfigStatus @default(ACTIVE)
+  isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   balances    StockBalance[]
@@ -314,7 +308,7 @@ model SalesChannel {
   id          String   @id @default(cuid())
   name        String   @unique
   description String?
-  status      ConfigStatus @default(ACTIVE)
+  isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   sales       Sale[]

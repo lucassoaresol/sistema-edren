@@ -20,14 +20,14 @@ import { cn } from '@/lib/utils';
 
 const navItems = [
   { label: 'Painel', to: '/', icon: Home },
-  { label: 'Vendas', to: '/vendas', icon: ShoppingBag },
-  { label: 'Clientes', to: '/clientes', icon: Users },
-  { label: 'Produtos', to: '/produtos', icon: Package },
-  { label: 'Colecoes', to: '/colecoes', icon: Tags },
-  { label: 'Estoque', to: '/estoque', icon: Boxes },
-  { label: 'Contas a receber', to: '/contas-a-receber', icon: CreditCard },
-  { label: 'Relatorios', to: '/relatorios', icon: BarChart3 },
-  { label: 'Configuracoes', to: '/configuracoes', icon: Settings },
+  { label: 'Vendas', to: '/sales', icon: ShoppingBag },
+  { label: 'Clientes', to: '/customers', icon: Users },
+  { label: 'Produtos', to: '/products', icon: Package },
+  { label: 'Coleções', to: '/collections', icon: Tags },
+  { label: 'Estoque', to: '/stock', icon: Boxes },
+  { label: 'Contas a receber', to: '/accounts-receivable', icon: CreditCard },
+  { label: 'Relatórios', to: '/reports', icon: BarChart3 },
+  { label: 'Configurações', to: '/settings', icon: Settings },
 ] as const;
 
 export function AppShell() {

@@ -31,7 +31,7 @@
 - Autenticacao com username e senha.
 - Usuarios basicos e permissoes por perfil.
 - Cadastros configuraveis para grades de tamanho, tamanhos, categorias, cores, locais de estoque, canais de venda e formas de pagamento.
-- Seeds iniciais para perfis, dados de configuracao, colecoes, locais de estoque, canais de venda, formas de pagamento e `Cliente Balcao`.
+- Seeds iniciais para perfis, dados de configuracao, colecoes, locais de estoque, canais de venda, formas de pagamento e `Cliente Balcão`.
 - Colecoes.
 - Produtos com referencia/codigo comercial.
 - SKUs/variacoes identificadas por produto + cor + tamanho.
@@ -77,14 +77,14 @@
 - Modelos refeitos ou repaginados recebem nova referencia de produto.
 - Preco de venda e custo sao armazenados no produto, nao no SKU.
 - Imagem de produto e opcional.
-- Produto pertence a uma colecao; colecoes iniciais incluem `Solar`, `Signature`, `Luar`, `Apaixonadas pelo Brasil` e `Avulsas / Sem colecao definida`.
+- Produto pertence a uma colecao; colecoes iniciais incluem `Solar`, `Signature`, `Luar`, `Apaixonadas pelo Brasil` e `Avulsas / Sem coleção definida`.
 - Vendas confirmadas baixam estoque imediatamente, mesmo com pagamento parcial ou em aberto.
 - Vendas podem ter desconto simples no nivel da venda com motivo obrigatorio quando aplicado.
 - Vendas podem ter multiplos pagamentos.
 - Toda venda deve ter usuario responsavel e canal de venda obrigatorio.
 - Vendas podem ser lancadas depois de terem ocorrido, preservando data da venda e data de entrada.
 - Vendas com saldo em aberto exigem cliente real cadastrado.
-- Vendas rapidas totalmente pagas podem usar o seed `Cliente Balcao`.
+- Vendas rapidas totalmente pagas podem usar o seed `Cliente Balcão`.
 - Recebiveis sao calculados a partir do total da venda menos pagamentos ativos.
 - Recebiveis em aberto podem existir sem data de vencimento obrigatoria.
 - Pagamentos podem ser parciais e podem ser cancelados/estornados com motivo obrigatorio; nao sao excluidos fisicamente depois de vinculados a uma venda.
@@ -95,7 +95,7 @@
 - Cancelar uma venda completa retorna estoque ao local original e cancela/estorna pagamentos vinculados.
 - Movimentacoes de estoque nao sao excluidas fisicamente; correcoes usam movimentacao inversa ou cancelamento controlado.
 - Toda movimentacao de estoque deve ter motivo obrigatorio, manual ou gerado automaticamente pelo sistema.
-- Movimentacoes de condicional e sacoleira podem sair da Casa EDREN ou da Fabrica.
+- Movimentacoes de condicional e sacoleira podem sair da Casa EDREN ou da Fábrica.
 - Produtos/SKUs e clientes com historico sao inativados em vez de excluidos.
 - Usuarios com historico sao inativados em vez de excluidos.
 - Condicional nao e venda; sacoleira nao e venda ate acerto/confirmacao de venda.
@@ -110,15 +110,15 @@
 ## Seeds Iniciais
 
 - Perfis: `Administrador`, `Gerente`, `Vendedor/Operador`.
-- Grade de tamanho: `Grade Feminina P ao GG` com `P`, `M`, `G`, `GG`.
-- Categorias: `Vestido`, `Blusa`, `Calca`, `Saia`, `Short`, `Macacao`, `Conjunto`, `Outros`.
+- Grade de tamanho: `Grade P ao GG` com `P`, `M`, `G`, `GG`.
+- Categorias: `Vestido`, `Blusa`, `Calça`, `Saia`, `Short`, `Macacão`, `Conjunto`, `Outros`.
 - Cores: `Preto`, `Branco`, `Off White`, `Azul`, `Verde`, `Vermelho`, `Rosa`, `Amarelo`, `Bege`, `Marrom`, `Estampado`, `Xadrez`, `Outros`.
-- Locais de estoque: `Casa EDREN`, `Fabrica`, `Nova Loja`.
-- Status inicial dos locais: `Casa EDREN` ativa, `Fabrica` ativa, `Nova Loja` futura/inativa.
-- Canais de venda: `Casa EDREN`, `WhatsApp`, `Instagram`, `Atacado`, `Sacoleira / Revendedora`, `Nova loja`, `Evento EDREN`.
-- Formas de pagamento: `Pix`, `Dinheiro`, `Cartao de credito`, `Cartao de debito`, `Em aberto / contas a receber`.
-- Cliente: `Cliente Balcao` para vendas rapidas totalmente pagas.
-- Colecoes: `Solar`, `Signature`, `Luar`, `Apaixonadas pelo Brasil`, `Avulsas / Sem colecao definida`.
+- Locais de estoque: `Casa EDREN`, `Fábrica`.
+- Status inicial dos locais: `Casa EDREN` ativa, `Fábrica` ativa.
+- Canais de venda: `Casa EDREN`, `WhatsApp`, `Instagram`, `Atacado`, `Sacoleira / Revendedora`, `Evento EDREN`.
+- Formas de pagamento: `Pix`, `Dinheiro`, `Cartão de crédito`, `Cartão de débito`, `Em aberto / contas a receber`.
+- Cliente: `Cliente Balcão` para vendas rapidas totalmente pagas.
+- Colecoes: `Solar`, `Signature`, `Luar`, `Apaixonadas pelo Brasil`, `Avulsas / Sem coleção definida`.
 
 ## Relatorios Minimos
 

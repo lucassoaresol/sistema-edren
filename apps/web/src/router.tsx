@@ -1,6 +1,7 @@
 import { createRootRoute, createRoute, createRouter, Outlet } from '@tanstack/react-router';
 import { AppShell } from '@/components/app-shell';
 import { DashboardPage } from '@/routes/dashboard';
+import { SettingsPage } from '@/routes/settings';
 import { LoginPage } from '@/routes/login';
 import { PlaceholderPage } from '@/routes/placeholder';
 
@@ -29,43 +30,43 @@ const loginRoute = createRoute({
 const placeholderRoutes = [
   createRoute({
     getParentRoute: () => protectedRoute,
-    path: '/vendas',
-    component: () => <PlaceholderPage description="Venda rapida, pagamentos e baixa de estoque." title="Vendas" />,
+    path: '/sales',
+    component: () => <PlaceholderPage description="Venda rápida, pagamentos e baixa de estoque." title="Vendas" />,
   }),
   createRoute({
     getParentRoute: () => protectedRoute,
-    path: '/clientes',
-    component: () => <PlaceholderPage description="Cadastro e historico das clientes." title="Clientes" />,
+    path: '/customers',
+    component: () => <PlaceholderPage description="Cadastro e histórico das clientes." title="Clientes" />,
   }),
   createRoute({
     getParentRoute: () => protectedRoute,
-    path: '/produtos',
-    component: () => <PlaceholderPage description="Referencias, colecoes, SKUs e imagens." title="Produtos" />,
+    path: '/products',
+    component: () => <PlaceholderPage description="Referências, coleções, SKUs e imagens." title="Produtos" />,
   }),
   createRoute({
     getParentRoute: () => protectedRoute,
-    path: '/colecoes',
-    component: () => <PlaceholderPage description="Organizacao dos produtos por colecao." title="Colecoes" />,
+    path: '/collections',
+    component: () => <PlaceholderPage description="Organização dos produtos por coleção." title="Coleções" />,
   }),
   createRoute({
     getParentRoute: () => protectedRoute,
-    path: '/estoque',
-    component: () => <PlaceholderPage description="Saldos por SKU e local, entradas e movimentacoes." title="Estoque" />,
+    path: '/stock',
+    component: () => <PlaceholderPage description="Saldos por SKU e local, entradas e movimentações." title="Estoque" />,
   }),
   createRoute({
     getParentRoute: () => protectedRoute,
-    path: '/contas-a-receber',
-    component: () => <PlaceholderPage description="Saldos em aberto e historico financeiro." title="Contas a receber" />,
+    path: '/accounts-receivable',
+    component: () => <PlaceholderPage description="Saldos em aberto e histórico financeiro." title="Contas a receber" />,
   }),
   createRoute({
     getParentRoute: () => protectedRoute,
-    path: '/relatorios',
-    component: () => <PlaceholderPage description="Vendas do dia, contas a receber e estoque por referencia." title="Relatorios" />,
+    path: '/reports',
+    component: () => <PlaceholderPage description="Vendas do dia, contas a receber e estoque por referência." title="Relatórios" />,
   }),
   createRoute({
     getParentRoute: () => protectedRoute,
-    path: '/configuracoes',
-    component: () => <PlaceholderPage description="Cadastros configuraveis e usuarios do sistema." title="Configuracoes" />,
+    path: '/settings',
+    component: SettingsPage,
   }),
 ];
 

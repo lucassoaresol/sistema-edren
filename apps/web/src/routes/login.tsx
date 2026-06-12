@@ -13,7 +13,7 @@ import { authQueryKey } from '@/lib/auth';
 import { login } from '@/lib/api';
 
 const loginFormSchema = z.object({
-  username: z.string().trim().min(1, 'Informe o usuario.'),
+  username: z.string().trim().min(1, 'Informe o usuário.'),
   password: z.string().min(1, 'Informe a senha.'),
 });
 
@@ -35,7 +35,7 @@ export function LoginPage() {
   const loginMutation = useMutation({
     mutationFn: login,
     onError: () => {
-      setError('Usuario ou senha invalidos.');
+      setError('Usuário ou senha inválidos.');
     },
     onSuccess: async (user) => {
       queryClient.setQueryData(authQueryKey, user);
@@ -49,7 +49,7 @@ export function LoginPage() {
         <CardHeader className="items-center text-center">
           <BrandLogo className="mx-auto mb-4 h-9 w-44 text-edren-green" />
           <CardTitle>Acessar sistema</CardTitle>
-          <CardDescription>Entre com seu usuario e senha para continuar.</CardDescription>
+          <CardDescription>Entre com seu usuário e senha para continuar.</CardDescription>
         </CardHeader>
         <CardContent>
           <form
@@ -60,7 +60,7 @@ export function LoginPage() {
             })}
           >
             <div className="space-y-2">
-              <Label htmlFor="username">Usuario</Label>
+              <Label htmlFor="username">Usuário</Label>
               <Input autoComplete="username" id="username" {...form.register('username')} />
               {form.formState.errors.username ? (
                 <p className="text-sm text-red-700">{form.formState.errors.username.message}</p>

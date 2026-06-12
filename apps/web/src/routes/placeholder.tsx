@@ -14,7 +14,7 @@ export function PlaceholderPage({ description, title }: PlaceholderPageProps) {
       </CardHeader>
       <CardContent>
         <p className="text-sm text-edren-text-muted">
-          Esta area ja esta na navegacao e sera implementada nas proximas fatias do MVP.
+          Esta área já está na navegação e será implementada nas próximas fatias do MVP.
         </p>
       </CardContent>
     </Card>
