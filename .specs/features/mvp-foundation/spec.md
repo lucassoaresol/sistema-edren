@@ -1,36 +1,36 @@
-# MVP Foundation Spec
+# Spec da Fundação do MVP
 
-**Status:** Implemented retroactively from existing commits.
-**Traceability:** Initial foundation release `v0.1.0` and subsequent deploy/bootstrap updates.
+**Situação:** Implementada retroativamente a partir dos commits existentes.
+**Rastreabilidade:** release inicial `v0.1.0` e atualizações posteriores de deploy/bootstrap.
 
-## Purpose
+## Propósito
 
-Create the technical foundation needed to build EDREN's MVP safely: monorepo structure, frontend shell, API foundation, database schema/seeds, operational documentation, and production-oriented deployment guidance.
+Criar a fundação técnica necessária para construir o MVP da EDREN com segurança: estrutura de monorepo, app shell do frontend, fundação da API, schema/seeds do banco, documentação operacional e orientação de deploy para produção.
 
-## Requirements
+## Requisitos
 
-- REQ-MVPF-001: The project must use an npm workspaces monorepo with separate apps and packages.
-- REQ-MVPF-002: The frontend app must use Vite, React, TypeScript, Tailwind CSS, and EDREN's light visual identity direction.
-- REQ-MVPF-003: The API must use Fastify with structured logging, request IDs, centralized error handling, and environment validation.
-- REQ-MVPF-004: The database layer must use Prisma with PostgreSQL and load environment configuration correctly from the monorepo root.
-- REQ-MVPF-005: Initial Prisma models and seeds must support users/profiles/sessions and configurable operational data needed by the MVP.
-- REQ-MVPF-006: The API must expose health endpoints for application and database/seed connectivity checks.
-- REQ-MVPF-007: The frontend must be able to consume backend health through the `/api` path.
-- REQ-MVPF-008: Production deployment guidance must support VPS, Nginx, PM2, PostgreSQL, Cloudflared Tunnel, and no separate public API domain.
+- REQ-MVPF-001: O projeto deve usar um monorepo com npm workspaces e apps/packages separados.
+- REQ-MVPF-002: O frontend deve usar Vite, React, TypeScript, Tailwind CSS e a direção visual clara da EDREN.
+- REQ-MVPF-003: A API deve usar Fastify com logging estruturado, request IDs, tratamento centralizado de erros e validação de ambiente.
+- REQ-MVPF-004: A camada de banco deve usar Prisma com PostgreSQL e carregar corretamente a configuração de ambiente a partir da raiz do monorepo.
+- REQ-MVPF-005: Os modelos e seeds iniciais do Prisma devem suportar usuários/perfis/sessões e dados operacionais configuráveis necessários para o MVP.
+- REQ-MVPF-006: A API deve expor endpoints de health para checar aplicação e conectividade com banco/seeds.
+- REQ-MVPF-007: O frontend deve consumir a saúde do backend pelo caminho `/api`.
+- REQ-MVPF-008: A orientação de deploy de produção deve suportar VPS, Nginx, PM2, PostgreSQL, Cloudflared Tunnel e ausência de domínio público separado para API.
 
-## Out Of Scope
+## Fora de Escopo
 
-- Full product, SKU, stock, customer, sale, payment, and report workflows.
-- Advanced dashboards, exports, integrations, e-commerce, native app, and automation.
-- Published dev environment on VPS.
+- Fluxos completos de produto, SKU, estoque, cliente, venda, pagamento e relatórios.
+- Dashboards avançados, exportações, integrações, e-commerce, app nativo e automação.
+- Ambiente de desenvolvimento publicado no VPS.
 
-## Validation
+## Validação
 
 - `npm run check`
 - `npm audit --audit-level=moderate`
 - `GET /api/health`
 - `GET /api/health/db`
 
-## Notes
+## Observações
 
-- This spec was added after implementation to restore traceability. Future large features should get a spec before execution.
+- Esta spec foi adicionada depois da implementação para restaurar rastreabilidade. Próximas features grandes devem receber spec antes da execução.

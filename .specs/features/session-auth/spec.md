@@ -1,41 +1,41 @@
-# Session Auth Spec
+# Spec de Autenticação por Sessão
 
-**Status:** Implemented retroactively from existing commits.
-**Traceability:** `feat: implement session auth`, related admin bootstrap fixes, and `test: add api route coverage`.
+**Situação:** Implementada retroativamente a partir dos commits existentes.
+**Rastreabilidade:** `feat: implement session auth`, correções relacionadas ao bootstrap de administrador e `test: add api route coverage`.
 
-## Purpose
+## Propósito
 
-Allow EDREN users to authenticate with username and password through server-side sessions stored in the database and represented in the browser by signed HTTP-only cookies.
+Permitir que usuários da EDREN autentiquem com username e senha por meio de sessões server-side armazenadas no banco e representadas no navegador por cookies HTTP-only assinados.
 
-## Requirements
+## Requisitos
 
-- REQ-AUTH-001: Users must authenticate with unique `username` and password, not email.
-- REQ-AUTH-002: Password verification must use secure argon2 hashes.
-- REQ-AUTH-003: The API must create database-backed sessions on successful login.
-- REQ-AUTH-004: Session cookies must be signed, HTTP-only, `SameSite=Lax`, path `/`, and `Secure` in production.
-- REQ-AUTH-005: `/api/auth/login` must validate credentials and return the current user payload on success.
-- REQ-AUTH-006: `/api/auth/logout` must delete the active session when present and clear the session cookie.
-- REQ-AUTH-007: `/api/auth/me` must return the current user or `null` when unauthenticated.
-- REQ-AUTH-008: Protected frontend areas must redirect unauthenticated users to `/login`.
-- REQ-AUTH-009: Initial administrators must be created through a terminal-only bootstrap script, not seeded with a default password.
-- REQ-AUTH-010: API tests must cover unauthenticated user lookup, invalid login, successful login/session cookie, logout, and health routes.
+- REQ-AUTH-001: Usuários devem autenticar com `username` único e senha, não com email.
+- REQ-AUTH-002: A verificação de senha deve usar hashes argon2 seguros.
+- REQ-AUTH-003: A API deve criar sessões persistidas no banco após login bem-sucedido.
+- REQ-AUTH-004: Cookies de sessão devem ser assinados, HTTP-only, `SameSite=Lax`, path `/` e `Secure` em produção.
+- REQ-AUTH-005: `/api/auth/login` deve validar credenciais e retornar o payload do usuário atual em caso de sucesso.
+- REQ-AUTH-006: `/api/auth/logout` deve remover a sessão ativa quando existir e limpar o cookie de sessão.
+- REQ-AUTH-007: `/api/auth/me` deve retornar o usuário atual ou `null` quando não autenticado.
+- REQ-AUTH-008: Áreas protegidas do frontend devem redirecionar usuários não autenticados para `/login`.
+- REQ-AUTH-009: Administradores iniciais devem ser criados por script terminal-only de bootstrap, não por seed com senha padrão.
+- REQ-AUTH-010: Testes da API devem cobrir consulta de usuário não autenticado, login inválido, login com sucesso/cookie de sessão, logout e rotas de health.
 
-## Out Of Scope
+## Fora de Escopo
 
-- JWT authentication.
-- Password reset flow.
-- Per-user custom permissions.
-- Full role/permission enforcement for all future MVP modules.
-- Multi-factor authentication.
+- Autenticação com JWT.
+- Fluxo de recuperação de senha.
+- Permissões customizadas por usuário.
+- Aplicação completa de papéis/permissões em todos os futuros módulos do MVP.
+- Autenticação multifator.
 
-## Validation
+## Validação
 
 - `npm run typecheck`
 - `npm run build`
 - `npm test`
-- Manual API login/me/logout checks during implementation.
+- Checagens manuais de API para login/me/logout durante a implementação.
 
-## Notes
+## Observações
 
-- Profile-based permission checks still need to be designed and applied as protected business actions are added.
-- This spec was added after implementation to restore traceability. Future auth changes should update this spec before coding when behavior changes.
+- Checagens de permissão baseadas em perfil ainda precisam ser desenhadas e aplicadas conforme ações protegidas de negócio forem adicionadas.
+- Esta spec foi adicionada depois da implementação para restaurar rastreabilidade. Mudanças futuras de auth devem atualizar esta spec antes do código quando alterarem comportamento.
