@@ -128,10 +128,15 @@ Specs existentes:
 
 Próximas specs recomendadas:
 
+- Gestão de usuários.
 - Catálogo, coleções, produtos e SKUs.
 - Estoque essencial.
 - Vendas, pagamentos e recebíveis básicos.
 - Painel inicial e relatórios mínimos.
+
+Features previstas sem spec:
+
+- Gestão de usuários administrativos com nome, usuário de login, senha inicial, perfil, status ativo/inativo e redefinição de senha. Login por email e permissões customizadas por usuário ficam fora do escopo inicial.
 
 ## Fluxo de Release
 

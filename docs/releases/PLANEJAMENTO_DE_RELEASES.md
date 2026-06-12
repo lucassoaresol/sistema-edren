@@ -37,6 +37,7 @@ Escopo ideal:
 - Monorepo, API, frontend, banco, seeds e health checks.
 - Autenticação por sessão.
 - Bootstrap seguro de administrador.
+- Login com usuário e senha, sem email no MVP.
 - Cadastros configuráveis: grades, tamanhos, categorias, cores, locais de estoque, canais de venda e formas de pagamento.
 - Deploy de produção documentado.
 - README, changelog e planejamento de releases.
@@ -218,8 +219,32 @@ Formato recomendado por release:
 
 - Criar specs antes das próximas fatias funcionais, em vez de recuperar retroativamente.
 - Manter um índice de specs quando a quantidade de features crescer.
+- Planejar a feature de gestão de usuários, sem spec criada ainda.
 - Definir uma rotina de backup/restauração antes de operar vendas reais.
 - Documentar variáveis de ambiente obrigatórias em um `.env.example` quando a configuração estabilizar.
 - Registrar decisões técnicas novas em `docs/context` ou em docs específicas por área.
 - Adicionar um checklist de UAT por release funcional a partir de `v0.2.0`.
 - Considerar changelog por release mesmo sem tag pública, pois o sistema é interno e precisa de rastreabilidade operacional.
+
+## Features Previstas Sem Spec
+
+### Gestão de Usuários
+
+Objetivo: permitir que administradores gerenciem o acesso ao sistema sem depender de scripts manuais após o bootstrap inicial.
+
+Escopo previsto:
+
+- Listar usuários do sistema.
+- Criar usuários com nome, usuário de login, senha inicial, perfil e status ativo.
+- Editar nome, usuário de login e perfil.
+- Ativar e inativar usuários.
+- Redefinir senha de usuários.
+- Impedir exclusão física de usuários, preservando rastreabilidade.
+- Bloquear login de usuários inativos.
+
+Fora do escopo inicial:
+
+- Login por email.
+- Recuperação automática de senha por email.
+- Permissões customizadas por usuário.
+- Auditoria visual detalhada de alterações.

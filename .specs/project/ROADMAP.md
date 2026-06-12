@@ -30,8 +30,9 @@
 - Usar cookies de sessão HTTP-only.
 - Adicionar permissões simples baseadas em perfil.
 - Suportar ativação/inativação de usuários.
+- Planejar gestão de usuários por administradores, sem spec criada ainda.
 
-**Situação atual:** login com username/senha, verificação argon2, sessões no banco, cookies HTTP-only assinados, app shell protegido, tela de login, script de bootstrap de administrador e cobertura de rotas da API já foram implementados. A aplicação fina de permissões por perfil ainda fica pendente para as futuras telas/ações de negócio.
+**Situação atual:** login com usuário/senha, verificação argon2, sessões no banco, cookies HTTP-only assinados, app shell protegido, tela de login, script de bootstrap de administrador e cobertura de rotas da API já foram implementados. A gestão de usuários por tela administrativa e a aplicação fina de permissões por perfil ainda ficam pendentes para as futuras telas/ações de negócio.
 
 ## Operações do MVP
 
@@ -133,7 +134,7 @@
 ## Análise do Estado Atual
 
 - Fundação técnica: parcialmente concluída e já demonstrada com web, API, banco e seed.
-- Autenticação: implementada para login/logout/me; falta CRUD de usuários e enforcement de permissões por perfil nas ações de negócio.
+- Autenticação: implementada para login/logout/me com usuário/senha; falta gestão de usuários e enforcement de permissões por perfil nas ações de negócio.
 - Cadastros configuráveis: modelados e seedados; faltam endpoints e telas CRUD.
 - Produtos/SKUs/estoque: modelados; faltam fluxos operacionais e atualização transacional de saldos.
 - Clientes: modelados e Cliente Balcão seedado; falta CRUD e histórico financeiro.
