@@ -12,6 +12,7 @@ const envSchema = z.object({
   HOST: z.string().min(1).default('127.0.0.1'),
   PORT: z.coerce.number().int().positive().default(3001),
   DATABASE_URL: z.string().min(1),
+  SESSION_SECRET: z.string().min(32),
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']).default('info'),
 });
 

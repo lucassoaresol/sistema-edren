@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@edren/database": "file:../../packages/database",
+    "@fastify/cookie": "^11.0.2",
+    "argon2": "^0.44.0",
     "fastify": "latest",
     "fastify-plugin": "^6.0.0",
     "zod": "^4.4.3"

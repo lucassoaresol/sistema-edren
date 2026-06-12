@@ -1,6 +1,8 @@
 import Fastify from 'fastify';
 import { registerErrorHandler } from './lib/error-handler.js';
 import { createLoggerOptions } from './lib/logger.js';
+import { authRoutes } from './modules/auth/routes.js';
+import { cookiePlugin } from './plugins/cookie.js';
 import { prismaPlugin } from './plugins/prisma.js';
 import { healthRoutes } from './routes/health.js';
 
@@ -21,7 +23,9 @@ export async function createApp() {
   registerErrorHandler(app);
 
   await app.register(prismaPlugin);
+  await app.register(cookiePlugin);
   await app.register(healthRoutes, { prefix: '/api/health' });
+  await app.register(authRoutes, { prefix: '/api/auth' });
 
   return app;
 }

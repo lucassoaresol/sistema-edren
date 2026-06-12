@@ -65,6 +65,8 @@
 - Vite proxy to `/api` was validated against the Fastify API and PostgreSQL health endpoint.
 - Release `v0.1.0` completed as the initial fullstack foundation and published from `main`.
 - Initial admin users are not created by seed or default password; use the terminal-only `npm run users:create-admin` script to create the first administrator with an argon2id password hash.
+- Session authentication implemented with username/password, argon2 verification, signed HTTP-only cookies, database-backed sessions, `/api/auth/login`, `/api/auth/logout`, and `/api/auth/me`.
+- Frontend app shell is protected by `/api/auth/me`; unauthenticated users are redirected to `/login`.
 
 ## Todos
 
