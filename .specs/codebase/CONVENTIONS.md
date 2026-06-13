@@ -28,3 +28,8 @@
 
 - `CONTRIBUTING.md` recomenda branches `main` e `develop`.
 - Commits devem usar Conventional Commits.
+- Cada spec/tarefa concluída deve terminar com um commit atômico.
+- Não marcar spec como `Implementada`, `Concluída`, `Feita` ou equivalente antes de criar o commit correspondente.
+- Registrar na spec, summary ou tasks o hash curto do commit quando a entrega for concluída.
+- Preferir um commit por unidade lógica de entrega. Se a spec exigir múltiplas mudanças independentes, dividir em commits menores.
+- Commits de specs/documentação usam `docs(...)`; refatorações sem mudança funcional usam `refactor(...)`; features funcionais usam `feat(...)`; correções usam `fix(...)`; testes isolados usam `test(...)`; manutenção usa `chore(...)`.
