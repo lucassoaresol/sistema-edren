@@ -1,6 +1,6 @@
 # Deploy de Produção EDREN
 
-Passo a passo para publicar a release `v0.1.1` em produção usando:
+Passo a passo para publicar uma release versionada em produção usando:
 
 - Domínio: `sistema.edren.com.br`
 - Nginx local: porta `8008`
@@ -10,12 +10,23 @@ Passo a passo para publicar a release `v0.1.1` em produção usando:
 - Configuração Nginx: `/etc/nginx/sites-available/sistema-edren`
 - Cloudflared Tunnel apontando para o Nginx
 
+Antes de executar este guia, confirme em `docs/releases/PLANEJAMENTO_DE_RELEASES.md` e no `CHANGELOG.md` qual versão será publicada. A tag Git e a GitHub Release devem existir antes do deploy de uma versão rastreável.
+
 ## 1. Atualizar código na release
+
+Substitua `v0.2.0` pela versão que será publicada.
 
 ```bash
 cd /root/edren/prod/sistema-edren
 git fetch --tags
-git checkout v0.1.1
+git checkout v0.2.0
+```
+
+Confirme que o código local está exatamente na tag esperada:
+
+```bash
+git status
+git describe --tags --exact-match
 ```
 
 ## 2. Criar `.env` de produção
@@ -151,6 +162,13 @@ curl http://127.0.0.1:8008
 curl http://127.0.0.1:8008/api/health
 ```
 
+Verifique também logs e processo PM2:
+
+```bash
+pm2 status
+pm2 logs sistema-edren-api-prod
+```
+
 ## 9. Validar pelo navegador
 
 ```text
@@ -159,7 +177,15 @@ https://sistema.edren.com.br/api/health
 https://sistema.edren.com.br/api/health/db
 ```
 
-## 10. Comandos úteis
+Depois dos health checks, valide manualmente o fluxo principal da release publicada. Para releases com UI, testar desktop e mobile.
+
+## 10. Fechar publicação
+
+- Confirmar que a tag publicada, a GitHub Release e o código em produção usam a mesma versão.
+- Registrar no `CHANGELOG.md` qualquer desvio, pendência aceita ou aprendizado do deploy.
+- Se algum passo deste guia estiver desatualizado, corrigir a documentação antes da próxima release.
+
+## 11. Comandos úteis
 
 Ver logs da API:
 

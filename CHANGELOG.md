@@ -12,6 +12,12 @@ O formato segue a ideia de Keep a Changelog, adaptado para um sistema interno em
 - Expandido o README principal com visão do projeto, stack, comandos e links de documentação.
 - Criado este changelog para rastreabilidade de entregas.
 - Adicionadas specs técnicas de melhoria para decomposição da UI de produtos, camada de serviço do catálogo e padrões de API client.
+- Registrados aprendizados do processo de release para exigir GitHub Release, revisão do deploy de produção e validação pós-publicação.
+- Atualizado guia de produção para usar `v0.2.0` como exemplo atual e reforçar conferência entre tag, GitHub Release e código publicado.
+
+### Operacional
+
+- Criada a GitHub Release `v0.2.0` retroativamente a partir da tag já publicada.
 
 ### Próximas Releases Planejadas
 

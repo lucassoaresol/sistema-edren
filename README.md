@@ -149,8 +149,10 @@ Antes de cortar uma release:
 - Rodar `npm run build` ou `npm run check`.
 - Validar telas principais em desktop e mobile quando houver UI.
 - Atualizar `CHANGELOG.md`.
-- Atualizar docs operacionais afetadas.
+- Atualizar docs operacionais afetadas, principalmente `docs/deploy/PRODUCAO.md`.
+- Criar tag Git e publicar a GitHub Release correspondente.
 - Publicar seguindo `docs/deploy/PRODUCAO.md`.
+- Validar health checks, logs e fluxo principal em produção.
 
 Os marcos sugeridos do MVP estão descritos em `docs/releases/PLANEJAMENTO_DE_RELEASES.md`.
 

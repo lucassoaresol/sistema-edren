@@ -8,10 +8,11 @@ O objetivo é manter entregas pequenas, testáveis e com valor operacional claro
 
 - Release deve representar uma fatia utilizável ou uma base técnica necessária para a próxima fatia.
 - Cada release deve ter spec atualizada antes do corte quando alterar comportamento de produto.
-- Toda release publicada deve aparecer no `CHANGELOG.md`.
+- Toda release publicada deve aparecer no `CHANGELOG.md` e como GitHub Release, não apenas como tag Git.
 - O README deve apontar para a documentação operacional mais atual.
 - Banco de dados e seeds devem ser tratados como parte do release, não como detalhe separado.
 - Funcionalidades futuras podem estar modeladas, mas não devem aparecer como compromisso de uso se ainda não estiverem prontas.
+- O guia de deploy de produção deve ser revisado a cada release para refletir versão, ordem de execução, migrações, seeds, variáveis e validações reais.
 
 ## Estratégia de Versão
 
@@ -179,17 +180,32 @@ Critério de corte:
 
 ## Checklist Para Cortar Uma Release
 
-- Revisar specs afetadas em `.specs/features`.
-- Confirmar se há migrações Prisma e se a ordem de deploy está clara.
+### Antes da tag
+
+- Revisar specs afetadas em `.specs/features` ou registrar explicitamente quando não houver spec formal para a fatia.
+- Confirmar se há migrações Prisma, seeds ou alterações de variáveis de ambiente e se a ordem de deploy está clara.
+- Revisar se a release exige atualização de documentação operacional, principalmente `docs/deploy/PRODUCAO.md`, README, `.env.example` e guias de backup/restauração.
 - Rodar `npm run typecheck`.
 - Rodar `npm test`.
 - Rodar `npm run build` ou `npm run check`.
 - Validar telas principais em desktop e mobile quando houver UI.
 - Atualizar `CHANGELOG.md` com data, escopo, validações e riscos conhecidos.
-- Atualizar docs operacionais afetadas, especialmente `docs/deploy/PRODUCAO.md`.
+- Garantir que o guia de produção cite a versão correta que será publicada.
+
+### Publicação da release
+
 - Criar tag Git somente depois da validação final.
-- Publicar seguindo o guia de produção.
+- Enviar a tag para o GitHub.
+- Criar GitHub Release a partir da tag, usando o conteúdo do `CHANGELOG.md` como base.
+- Conferir no GitHub se a release ficou publicada com versão, data, notas e riscos conhecidos.
+- Publicar em produção seguindo `docs/deploy/PRODUCAO.md`.
+
+### Depois do deploy
+
 - Validar health checks e fluxo principal em produção.
+- Conferir logs do PM2 e erros visíveis no navegador.
+- Confirmar que a versão documentada, a tag publicada e o código em produção são a mesma release.
+- Registrar no `CHANGELOG.md` ou em documento operacional qualquer pendência aceita, desvio do plano, correção manual ou aprendizado do deploy.
 
 ## Critérios para Adiar uma Release
 
@@ -201,6 +217,8 @@ Adiar o corte se algum destes pontos acontecer:
 - UI essencial inutilizável em mobile para rotina operacional.
 - Falta de clareza sobre rollback/correção em caso de erro de dados.
 - Spec divergente do comportamento implementado.
+- Guia de deploy de produção desatualizado para a versão que seria publicada.
+- Release ainda não criada no GitHub quando a intenção for publicar uma versão rastreável.
 
 ## Relação com Changelog
 
@@ -224,7 +242,10 @@ Formato recomendado por release:
 - Documentar variáveis de ambiente obrigatórias em um `.env.example` quando a configuração estabilizar.
 - Registrar decisões técnicas novas em `docs/context` ou em docs específicas por área.
 - Adicionar um checklist de UAT por release funcional a partir de `v0.2.0`.
-- Considerar changelog por release mesmo sem tag pública, pois o sistema é interno e precisa de rastreabilidade operacional.
+- Considerar changelog por release mesmo sem deploy imediato, pois o sistema é interno e precisa de rastreabilidade operacional.
+- Tratar tag Git e GitHub Release como passos diferentes: tag versiona o código, GitHub Release comunica a entrega.
+- Revisar documentação de deploy antes de criar a tag, não apenas depois de tentar publicar.
+- Registrar aprendizados de release logo após o processo, enquanto comandos executados, validações e pendências ainda estão claros.
 
 ## Features Previstas Sem Spec
 
