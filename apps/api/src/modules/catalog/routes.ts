@@ -1,9 +1,9 @@
 import type { Prisma, PrismaClient } from '@edren/database';
 import { UserProfileCode } from '@edren/database';
-import type { FastifyPluginAsync, FastifyRequest } from 'fastify';
+import type { FastifyPluginAsync } from 'fastify';
 import { removeProductImage, uploadProductImage } from '../../lib/cloudinary.js';
-import { BadRequestError, BusinessRuleError, ConflictError, ForbiddenError, NotFoundError } from '../../lib/errors.js';
-import { requireAuth } from '../auth/auth-context.js';
+import { BadRequestError, BusinessRuleError, ConflictError, NotFoundError } from '../../lib/errors.js';
+import { requireAdmin, requireAuth } from '../auth/auth-context.js';
 import {
   createCollectionSchema,
   createProductSchema,
@@ -19,6 +19,8 @@ import {
 } from './schemas.js';
 
 type CurrentUser = Awaited<ReturnType<typeof requireAuth>>;
+
+const catalogAdminMessage = 'Apenas administradores podem alterar o catalogo.';
 
 const productInclude = {
   category: true,
@@ -42,7 +44,7 @@ export const catalogRoutes: FastifyPluginAsync = async (app) => {
   });
 
   app.post('/collections', async (request) => {
-    await requireAdmin(request);
+    await requireAdmin(request, catalogAdminMessage);
     const input = createCollectionSchema.parse(request.body);
 
     await ensureUniqueCollectionName(app.prisma, input.name);
@@ -61,7 +63,7 @@ export const catalogRoutes: FastifyPluginAsync = async (app) => {
   });
 
   app.patch('/collections/:id', async (request) => {
-    await requireAdmin(request);
+    await requireAdmin(request, catalogAdminMessage);
     const params = idParamsSchema.parse(request.params);
     const input = updateCollectionSchema.parse(request.body);
 
@@ -116,7 +118,7 @@ export const catalogRoutes: FastifyPluginAsync = async (app) => {
   });
 
   app.post('/products', async (request) => {
-    await requireAdmin(request);
+    await requireAdmin(request, catalogAdminMessage);
     const input = createProductSchema.parse(request.body);
 
     await ensureProductReferenceIsUnique(app.prisma, input.reference);
@@ -148,7 +150,7 @@ export const catalogRoutes: FastifyPluginAsync = async (app) => {
   });
 
   app.patch('/products/:id', async (request) => {
-    const user = await requireAdmin(request);
+    const user = await requireAdmin(request, catalogAdminMessage);
     const params = idParamsSchema.parse(request.params);
     const input = updateProductSchema.parse(request.body);
     const current = await app.prisma.product.findUnique({ where: { id: params.id }, include: { variants: true } });
@@ -204,7 +206,7 @@ export const catalogRoutes: FastifyPluginAsync = async (app) => {
   });
 
   app.post('/products/:productId/variants', async (request) => {
-    await requireAdmin(request);
+    await requireAdmin(request, catalogAdminMessage);
     const params = productParamsSchema.parse(request.params);
     const input = createVariantSchema.parse(request.body);
     const product = await ensureProductExists(app.prisma, params.productId);
@@ -226,7 +228,7 @@ export const catalogRoutes: FastifyPluginAsync = async (app) => {
   });
 
   app.patch('/product-variants/:id', async (request) => {
-    await requireAdmin(request);
+    await requireAdmin(request, catalogAdminMessage);
     const params = idParamsSchema.parse(request.params);
     const input = updateVariantSchema.parse(request.body);
     const current = await app.prisma.productVariant.findUnique({ where: { id: params.id }, include: { product: true } });
@@ -253,7 +255,7 @@ export const catalogRoutes: FastifyPluginAsync = async (app) => {
   });
 
   app.post('/products/:productId/images/main', async (request) => {
-    await requireAdmin(request);
+    await requireAdmin(request, catalogAdminMessage);
     const params = productParamsSchema.parse(request.params);
 
     await ensureProductExists(app.prisma, params.productId);
@@ -312,7 +314,7 @@ export const catalogRoutes: FastifyPluginAsync = async (app) => {
   });
 
   app.delete('/products/:productId/images/main', async (request) => {
-    await requireAdmin(request);
+    await requireAdmin(request, catalogAdminMessage);
     const params = productParamsSchema.parse(request.params);
     await ensureProductExists(app.prisma, params.productId);
     const currentImage = await app.prisma.productImage.findFirst({
@@ -335,16 +337,6 @@ function isAllowedImageType(mimetype: string) {
 
 function isFileTooLargeError(error: unknown) {
   return typeof error === 'object' && error !== null && 'code' in error && error.code === 'FST_REQ_FILE_TOO_LARGE';
-}
-
-async function requireAdmin(request: FastifyRequest) {
-  const user = await requireAuth(request);
-
-  if (user.profile.code !== UserProfileCode.ADMIN) {
-    throw new ForbiddenError('Apenas administradores podem alterar o catalogo.');
-  }
-
-  return user;
 }
 
 async function ensureCollectionExists(prisma: PrismaClient, id: string) {

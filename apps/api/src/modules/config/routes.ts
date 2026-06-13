@@ -1,8 +1,7 @@
 import type { PrismaClient } from '@edren/database';
-import { UserProfileCode } from '@edren/database';
-import type { FastifyPluginAsync, FastifyRequest } from 'fastify';
-import { ConflictError, ForbiddenError, NotFoundError } from '../../lib/errors.js';
-import { requireAuth } from '../auth/auth-context.js';
+import type { FastifyPluginAsync } from 'fastify';
+import { ConflictError, NotFoundError } from '../../lib/errors.js';
+import { requireAdmin, requireAuth } from '../auth/auth-context.js';
 import {
   createColorSchema,
   createNamedConfigSchema,
@@ -15,6 +14,8 @@ import {
 } from './schemas.js';
 
 type ConfigModel = 'category' | 'paymentMethod' | 'salesChannel' | 'sizeGrid' | 'stockLocation';
+
+const configAdminMessage = 'Apenas administradores podem alterar configuracoes.';
 
 const modelLabels: Record<ConfigModel, string> = {
   category: 'cadastro',
@@ -50,7 +51,7 @@ export const configRoutes: FastifyPluginAsync = async (app) => {
   });
 
   app.post('/size-grids/:gridId/sizes', async (request) => {
-    await requireAdmin(request);
+    await requireAdmin(request, configAdminMessage);
     const params = sizeGridParamsSchema.parse(request.params);
     const input = createSizeSchema.parse(request.body);
 
@@ -71,7 +72,7 @@ export const configRoutes: FastifyPluginAsync = async (app) => {
   });
 
   app.patch('/sizes/:id', async (request) => {
-    await requireAdmin(request);
+    await requireAdmin(request, configAdminMessage);
     const params = idParamsSchema.parse(request.params);
     const input = updateSizeSchema.parse(request.body);
     const current = await app.prisma.size.findUnique({ where: { id: params.id } });
@@ -100,7 +101,7 @@ export const configRoutes: FastifyPluginAsync = async (app) => {
   });
 
   app.post('/colors', async (request) => {
-    await requireAdmin(request);
+    await requireAdmin(request, configAdminMessage);
     const input = createColorSchema.parse(request.body);
     const slug = input.slug ?? slugify(input.name);
 
@@ -118,7 +119,7 @@ export const configRoutes: FastifyPluginAsync = async (app) => {
   });
 
   app.patch('/colors/:id', async (request) => {
-    await requireAdmin(request);
+    await requireAdmin(request, configAdminMessage);
     const params = idParamsSchema.parse(request.params);
     const input = updateColorSchema.parse(request.body);
     const current = await app.prisma.color.findUnique({ where: { id: params.id } });
@@ -167,7 +168,7 @@ function registerNamedRoutes(
   });
 
   app.post(options.path, async (request) => {
-    await requireAdmin(request);
+    await requireAdmin(request, configAdminMessage);
     const input = createNamedConfigSchema.parse(request.body);
 
     await ensureUniqueName(app.prisma, options.model, input.name);
@@ -184,7 +185,7 @@ function registerNamedRoutes(
   });
 
   app.patch(`${options.path}/:id`, async (request) => {
-    await requireAdmin(request);
+    await requireAdmin(request, configAdminMessage);
     const params = idParamsSchema.parse(request.params);
     const input = updateNamedConfigSchema.parse(request.body);
 
@@ -204,16 +205,6 @@ function registerNamedRoutes(
 
     return { data: record };
   });
-}
-
-async function requireAdmin(request: FastifyRequest) {
-  const user = await requireAuth(request);
-
-  if (user.profile.code !== UserProfileCode.ADMIN) {
-    throw new ForbiddenError('Apenas administradores podem alterar configuracoes.');
-  }
-
-  return user;
 }
 
 function getModel(prisma: PrismaClient, model: ConfigModel) {
@@ -282,5 +273,3 @@ function slugify(value: string) {
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
 }
-
-export { requireAdmin };

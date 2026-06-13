@@ -1,5 +1,6 @@
+import { UserProfileCode } from '@edren/database';
+import { ForbiddenError, UnauthorizedError } from '../../lib/errors.js';
 import { hashSessionToken, sessionCookieName } from './session.js';
-import { UnauthorizedError } from '../../lib/errors.js';
 import type { FastifyRequest } from 'fastify';
 
 export async function getCurrentUser(request: FastifyRequest) {
@@ -40,6 +41,16 @@ export async function requireAuth(request: FastifyRequest) {
 
   if (!user) {
     throw new UnauthorizedError();
+  }
+
+  return user;
+}
+
+export async function requireAdmin(request: FastifyRequest, message = 'Apenas administradores podem realizar esta acao.') {
+  const user = await requireAuth(request);
+
+  if (user.profile.code !== UserProfileCode.ADMIN) {
+    throw new ForbiddenError(message);
   }
 
   return user;
