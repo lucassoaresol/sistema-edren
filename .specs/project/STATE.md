@@ -89,6 +89,7 @@ Atualizado em: 2026-06-13.
 - Specs marcadas como concluídas sem commit geram perda de rastreabilidade; o fluxo passa a exigir commit antes de atualizar status para `Implementada`, `Concluída` ou equivalente.
 - Entregas devem ser apresentadas para revisão do usuário antes de criar commit e antes de executar push; o commit e o push só acontecem após aprovação explícita.
 - Antes de trocar de contexto, encerrar a sessão ou iniciar nova frente, não deixar implementação validada apenas no working tree: apresentar o diff/validação e pedir aprovação explícita para commit, ou registrar claramente que a entrega ficou sem commit.
+- Antes de encerrar uma sessão, já deixar claro o próximo passo recomendado e decidir se a continuação cabe na mesma sessão ou se é melhor abrir outra com novo contexto.
 - O contexto do caderno de produtos mostrou que a EDREN precisa registrar o nascimento da peça antes da venda; a feature `product-creation-reference` passa a detalhar esse módulo de Confecção/Criação e sua promoção para produto comercial.
 
 ## Levantamento Brownfield 2026-06-12
