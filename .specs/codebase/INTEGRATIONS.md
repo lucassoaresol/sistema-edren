@@ -9,7 +9,10 @@
 
 - Previsto em `.env.example` por `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY` e `CLOUDINARY_API_SECRET`.
 - Previsto em documentos para imagens de produto.
-- Não há integração de upload implementada no código analisado.
+- Upload de imagem principal de produto implementado em `apps/api/src/lib/cloudinary.ts` e `POST /api/products/:productId/images/main`.
+- O upload usa credenciais do servidor, aceita arquivo multipart enviado pela UI e grava `url` e `publicId` em `ProductImage`.
+- Ao substituir ou remover a imagem principal, a API remove o asset anterior no Cloudinary para evitar imagens órfãs.
+- Quando Cloudinary não está configurado, a rota retorna erro claro e não grava imagem.
 
 ## Nginx / Cloudflared / PM2
 

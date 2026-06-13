@@ -1,11 +1,13 @@
 # Estado do Projeto
 
-Atualizado em: 2026-06-12.
+Atualizado em: 2026-06-13.
 
 ## Decisões
 
 - Usar `main` como branch estável e `develop` como branch de integração.
 - Seguir Conventional Commits para mensagens de commit.
+- Uma spec ou tarefa só pode ser marcada como concluída depois de validação executada e commit atômico criado com Conventional Commit.
+- Specs concluídas devem registrar o commit ou a lista de commits que entregam a mudança.
 - Tratar o `PROJECT.md` da raiz como contexto amplo, não como escopo fechado do MVP.
 - Usar `.specs/project/PROJECT.md` como especificação oficial e concisa do projeto.
 - Documentação deve ser escrita em português; nomes de código, comandos, rotas, paths, APIs, schemas, commits e identificadores técnicos permanecem em inglês.
@@ -34,8 +36,10 @@ Atualizado em: 2026-06-12.
 - Começar o Prisma com entidades de fundação não controversas: usuários, perfis, sessões, grades de tamanho, tamanhos, categorias, cores, locais de estoque, canais de venda e formas de pagamento.
 - A descoberta operacional já respondeu as principais regras de produto, SKU, cliente, movimentação de estoque, venda, pagamento, relatório e permissões para o MVP.
 - Referências de produto são obrigatórias, únicas, manuais e nunca reutilizadas entre coleções.
+- Coleções têm data de início obrigatória e data de fim opcional; somente coleções vigentes podem ser escolhidas para novo vínculo em produto.
 - Preço e custo pertencem ao produto/referência, não ao SKU.
 - Imagem de produto é opcional.
+- Imagem principal de produto deve usar upload direto para Cloudinary pelo backend; URL/publicId manual foi apenas etapa intermediária e não é o fluxo final esperado.
 - Estoque inicial é lançado manualmente.
 - Fábrica e Casa EDREN são locais de estoque ativos; locais ou canais que ainda não existem operacionalmente não devem ser cadastrados como futuros no MVP.
 - Remover o conceito `FUTURE` dos cadastros configuráveis do MVP; usar apenas ativo/inativo para locais de estoque e canais de venda.
@@ -75,6 +79,8 @@ Atualizado em: 2026-06-12.
 - Cobertura de rotas da API agora usa Vitest e cobre health routes e comportamento de auth login/me/logout.
 - Specs foram inicialmente usadas mais como memória do projeto; specs retroativas agora existem para Fundação do MVP e Autenticação por Sessão. Próximas features grandes devem ser especificadas antes da implementação.
 - Cadastros configuráveis foram implementados com migration para ativo/inativo, seed sem `Nova Loja`, rotas `/api/config`, escrita restrita a administradores, leitura autenticada, testes de API e tela `/configuracoes`.
+- UAT inicial da tela de produtos identificou ajustes de escrita em português e a regra de vigência de coleções; ambos foram incorporados à feature `products-and-collections`.
+- Specs marcadas como concluídas sem commit geram perda de rastreabilidade; o fluxo passa a exigir commit antes de atualizar status para `Implementada`, `Concluída` ou equivalente.
 
 ## Levantamento Brownfield 2026-06-12
 
@@ -87,13 +93,13 @@ Atualizado em: 2026-06-12.
 - Ainda não há CRUD real para cadastros, produtos, clientes, estoque, vendas ou relatórios.
 - Permissões por perfil ainda não são aplicadas nas funcionalidades.
 - Não há endpoints de negócio transacionais para venda/estoque; esse será o ponto de maior risco.
-- Cloudinary está apenas previsto em env/docs/schema; integração de upload ainda não existe.
+- Cloudinary está previsto em env/docs/schema e o upload de imagem principal de produto foi implementado na feature `products-and-collections`; ainda falta validação manual com credenciais reais.
 - `packages/shared` e `packages/config` existem, mas parecem subutilizados.
 - Não foi validado se build/test passam nesta rodada; esta análise focou em levantamento e documentação.
 
 ## Pendências
 
-- Formalizar a próxima feature `products-and-collections` antes da implementação.
+- Feature `products-and-collections` concluída e validada em 2026-06-13, incluindo typecheck, testes, build e checagem manual.
 - Formalizar feature specs para `products-skus`, `stock-movements`, `customers`, `sales-payments` e `reports-mvp`.
 - Modelar detalhes de transações de produto/venda/estoque a partir de `docs/context/DECISOES_OPERACIONAIS_EDREN.md` quando suas specs forem criadas.
 - Implementar produtos/SKUs antes de venda.
