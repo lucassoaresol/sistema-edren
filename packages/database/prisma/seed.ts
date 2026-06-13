@@ -61,11 +61,11 @@ const salesChannels = [
 const paymentMethods = ['Pix', 'Dinheiro', 'Cartão de crédito', 'Cartão de débito', 'Em aberto / contas a receber'];
 
 const collections = [
-  { name: 'Solar', status: CollectionStatus.ACTIVE },
-  { name: 'Signature', status: CollectionStatus.ACTIVE },
-  { name: 'Luar', status: CollectionStatus.ACTIVE },
-  { name: 'Apaixonadas pelo Brasil', status: CollectionStatus.ACTIVE },
-  { name: 'Avulsas / Sem coleção definida', status: CollectionStatus.ACTIVE },
+  { name: 'Solar', startDate: new Date('2024-01-01T00:00:00.000Z'), status: CollectionStatus.ACTIVE },
+  { name: 'Signature', startDate: new Date('2024-01-01T00:00:00.000Z'), status: CollectionStatus.ACTIVE },
+  { name: 'Luar', startDate: new Date('2024-01-01T00:00:00.000Z'), status: CollectionStatus.ACTIVE },
+  { name: 'Apaixonadas pelo Brasil', startDate: new Date('2024-01-01T00:00:00.000Z'), status: CollectionStatus.ACTIVE },
+  { name: 'Avulsas / Sem coleção definida', startDate: new Date('2024-01-01T00:00:00.000Z'), status: CollectionStatus.ACTIVE },
 ];
 
 const customerTypes = [
@@ -200,7 +200,7 @@ async function seedCollections() {
   for (const collection of collections) {
     await prisma.collection.upsert({
       where: { name: collection.name },
-      update: { status: collection.status },
+      update: { startDate: collection.startDate, status: collection.status },
       create: collection,
     });
   }

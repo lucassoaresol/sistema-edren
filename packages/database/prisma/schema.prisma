@@ -156,6 +156,8 @@ model Collection {
   id          String           @id @default(cuid())
   name        String           @unique
   description String?
+  startDate   DateTime
+  endDate     DateTime?
   status      CollectionStatus @default(ACTIVE)
   products    Product[]
   createdAt   DateTime         @default(now())

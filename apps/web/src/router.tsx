@@ -2,6 +2,7 @@ import { createRootRoute, createRoute, createRouter, Outlet } from '@tanstack/re
 import { AppShell } from '@/components/app-shell';
 import { DashboardPage } from '@/routes/dashboard';
 import { SettingsPage } from '@/routes/settings';
+import { ProductDetailPage, ProductsPage } from '@/routes/products';
 import { LoginPage } from '@/routes/login';
 import { PlaceholderPage } from '@/routes/placeholder';
 
@@ -27,6 +28,18 @@ const loginRoute = createRoute({
   component: LoginPage,
 });
 
+const productsRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/products',
+  component: ProductsPage,
+});
+
+const productDetailRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/products/$productId',
+  component: ProductDetailRoute,
+});
+
 const placeholderRoutes = [
   createRoute({
     getParentRoute: () => protectedRoute,
@@ -38,11 +51,8 @@ const placeholderRoutes = [
     path: '/customers',
     component: () => <PlaceholderPage description="Cadastro e histórico das clientes." title="Clientes" />,
   }),
-  createRoute({
-    getParentRoute: () => protectedRoute,
-    path: '/products',
-    component: () => <PlaceholderPage description="Referências, coleções, SKUs e imagens." title="Produtos" />,
-  }),
+  productsRoute,
+  productDetailRoute,
   createRoute({
     getParentRoute: () => protectedRoute,
     path: '/collections',
@@ -69,6 +79,11 @@ const placeholderRoutes = [
     component: SettingsPage,
   }),
 ];
+
+function ProductDetailRoute() {
+  const { productId } = productDetailRoute.useParams();
+  return <ProductDetailPage productId={productId} />;
+}
 
 const routeTree = rootRoute.addChildren([
   loginRoute,
