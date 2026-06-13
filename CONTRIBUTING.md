@@ -46,9 +46,11 @@ Fluxo obrigatório ao concluir uma spec:
 
 1. Rodar as validações definidas na spec.
 2. Conferir `git status` e `git diff`.
-3. Commitar apenas os arquivos da entrega.
-4. Usar Conventional Commit.
-5. Atualizar a spec com o commit associado, quando aplicável.
+3. Apresentar a entrega para revisão do usuário e aguardar aprovação para commit.
+4. Commitar apenas os arquivos da entrega após aprovação.
+5. Usar Conventional Commit.
+6. Apresentar o commit para aprovação antes de qualquer push.
+7. Atualizar a spec com o commit associado, quando aplicável.
 
 Exemplos para specs:
 
