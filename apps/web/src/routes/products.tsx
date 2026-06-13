@@ -7,11 +7,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import {
   type Product,
+  catalogQueryKeys,
   getCollections,
   getConfigData,
   getCurrentUser,
   getProduct,
   getProducts,
+  configQueryKeys,
 } from '@/lib/api';
 import { CollectionsPanel } from '@/components/catalog/collections-panel';
 import { isCurrentCollection } from '@/components/catalog/collection-dates';
@@ -19,10 +21,7 @@ import { ProductDetails } from '@/components/catalog/product-details';
 import { ProductForm } from '@/components/catalog/product-form';
 import { ProductList } from '@/components/catalog/product-list';
 import { QueryState, Select } from '@/components/catalog/product-ui';
-
-const productsQueryKey = ['products'] as const;
-const collectionsQueryKey = ['collections'] as const;
-const configQueryKey = ['config'] as const;
+import { authQueryKey } from '@/lib/auth';
 
 export function ProductsPage() {
   const queryClient = useQueryClient();
@@ -33,12 +32,12 @@ export function ProductsPage() {
   const [collectionFilter, setCollectionFilter] = useState('');
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
-  const currentUserQuery = useQuery({ queryKey: ['auth', 'me'], queryFn: getCurrentUser });
+  const currentUserQuery = useQuery({ queryKey: authQueryKey, queryFn: getCurrentUser });
   const isAdmin = currentUserQuery.data?.profile.code === 'ADMIN';
-  const configQuery = useQuery({ queryKey: configQueryKey, queryFn: getConfigData });
-  const collectionsQuery = useQuery({ queryKey: collectionsQueryKey, queryFn: getCollections });
+  const configQuery = useQuery({ queryKey: configQueryKeys.all, queryFn: getConfigData });
+  const collectionsQuery = useQuery({ queryKey: catalogQueryKeys.collections, queryFn: getCollections });
   const productsQuery = useQuery({
-    queryKey: [...productsQueryKey, { collectionFilter, search, statusFilter }],
+    queryKey: catalogQueryKeys.productList({ collectionFilter, search, statusFilter }),
     queryFn: () => getProducts({
       collectionId: collectionFilter || undefined,
       isActive: statusFilter === 'all' ? undefined : statusFilter === 'active',
@@ -51,8 +50,8 @@ export function ProductsPage() {
 
   const invalidateCatalog = async () => {
     await Promise.all([
-      queryClient.invalidateQueries({ queryKey: productsQueryKey }),
-      queryClient.invalidateQueries({ queryKey: collectionsQueryKey }),
+      queryClient.invalidateQueries({ queryKey: catalogQueryKeys.products }),
+      queryClient.invalidateQueries({ queryKey: catalogQueryKeys.collections }),
     ]);
   };
 
@@ -128,15 +127,15 @@ export function ProductsPage() {
 
 export function ProductDetailPage({ productId }: { productId: string }) {
   const queryClient = useQueryClient();
-  const currentUserQuery = useQuery({ queryKey: ['auth', 'me'], queryFn: getCurrentUser });
+  const currentUserQuery = useQuery({ queryKey: authQueryKey, queryFn: getCurrentUser });
   const isAdmin = currentUserQuery.data?.profile.code === 'ADMIN';
-  const configQuery = useQuery({ queryKey: configQueryKey, queryFn: getConfigData });
-  const productQuery = useQuery({ queryKey: [...productsQueryKey, productId], queryFn: () => getProduct(productId) });
+  const configQuery = useQuery({ queryKey: configQueryKeys.all, queryFn: getConfigData });
+  const productQuery = useQuery({ queryKey: catalogQueryKeys.product(productId), queryFn: () => getProduct(productId) });
 
   const invalidateProduct = async () => {
     await Promise.all([
-      queryClient.invalidateQueries({ queryKey: productsQueryKey }),
-      queryClient.invalidateQueries({ queryKey: [...productsQueryKey, productId] }),
+      queryClient.invalidateQueries({ queryKey: catalogQueryKeys.products }),
+      queryClient.invalidateQueries({ queryKey: catalogQueryKeys.product(productId) }),
     ]);
   };
 

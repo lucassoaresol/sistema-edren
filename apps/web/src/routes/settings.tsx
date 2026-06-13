@@ -13,6 +13,7 @@ import {
   type ConfigRecord,
   type Size,
   type SizeGrid,
+  configQueryKeys,
   createColor,
   createConfigRecord,
   createSize,
@@ -24,7 +25,6 @@ import {
   updateSize,
 } from '@/lib/api';
 
-const configQueryKey = ['config'] as const;
 type ConfigTab = 'size-grids' | 'categories' | 'colors' | 'stock-locations' | 'sales-channels' | 'payment-methods';
 
 const sections = [
@@ -127,7 +127,7 @@ function ConfigCard({ description, path, queryKey, title }: {
 }) {
   const queryClient = useQueryClient();
   const recordsQuery = useQuery({
-    queryKey: [...configQueryKey, queryKey],
+    queryKey: configQueryKeys.list(queryKey),
     queryFn: () => getConfigRecords(path),
   });
   const [name, setName] = useState('');
@@ -139,7 +139,7 @@ function ConfigCard({ description, path, queryKey, title }: {
     onSuccess: async () => {
       setName('');
       setDescriptionValue('');
-      await queryClient.invalidateQueries({ queryKey: [...configQueryKey, queryKey] });
+      await queryClient.invalidateQueries({ queryKey: configQueryKeys.list(queryKey) });
       toast.success('Cadastro salvo.');
     },
   });
@@ -148,7 +148,7 @@ function ConfigCard({ description, path, queryKey, title }: {
     mutationFn: ({ id, input }: { id: string; input: ConfigPayload }) => updateConfigRecord(path, id, input),
     onError: () => toast.error('Não foi possível atualizar o cadastro.'),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: [...configQueryKey, queryKey] });
+      await queryClient.invalidateQueries({ queryKey: configQueryKeys.list(queryKey) });
       toast.success('Cadastro atualizado.');
     },
   });
@@ -191,7 +191,7 @@ function ConfigCard({ description, path, queryKey, title }: {
 
 function ColorsCard() {
   const queryClient = useQueryClient();
-  const recordsQuery = useQuery({ queryKey: [...configQueryKey, 'colors'], queryFn: getColors });
+  const recordsQuery = useQuery({ queryKey: configQueryKeys.colors(), queryFn: getColors });
   const [name, setName] = useState('');
   const [slug, setSlug] = useState('');
 
@@ -201,7 +201,7 @@ function ColorsCard() {
     onSuccess: async () => {
       setName('');
       setSlug('');
-      await queryClient.invalidateQueries({ queryKey: [...configQueryKey, 'colors'] });
+      await queryClient.invalidateQueries({ queryKey: configQueryKeys.colors() });
       toast.success('Cor salva.');
     },
   });
@@ -210,7 +210,7 @@ function ColorsCard() {
     mutationFn: ({ id, input }: { id: string; input: ColorPayload }) => updateColor(id, input),
     onError: () => toast.error('Não foi possível atualizar a cor.'),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: [...configQueryKey, 'colors'] });
+      await queryClient.invalidateQueries({ queryKey: configQueryKeys.colors() });
       toast.success('Cor atualizada.');
     },
   });
@@ -249,7 +249,7 @@ function ColorsCard() {
 
 function SizeGridsCard() {
   const queryClient = useQueryClient();
-  const gridsQuery = useQuery({ queryKey: [...configQueryKey, 'size-grids'], queryFn: getSizeGrids });
+  const gridsQuery = useQuery({ queryKey: configQueryKeys.sizeGrids(), queryFn: getSizeGrids });
   const grids = gridsQuery.data ?? [];
   const [gridName, setGridName] = useState('');
   const [selectedGridId, setSelectedGridId] = useState(grids[0]?.id ?? '');
@@ -263,7 +263,7 @@ function SizeGridsCard() {
     onSuccess: async (grid) => {
       setGridName('');
       setSelectedGridId(grid.id);
-      await queryClient.invalidateQueries({ queryKey: [...configQueryKey, 'size-grids'] });
+      await queryClient.invalidateQueries({ queryKey: configQueryKeys.sizeGrids() });
       toast.success('Grade salva.');
     },
   });
@@ -272,7 +272,7 @@ function SizeGridsCard() {
     mutationFn: ({ id, input }: { id: string; input: ConfigPayload }) => updateConfigRecord('/api/config/size-grids', id, input),
     onError: () => toast.error('Não foi possível atualizar a grade.'),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: [...configQueryKey, 'size-grids'] });
+      await queryClient.invalidateQueries({ queryKey: configQueryKeys.sizeGrids() });
       toast.success('Grade atualizada.');
     },
   });
@@ -282,7 +282,7 @@ function SizeGridsCard() {
     onError: () => toast.error('Não foi possível salvar o tamanho.'),
     onSuccess: async () => {
       setSizeName('');
-      await queryClient.invalidateQueries({ queryKey: [...configQueryKey, 'size-grids'] });
+      await queryClient.invalidateQueries({ queryKey: configQueryKeys.sizeGrids() });
       toast.success('Tamanho salvo.');
     },
   });
@@ -291,7 +291,7 @@ function SizeGridsCard() {
     mutationFn: ({ id, input }: { id: string; input: { isActive?: boolean; name?: string; sortOrder?: number } }) => updateSize(id, input),
     onError: () => toast.error('Não foi possível atualizar o tamanho.'),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: [...configQueryKey, 'size-grids'] });
+      await queryClient.invalidateQueries({ queryKey: configQueryKeys.sizeGrids() });
       toast.success('Tamanho atualizado.');
     },
   });
