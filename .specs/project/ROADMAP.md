@@ -155,23 +155,55 @@
 - Preparar navegação e ações do frontend para respeitarem módulos/contextos sem depender apenas de esconder botões.
 - Manter permissões customizadas por usuário fora do MVP.
 
-**Product UI Decomposition** - PLANEJADA
+**Spec:** `.specs/features/modular-authorization-policies/spec.md`.
+
+**Product UI Decomposition** - IMPLEMENTADA
 
 - Dividir `apps/web/src/routes/products.tsx` em rota, componentes de coleção, formulário/lista/detalhe de produto, SKUs, imagem e utilitários.
 - Preservar comportamento atual de catálogo, upload de imagem e permissões.
 - Reduzir o risco de regressão antes de evoluir estoque e vendas sobre produtos/SKUs.
 
-**Catalog API Service Layer** - PLANEJADA
+**Spec:** `.specs/features/product-ui-decomposition/spec.md`.
+
+**Catalog API Service Layer** - IMPLEMENTADA
 
 - Extrair regras de catálogo de `apps/api/src/modules/catalog/routes.ts` para serviços/repositórios/serializadores pequenos.
 - Centralizar validações reutilizáveis de coleção vigente, referência única, relações de produto e SKU.
 - Preparar transações e reuso por estoque/vendas sem duplicar regra em rotas.
+
+**Spec:** `.specs/features/catalog-api-service-layer/spec.md`.
+
+**Catalog API Test Decomposition** - PLANEJADA
+
+- Dividir ou organizar `apps/api/src/modules/catalog/routes.test.ts` por fronteiras de catálogo.
+- Extrair helpers/fixtures locais para reduzir ruído dos cenários.
+- Preservar isolamento e cobertura existente antes de adicionar testes de estoque/vendas.
+
+**Spec:** `.specs/features/catalog-api-test-decomposition/spec.md`.
+
+**Config API Service Layer** - PLANEJADA
+
+- Extrair regras e helpers de `apps/api/src/modules/config/routes.ts` para unidades reutilizáveis do módulo `config`.
+- Preservar contratos HTTP e mensagens atuais dos cadastros configuráveis.
+- Preparar configurações para autorização modular sem refatoração massiva.
+
+**Spec:** `.specs/features/config-api-service-layer/spec.md`.
+
+**Settings UI Decomposition** - PLANEJADA
+
+- Decompor `apps/web/src/components/settings/size-grids-card.tsx` por responsabilidades naturais.
+- Preservar comportamento atual de grades, tamanhos, categorias e cores.
+- Evitar abstrações genéricas antes de uso real.
+
+**Spec:** `.specs/features/settings-ui-decomposition/spec.md`.
 
 **Shared Frontend API Patterns** - PLANEJADA
 
 - Separar tipos, query keys e clientes de API por domínio em vez de manter tudo em `apps/web/src/lib/api.ts`.
 - Criar padrões reutilizáveis para estados de formulário, selects, query state, invalidação e mensagens de erro.
 - Melhorar mensagens de erro da UI usando payloads da API quando disponíveis.
+
+**Spec:** `.specs/features/shared-frontend-api-patterns/spec.md`.
 
 ## Análise do Estado Atual
 
