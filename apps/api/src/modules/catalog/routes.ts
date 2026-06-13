@@ -3,7 +3,8 @@ import type { FastifyPluginAsync } from 'fastify';
 import { removeProductImage, uploadProductImage } from '../../lib/cloudinary.js';
 import { BadRequestError, BusinessRuleError, ConflictError, NotFoundError } from '../../lib/errors.js';
 import { requireAdmin, requireAuth } from '../auth/auth-context.js';
-import { ensureCollectionDateRange, ensureCollectionExists, ensureUniqueCollectionName, isCurrentCollection } from './collections.js';
+import { ensureCollectionDateRange, ensureCollectionExists, ensureUniqueCollectionName } from './collections.js';
+import { ensureProductReferenceIsUnique, ensureProductRelations, ensureProductSizeGridCanChange } from './products.js';
 import { serializeProduct } from './serializers.js';
 import {
   createCollectionSchema,
@@ -170,9 +171,10 @@ export const catalogRoutes: FastifyPluginAsync = async (app) => {
       );
     }
 
-    if (input.sizeGridId && input.sizeGridId !== current.sizeGridId && current.variants.length > 0) {
-      throw new BusinessRuleError('Nao e possivel trocar a grade de um produto que ja possui SKUs.');
-    }
+    ensureProductSizeGridCanChange(
+      input.sizeGridId !== undefined && input.sizeGridId !== current.sizeGridId,
+      current.variants.length > 0,
+    );
 
     const { cost, description, salePrice, ...productInput } = input;
     const product = await app.prisma.product.update({
@@ -334,40 +336,6 @@ function isAllowedImageType(mimetype: string) {
 
 function isFileTooLargeError(error: unknown) {
   return typeof error === 'object' && error !== null && 'code' in error && error.code === 'FST_REQ_FILE_TOO_LARGE';
-}
-
-async function ensureProductReferenceIsUnique(prisma: PrismaClient, reference: string, ignoreId?: string) {
-  const existing = await prisma.product.findFirst({
-    where: { reference, ...(ignoreId ? { id: { not: ignoreId } } : {}) },
-  });
-
-  if (existing) {
-    throw new ConflictError('Ja existe um produto com esta referencia.');
-  }
-}
-
-async function ensureProductRelations(prisma: PrismaClient, collectionId: string, categoryId: string, sizeGridId: string, requireCurrentCollection = true) {
-  const [collection, category, sizeGrid] = await Promise.all([
-    prisma.collection.findUnique({ where: { id: collectionId } }),
-    prisma.category.findUnique({ where: { id: categoryId } }),
-    prisma.sizeGrid.findUnique({ where: { id: sizeGridId } }),
-  ]);
-
-  if (!collection) {
-    throw new NotFoundError('Colecao nao encontrada.');
-  }
-
-  if (requireCurrentCollection && !isCurrentCollection(collection)) {
-    throw new BusinessRuleError('A colecao selecionada nao esta vigente.');
-  }
-
-  if (!category) {
-    throw new NotFoundError('Categoria nao encontrada.');
-  }
-
-  if (!sizeGrid) {
-    throw new NotFoundError('Grade de tamanho nao encontrada.');
-  }
 }
 
 async function ensureProductExists(prisma: PrismaClient, id: string) {
