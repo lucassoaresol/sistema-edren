@@ -1,7 +1,8 @@
 # Spec de Camada de Serviço para Catálogo
 
-**Situação:** Planejada.
+**Situação:** Implementada.
 **Rastreabilidade:** Roadmap `Catalog API Service Layer`; concern técnico sobre `apps/api/src/modules/catalog/routes.ts`; base para futuras specs de estoque e vendas.
+**Commits:** `8b7b055`, `78a5db5`, `7d62ba9`, `2d85ab0`, `224834d`, `5ca4bcd`.
 
 ## Propósito
 
@@ -45,3 +46,16 @@ Separar regras de negócio de catálogo das rotas Fastify para facilitar reuso p
 - `npm run build`
 - Testes de API de catálogo existentes continuam passando.
 - Checagem manual de criação/edição de produto, SKU, coleção e imagem principal.
+
+## Entrega
+
+- REQ-CAT-SVC-001: Contrato HTTP preservado; testes de API existentes continuaram passando.
+- REQ-CAT-SVC-002: Regras de coleção extraídas para `apps/api/src/modules/catalog/collections.ts`.
+- REQ-CAT-SVC-003: Regras de produto extraídas para `apps/api/src/modules/catalog/products.ts`.
+- REQ-CAT-SVC-004: Regras de SKU extraídas para `apps/api/src/modules/catalog/variants.ts`.
+- REQ-CAT-SVC-005: Serialização de produto extraída para `apps/api/src/modules/catalog/serializers.ts`.
+- REQ-CAT-SVC-006: Fluxo de imagem principal extraído para `apps/api/src/modules/catalog/product-images.ts`.
+- REQ-CAT-SVC-007: Autorização administrativa centralizada em `apps/api/src/modules/auth/auth-context.ts`.
+- REQ-CAT-SVC-008: Cobertura existente preservada; nenhuma regra ficou descoberta a ponto de exigir novo teste nesta refatoração.
+
+Validação final executada nas fatias: `npm run typecheck`, `npm test`, `npm run build`.
