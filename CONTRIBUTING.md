@@ -52,6 +52,13 @@ Fluxo obrigatório ao concluir uma spec:
 6. Apresentar o commit para aprovação antes de qualquer push.
 7. Atualizar a spec com o commit associado, quando aplicável.
 
+## Arquivos Grandes
+
+- Não adotar um limite fixo de linhas como regra principal.
+- Preferir decompor arquivos quando começarem a reunir responsabilidades demais, como validação, regra de negócio, serialização, estado e UI no mesmo lugar.
+- Tratar arquivos muito grandes como sinal de revisão arquitetural, especialmente em rotas, páginas e clientes de API.
+- Antes de crescer um módulo, extrair fronteiras naturais de domínio e preservar comportamento com testes.
+
 Exemplos para specs:
 
 ```text

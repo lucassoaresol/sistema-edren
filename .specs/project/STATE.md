@@ -88,6 +88,7 @@ Atualizado em: 2026-06-13.
 - UAT inicial da tela de produtos identificou ajustes de escrita em português e a regra de vigência de coleções; ambos foram incorporados à feature `products-and-collections`.
 - Specs marcadas como concluídas sem commit geram perda de rastreabilidade; o fluxo passa a exigir commit antes de atualizar status para `Implementada`, `Concluída` ou equivalente.
 - Entregas devem ser apresentadas para revisão do usuário antes de criar commit e antes de executar push; o commit e o push só acontecem após aprovação explícita.
+- Antes de trocar de contexto, encerrar a sessão ou iniciar nova frente, não deixar implementação validada apenas no working tree: apresentar o diff/validação e pedir aprovação explícita para commit, ou registrar claramente que a entrega ficou sem commit.
 - O contexto do caderno de produtos mostrou que a EDREN precisa registrar o nascimento da peça antes da venda; a feature `product-creation-reference` passa a detalhar esse módulo de Confecção/Criação e sua promoção para produto comercial.
 
 ## Levantamento Brownfield 2026-06-12
