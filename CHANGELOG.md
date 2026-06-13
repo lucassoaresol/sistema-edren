@@ -21,7 +21,7 @@ O formato segue a ideia de Keep a Changelog, adaptado para um sistema interno em
 - `v0.5.0`: painel inicial e relatórios mínimos.
 - `v1.0.0`: MVP validado em uso real.
 
-## [0.2.0] - Release candidate
+## [0.2.0] - 2026-06-13
 
 ### Adicionado
 
@@ -48,7 +48,6 @@ O formato segue a ideia de Keep a Changelog, adaptado para um sistema interno em
 
 ### Riscos Conhecidos
 
-- Validar a migration em ambiente de teste antes de produção.
 - Validar upload Cloudinary com credenciais reais do ambiente alvo.
 - A UI de produtos está funcional, mas o arquivo `apps/web/src/routes/products.tsx` ficou grande; decomposição já foi registrada como melhoria técnica planejada.
 - Estoque, vendas, pagamentos, recebíveis e relatórios continuam fora desta release.
