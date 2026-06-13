@@ -1,11 +1,12 @@
 import type { Prisma, PrismaClient } from '@edren/database';
 import type { FastifyPluginAsync } from 'fastify';
 import { removeProductImage, uploadProductImage } from '../../lib/cloudinary.js';
-import { BadRequestError, BusinessRuleError, ConflictError, NotFoundError } from '../../lib/errors.js';
+import { BadRequestError, BusinessRuleError, NotFoundError } from '../../lib/errors.js';
 import { requireAdmin, requireAuth } from '../auth/auth-context.js';
 import { ensureCollectionDateRange, ensureCollectionExists, ensureUniqueCollectionName } from './collections.js';
 import { ensureProductReferenceIsUnique, ensureProductRelations, ensureProductSizeGridCanChange } from './products.js';
 import { serializeProduct } from './serializers.js';
+import { ensureUniqueVariant, ensureVariantRelations } from './variants.js';
 import {
   createCollectionSchema,
   createProductSchema,
@@ -356,38 +357,4 @@ async function findProductOrThrow(prisma: PrismaClient, id: string) {
   }
 
   return product;
-}
-
-async function ensureVariantRelations(prisma: PrismaClient, productSizeGridId: string, colorId: string, sizeId: string) {
-  const [color, size] = await Promise.all([
-    prisma.color.findUnique({ where: { id: colorId } }),
-    prisma.size.findUnique({ where: { id: sizeId } }),
-  ]);
-
-  if (!color) {
-    throw new NotFoundError('Cor nao encontrada.');
-  }
-
-  if (!size) {
-    throw new NotFoundError('Tamanho nao encontrado.');
-  }
-
-  if (size.gridId !== productSizeGridId) {
-    throw new BusinessRuleError('O tamanho selecionado nao pertence a grade do produto.');
-  }
-}
-
-async function ensureUniqueVariant(prisma: PrismaClient, productId: string, colorId: string, sizeId: string, ignoreId?: string) {
-  const existing = await prisma.productVariant.findFirst({
-    where: {
-      colorId,
-      productId,
-      sizeId,
-      ...(ignoreId ? { id: { not: ignoreId } } : {}),
-    },
-  });
-
-  if (existing) {
-    throw new ConflictError('Ja existe um SKU para esta cor e tamanho.');
-  }
 }
