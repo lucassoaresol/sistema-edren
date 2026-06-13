@@ -14,6 +14,6 @@
   - Requisitos: REQ-FE-API-004, REQ-FE-API-006, REQ-FE-API-007.
   - Verificação: `npm run typecheck` passou em 2026-06-13; checagem manual da tela de configurações.
 
-- [ ] TASK-FE-API-005: Rodar validação final da spec e registrar resultado.
+- [x] TASK-FE-API-005: Rodar validação final da spec e registrar resultado.
   - Requisitos: todos.
-  - Verificação: `npm run typecheck`, `npm test`, `npm run build`.
+  - Verificação: `npm run typecheck`, `npm test` e `npm run build` passaram em 2026-06-13.
