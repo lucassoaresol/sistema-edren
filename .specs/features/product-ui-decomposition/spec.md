@@ -1,6 +1,6 @@
 # Spec de Decomposição da UI de Produtos
 
-**Situação:** Planejada.
+**Situação:** Implementada em 2026-06-13.
 **Rastreabilidade:** Roadmap `Product UI Decomposition`; concern técnico sobre `apps/web/src/routes/products.tsx`; feature `products-and-collections` já implementada.
 
 ## Propósito
@@ -45,3 +45,9 @@ Reduzir o risco de manutenção da tela de produtos antes de estoque e vendas de
 - `npm run build`
 - Checagem manual de `/products` em desktop e mobile.
 - Checagem manual de `/products/:productId` em desktop e mobile.
+
+Validação executada em 2026-06-13:
+
+- `npm run typecheck`: passou.
+- `npm test`: passou, 4 arquivos e 26 testes.
+- `npm run build`: passou.
