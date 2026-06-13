@@ -1,9 +1,9 @@
 import type { Prisma, PrismaClient } from '@edren/database';
-import { UserProfileCode } from '@edren/database';
 import type { FastifyPluginAsync } from 'fastify';
 import { removeProductImage, uploadProductImage } from '../../lib/cloudinary.js';
 import { BadRequestError, BusinessRuleError, ConflictError, NotFoundError } from '../../lib/errors.js';
 import { requireAdmin, requireAuth } from '../auth/auth-context.js';
+import { serializeProduct } from './serializers.js';
 import {
   createCollectionSchema,
   createProductSchema,
@@ -17,8 +17,6 @@ import {
   updateProductSchema,
   updateVariantSchema,
 } from './schemas.js';
-
-type CurrentUser = Awaited<ReturnType<typeof requireAuth>>;
 
 const catalogAdminMessage = 'Apenas administradores podem alterar o catalogo.';
 
@@ -457,24 +455,4 @@ async function ensureUniqueVariant(prisma: PrismaClient, productId: string, colo
   if (existing) {
     throw new ConflictError('Ja existe um SKU para esta cor e tamanho.');
   }
-}
-
-type ProductWithRelations = Prisma.ProductGetPayload<{ include: typeof productInclude }>;
-
-function serializeProduct(product: ProductWithRelations, user: CurrentUser) {
-  const mainImage = product.images.find((image) => image.isMain) ?? null;
-  const serialized = {
-    ...product,
-    cost: user.profile.code === UserProfileCode.ADMIN ? product.cost?.toFixed(2) ?? null : undefined,
-    images: product.images,
-    mainImage,
-    salePrice: product.salePrice.toFixed(2),
-    variantsCount: product.variants.length,
-  };
-
-  if (user.profile.code !== UserProfileCode.ADMIN) {
-    delete serialized.cost;
-  }
-
-  return serialized;
 }
