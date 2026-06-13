@@ -12,7 +12,7 @@
 - Schema está mais avançado que a API. Isso é bom como base, mas pode criar falsa impressão de que os módulos estão prontos.
 - A maioria das funcionalidades de negócio ainda não tem endpoints, telas nem testes.
 - Regras críticas de estoque/venda ainda não estão protegidas por transações.
-- Permissões por perfil ainda não existem como enforcement de API.
+- Permissões por perfil já existem em rotas de config/catálogo, mas ainda não há política central reutilizável por contexto e ação.
 - Health check `/api/health/db` consulta contagens de seed e pode ser confundido com métricas reais.
 - `node_modules`, `.vite` e `dist` aparecem no workspace; confirmar `.gitignore`/estado git para evitar artefatos versionados.
 - `apps/web/src/routes/products.tsx` concentra 774 linhas com rota, filtros, formulários, listagem, detalhe, upload de imagem, SKUs e utilitários de data; isso aumenta risco de conflito e regressão a cada evolução de catálogo/estoque.
@@ -21,6 +21,10 @@
 - `apps/api/src/modules/catalog/routes.ts` concentra 488 linhas com rotas, regras de negócio, serialização, validações auxiliares e integração Cloudinary; o próximo uso dessas regras por estoque/vendas pode gerar duplicação se não houver camada de serviço.
 - `requireAdmin` aparece duplicado em módulos de API (`config` e `catalog`), com mensagens diferentes e sem política reutilizável de autorização.
 - Há lógica duplicada de coleção vigente no backend e frontend (`isCurrentCollection`/`endOfDay`), o que pode divergir em bordas de data/fuso.
+- A nova visão modular exige contextos operacionais com permissões próprias, mas o frontend ainda exibe navegação plana sem filtro por perfil/contexto.
+- Não existe modelo de referência em criação/confecção no Prisma; forçar esse fluxo em `Product` pode misturar ficha produtiva com produto comercial vendável.
+- `ProductImage` cobre a imagem comercial do produto; o módulo de Confecção/Criação ainda precisa diferenciar apenas croqui/imagem de criação de imagem de produto comercial, sem exigir variações como foto na modelo ou detalhe agora.
+- A promoção de referência de Confecção para Produto Comercial ainda não tem fronteira arquitetural definida no código.
 
 ## Riscos de Produto
 
@@ -34,7 +38,10 @@
 - Antes de novos módulos visuais, implementar endpoints base e testes das regras de negócio.
 - Definir se o identificador de login será `username` ou `email` antes de criar tela de usuários.
 - Criar guardas de permissão reutilizáveis no backend.
+- Criar uma spec técnica de autorização modular por contexto e ação, mantendo permissões simples por perfil no MVP.
 - Criar serviços transacionais para estoque e venda em vez de espalhar regras nas rotas.
+- Implementar a camada de serviço de catálogo antes de promover referência de criação para produto comercial.
+- Modelar Confecção/Criação como módulo próprio, não como campos extras obrigatórios no formulário comercial de produto.
 - Priorizar decomposição incremental dos arquivos grandes antes de adicionar estoque e vendas, começando por preservar comportamento com testes existentes.
 - Extrair primeiro por fronteiras naturais de domínio, não por abstrações genéricas: coleções, produtos, SKUs, imagens, query keys e serializadores.
 - Evitar uma refatoração massiva sem valor imediato; trabalhar em specs técnicas pequenas com critério de aceite e validação por `npm run typecheck`, `npm test` e `npm run build`.

@@ -106,6 +106,10 @@
 - Não é necessário limite de crédito de cliente no MVP.
 - Ações somente de administrador incluem cancelar vendas, ajustar estoque, marcar pagamentos como recebidos, alterar preços, criar/editar produtos, ver custo e acessar recebíveis.
 - Gerente/vendedor pode aplicar desconto na venda, mas não pode alterar preço cadastrado do produto.
+- Módulos representam contextos operacionais diferentes, não apenas menus: Confecção/Criação, Loja/Catálogo, Estoque, Vendas e Relatórios podem ter dados visíveis, linguagem, ações e permissões próprias.
+- Acesso aos contextos deve ser controlado por perfil no MVP; permissões customizadas por usuário continuam fora do escopo.
+- O contexto de Confecção/Criação deve ser mais restrito por envolver custo detalhado, croqui, desenvolvimento e decisões internas de fabricação.
+- O contexto de Loja/Catálogo pode permitir consulta mais ampla para apoiar estoque e venda, mas alteração de produto, preço, custo e SKUs continua administrativa no MVP.
 
 ## Seeds Iniciais
 

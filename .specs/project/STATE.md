@@ -50,6 +50,12 @@ Atualizado em: 2026-06-13.
 - Recebimento de pagamento, cancelamento de venda, ajuste de estoque, alteração de preço, criação/edição de produto, visibilidade de custo e acesso a recebíveis são ações de administrador no MVP.
 - Vendas só podem ser canceladas no mesmo dia no MVP e devem retornar estoque ao local original.
 - Relatórios prioritários são vendas do dia, recebíveis e estoque por referência.
+- A referência deve ser tratada como conceito transversal entre módulos: na Confecção representa criação/fabricação; na Loja/Catálogo representa produto vendável; em Estoque, Vendas e Relatórios aparece por meio do produto comercial e SKUs.
+- O sistema deve separar modularmente Confecção/Criação e Loja/Catálogo para evitar que o cadastro de produto vire uma cópia pesada do caderno físico ou que a criação da peça seja reduzida a mercadoria pronta.
+- Cada módulo deve ser tratado como contexto operacional com dados, linguagem, ações e permissões próprias; acesso continua simples por perfil no MVP, sem permissões customizadas por usuário.
+- O contexto de Confecção/Criação deve ser restrito por padrão a `ADMIN`; perfis de venda não devem acessar custo detalhado, croqui e decisões internas de fabricação.
+- O contexto de Loja/Catálogo deve permitir consulta operacional para perfis que vendem ou movimentam estoque, mas alteração de produto, preço, custo e SKUs permanece administrativa no MVP.
+- Revisão arquitetural modular registrada em `.specs/codebase/MODULAR_ARCHITECTURE_REVIEW.md`: antes de Confecção/Criação, Estoque e Vendas, priorizar autorização modular, camada de serviço de catálogo, padrões de API frontend e decomposição da UI de produtos.
 
 ## Bloqueios
 
@@ -81,6 +87,7 @@ Atualizado em: 2026-06-13.
 - Cadastros configuráveis foram implementados com migration para ativo/inativo, seed sem `Nova Loja`, rotas `/api/config`, escrita restrita a administradores, leitura autenticada, testes de API e tela `/configuracoes`.
 - UAT inicial da tela de produtos identificou ajustes de escrita em português e a regra de vigência de coleções; ambos foram incorporados à feature `products-and-collections`.
 - Specs marcadas como concluídas sem commit geram perda de rastreabilidade; o fluxo passa a exigir commit antes de atualizar status para `Implementada`, `Concluída` ou equivalente.
+- O contexto do caderno de produtos mostrou que a EDREN precisa registrar o nascimento da peça antes da venda; a feature `product-creation-reference` passa a detalhar esse módulo de Confecção/Criação e sua promoção para produto comercial.
 
 ## Levantamento Brownfield 2026-06-12
 
@@ -106,6 +113,8 @@ Atualizado em: 2026-06-13.
 - Implementar produtos/SKUs antes de venda.
 - Projetar venda/estoque como transação única no backend para evitar saldo inconsistente.
 - Criar matriz simples de permissões antes das primeiras rotas administrativas.
+- Criar spec técnica para autorização modular por contexto/ação usando os perfis existentes `ADMIN`, `MANAGER` e `SELLER_OPERATOR`.
+- Atualizar specs técnicas planejadas para considerar a revisão `.specs/codebase/MODULAR_ARCHITECTURE_REVIEW.md`.
 - Adicionar documentação e scripts de backup durante a fase de deploy no VPS.
 
 ## Ideias Adiadas

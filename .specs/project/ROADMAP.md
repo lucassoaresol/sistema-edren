@@ -57,6 +57,14 @@
 
 **Situação atual:** implementada e validada em `develop` com typecheck, testes e build. Antes do corte final da `v0.2.0`, validar migration e Cloudinary no ambiente alvo, abrir PR para `main` e atualizar release/tag.
 
+**Product Creation Reference / Confecção** - PLANEJADA
+
+- Registrar o nascimento da referência antes do produto comercial estar completo.
+- Preservar croqui, observações, materiais, serviços e custo de criação/fabricação.
+- Separar o ecossistema da Confecção do ecossistema da Loja/Catálogo sem perder o vínculo pela referência.
+- Promover ou associar uma referência aprovada a um produto comercial já validado pelo módulo de catálogo.
+- Manter produtos, estoque e vendas focados no produto comercial e SKUs, sem exigir ficha produtiva para vender.
+
 **Customers** - PLANEJADA
 
 - Gerenciar clientes.
@@ -139,6 +147,13 @@
 **Alvo:** Concluído quando os módulos mais extensos estiverem divididos por responsabilidade, regras de negócio críticas estiverem fora das rotas e padrões reutilizáveis estiverem documentados.
 
 ### Funcionalidades
+
+**Modular Authorization Policies** - PLANEJADA
+
+- Criar política reutilizável de autorização por contexto e ação usando os perfis `ADMIN`, `MANAGER` e `SELLER_OPERATOR`.
+- Substituir `requireAdmin` duplicado por helper/política compartilhada na API.
+- Preparar navegação e ações do frontend para respeitarem módulos/contextos sem depender apenas de esconder botões.
+- Manter permissões customizadas por usuário fora do MVP.
 
 **Product UI Decomposition** - PLANEJADA
 
