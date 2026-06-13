@@ -1,9 +1,9 @@
 import type { Prisma, PrismaClient } from '@edren/database';
 import type { FastifyPluginAsync } from 'fastify';
-import { removeProductImage, uploadProductImage } from '../../lib/cloudinary.js';
-import { BadRequestError, BusinessRuleError, NotFoundError } from '../../lib/errors.js';
+import { NotFoundError } from '../../lib/errors.js';
 import { requireAdmin, requireAuth } from '../auth/auth-context.js';
 import { ensureCollectionDateRange, ensureCollectionExists, ensureUniqueCollectionName } from './collections.js';
+import { removeMainProductImage, replaceMainProductImage } from './product-images.js';
 import { ensureProductReferenceIsUnique, ensureProductRelations, ensureProductSizeGridCanChange } from './products.js';
 import { serializeProduct } from './serializers.js';
 import { ensureUniqueVariant, ensureVariantRelations } from './variants.js';
@@ -260,55 +260,9 @@ export const catalogRoutes: FastifyPluginAsync = async (app) => {
 
     await ensureProductExists(app.prisma, params.productId);
 
-    const file = await request.file();
-
-    if (!file) {
-      throw new BadRequestError('Envie uma imagem para o produto.');
-    }
-
-    if (!isAllowedImageType(file.mimetype)) {
-      throw new BadRequestError('Formato de imagem nao suportado. Envie JPG, PNG, WebP ou GIF.');
-    }
-
-    let buffer: Buffer;
-
-    try {
-      buffer = await file.toBuffer();
-    } catch (error) {
-      if (isFileTooLargeError(error)) {
-        throw new BusinessRuleError('A imagem deve ter no maximo 5 MB.');
-      }
-
-      throw error;
-    }
-
-    const uploaded = await uploadProductImage({ buffer, filename: file.filename });
-
-    const currentImage = await app.prisma.productImage.findFirst({
-      where: { productId: params.productId, isMain: true },
-      select: { publicId: true },
+    const image = await replaceMainProductImage(app.prisma, params.productId, await request.file(), ({ error, publicId }) => {
+      request.log.error({ err: error, publicId }, 'failed to remove previous product image from Cloudinary');
     });
-
-    const image = await app.prisma.$transaction(async (tx) => {
-      await tx.productImage.deleteMany({ where: { productId: params.productId, isMain: true } });
-      return tx.productImage.create({
-        data: {
-          isMain: true,
-          productId: params.productId,
-          publicId: uploaded.publicId,
-          sortOrder: 0,
-          url: uploaded.url,
-        },
-      });
-    });
-
-    if (currentImage?.publicId && currentImage.publicId !== uploaded.publicId) {
-      try {
-        await removeProductImage(currentImage.publicId);
-      } catch (error) {
-        request.log.error({ err: error, publicId: currentImage.publicId }, 'failed to remove previous product image from Cloudinary');
-      }
-    }
 
     return { data: image };
   });
@@ -317,27 +271,10 @@ export const catalogRoutes: FastifyPluginAsync = async (app) => {
     await requireAdmin(request, catalogAdminMessage);
     const params = productParamsSchema.parse(request.params);
     await ensureProductExists(app.prisma, params.productId);
-    const currentImage = await app.prisma.productImage.findFirst({
-      where: { productId: params.productId, isMain: true },
-      select: { publicId: true },
-    });
-
-    if (currentImage?.publicId) {
-      await removeProductImage(currentImage.publicId);
-    }
-
-    await app.prisma.productImage.deleteMany({ where: { productId: params.productId, isMain: true } });
+    await removeMainProductImage(app.prisma, params.productId);
     return { data: { ok: true } };
   });
 };
-
-function isAllowedImageType(mimetype: string) {
-  return ['image/jpeg', 'image/png', 'image/webp', 'image/gif'].includes(mimetype);
-}
-
-function isFileTooLargeError(error: unknown) {
-  return typeof error === 'object' && error !== null && 'code' in error && error.code === 'FST_REQ_FILE_TOO_LARGE';
-}
 
 async function ensureProductExists(prisma: PrismaClient, id: string) {
   const product = await prisma.product.findUnique({ where: { id } });
