@@ -131,6 +131,31 @@
 - Documentar backup e restore do PostgreSQL.
 - Adicionar script básico de backup durante a fase de deploy.
 
+## Qualidade Técnica e Evolução Arquitetural
+
+**Objetivo:** Reduzir o custo de manutenção antes das próximas fatias críticas de estoque, vendas e recebíveis.
+**Alvo:** Concluído quando os módulos mais extensos estiverem divididos por responsabilidade, regras de negócio críticas estiverem fora das rotas e padrões reutilizáveis estiverem documentados.
+
+### Funcionalidades
+
+**Product UI Decomposition** - PLANEJADA
+
+- Dividir `apps/web/src/routes/products.tsx` em rota, componentes de coleção, formulário/lista/detalhe de produto, SKUs, imagem e utilitários.
+- Preservar comportamento atual de catálogo, upload de imagem e permissões.
+- Reduzir o risco de regressão antes de evoluir estoque e vendas sobre produtos/SKUs.
+
+**Catalog API Service Layer** - PLANEJADA
+
+- Extrair regras de catálogo de `apps/api/src/modules/catalog/routes.ts` para serviços/repositórios/serializadores pequenos.
+- Centralizar validações reutilizáveis de coleção vigente, referência única, relações de produto e SKU.
+- Preparar transações e reuso por estoque/vendas sem duplicar regra em rotas.
+
+**Shared Frontend API Patterns** - PLANEJADA
+
+- Separar tipos, query keys e clientes de API por domínio em vez de manter tudo em `apps/web/src/lib/api.ts`.
+- Criar padrões reutilizáveis para estados de formulário, selects, query state, invalidação e mensagens de erro.
+- Melhorar mensagens de erro da UI usando payloads da API quando disponíveis.
+
 ## Análise do Estado Atual
 
 - Fundação técnica: parcialmente concluída e já demonstrada com web, API, banco e seed.

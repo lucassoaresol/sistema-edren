@@ -40,3 +40,6 @@ flowchart LR
 - Fluxos de venda/estoque precisam ser transacionais no backend.
 - Permissões devem ser aplicadas na API, não apenas escondidas no frontend.
 - `packages/shared` pode concentrar tipos/schemas compartilhados quando as APIs de domínio surgirem.
+- Módulos de API devem manter rotas finas quando a regra de negócio crescer: rota valida entrada/autorização, serviço aplica regra, repositório encapsula acesso Prisma quando houver reuso ou transação.
+- O frontend deve evitar rotas com muitas responsabilidades; páginas podem orquestrar dados, mas formulários, listas, detalhes e componentes de domínio devem ficar em arquivos próprios quando passarem a ser reutilizados ou ultrapassarem uma complexidade clara.
+- Tipos e funções de API no frontend devem ser organizados por domínio antes da entrada de estoque/vendas para reduzir acoplamento em `apps/web/src/lib/api.ts`.

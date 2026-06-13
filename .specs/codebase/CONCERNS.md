@@ -15,6 +15,12 @@
 - Permissões por perfil ainda não existem como enforcement de API.
 - Health check `/api/health/db` consulta contagens de seed e pode ser confundido com métricas reais.
 - `node_modules`, `.vite` e `dist` aparecem no workspace; confirmar `.gitignore`/estado git para evitar artefatos versionados.
+- `apps/web/src/routes/products.tsx` concentra 774 linhas com rota, filtros, formulários, listagem, detalhe, upload de imagem, SKUs e utilitários de data; isso aumenta risco de conflito e regressão a cada evolução de catálogo/estoque.
+- `apps/web/src/routes/settings.tsx` concentra 575 linhas com múltiplos cadastros e componentes editáveis; ainda é aceitável, mas já repete padrões de lista editável, estado de carregamento, mutations e invalidação.
+- `apps/web/src/lib/api.ts` concentra 418 linhas com tipos, request base, endpoints de autenticação, configurações, catálogo, filtros e upload; tende a crescer rapidamente com estoque/vendas.
+- `apps/api/src/modules/catalog/routes.ts` concentra 488 linhas com rotas, regras de negócio, serialização, validações auxiliares e integração Cloudinary; o próximo uso dessas regras por estoque/vendas pode gerar duplicação se não houver camada de serviço.
+- `requireAdmin` aparece duplicado em módulos de API (`config` e `catalog`), com mensagens diferentes e sem política reutilizável de autorização.
+- Há lógica duplicada de coleção vigente no backend e frontend (`isCurrentCollection`/`endOfDay`), o que pode divergir em bordas de data/fuso.
 
 ## Riscos de Produto
 
@@ -29,3 +35,6 @@
 - Definir se o identificador de login será `username` ou `email` antes de criar tela de usuários.
 - Criar guardas de permissão reutilizáveis no backend.
 - Criar serviços transacionais para estoque e venda em vez de espalhar regras nas rotas.
+- Priorizar decomposição incremental dos arquivos grandes antes de adicionar estoque e vendas, começando por preservar comportamento com testes existentes.
+- Extrair primeiro por fronteiras naturais de domínio, não por abstrações genéricas: coleções, produtos, SKUs, imagens, query keys e serializadores.
+- Evitar uma refatoração massiva sem valor imediato; trabalhar em specs técnicas pequenas com critério de aceite e validação por `npm run typecheck`, `npm test` e `npm run build`.
