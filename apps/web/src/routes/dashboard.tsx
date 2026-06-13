@@ -18,17 +18,17 @@ export function DashboardPage() {
       <section className="rounded-3xl border border-edren-border bg-edren-surface p-6 shadow-sm lg:p-8">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-3xl">
-            <Badge>Fundacao fullstack</Badge>
+            <Badge>Fundação fullstack</Badge>
             <h1 className="mt-5 text-3xl font-semibold tracking-tight text-edren-green lg:text-5xl">
               Painel EDREN
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-7 text-edren-text-muted">
-              A aplicacao ja conversa com a API e com o banco PostgreSQL. Este painel sera
-              evoluido para mostrar vendas do dia, contas a receber e estoque por referencia.
+              A aplicação já conversa com a API e com o banco PostgreSQL. Este painel será
+              evoluído para mostrar vendas do dia, contas a receber e estoque por referência.
             </p>
           </div>
           <div className="rounded-2xl bg-edren-ivory px-4 py-3 text-sm font-medium text-edren-green">
-            A moda que abraca. A elegancia que inspira.
+            A moda que abraça. A elegância que inspira.
           </div>
         </div>
       </section>
@@ -41,8 +41,8 @@ export function DashboardPage() {
             </div>
             <CardTitle>Banco de dados</CardTitle>
             <CardDescription>
-              {databaseHealth.isLoading && 'Verificando conexao com o PostgreSQL...'}
-              {databaseHealth.isError && 'Nao foi possivel conectar ao banco.'}
+              {databaseHealth.isLoading && 'Verificando conexão com o PostgreSQL...'}
+              {databaseHealth.isError && 'Não foi possível conectar ao banco.'}
               {databaseHealth.isSuccess && 'API conectada ao PostgreSQL.'}
             </CardDescription>
           </CardHeader>
@@ -60,9 +60,9 @@ export function DashboardPage() {
           value={seed?.profiles ?? '-'}
         />
         <MetricCard
-          description="Colecoes iniciais disponiveis para produtos."
+          description="Coleções iniciais disponíveis para produtos."
           icon={Tags}
-          label="Colecoes"
+          label="Coleções"
           value={seed?.collections ?? '-'}
         />
       </section>
@@ -70,7 +70,7 @@ export function DashboardPage() {
       <section className="grid gap-4 lg:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>Proximas areas do MVP</CardTitle>
+            <CardTitle>Próximas áreas do MVP</CardTitle>
             <CardDescription>Rotas preparadas para evoluir em CRUDs reais.</CardDescription>
           </CardHeader>
           <CardContent>
@@ -78,7 +78,7 @@ export function DashboardPage() {
               {['Vendas', 'Clientes', 'Produtos', 'Estoque'].map((item) => (
                 <div className="rounded-xl border border-edren-border bg-edren-background p-4" key={item}>
                   <p className="font-medium text-edren-green">{item}</p>
-                  <p className="mt-1 text-sm text-edren-text-muted">Modulo em preparacao.</p>
+                  <p className="mt-1 text-sm text-edren-text-muted">Módulo em preparação.</p>
                 </div>
               ))}
             </div>
@@ -90,7 +90,7 @@ export function DashboardPage() {
             <div className="mb-3 flex size-10 items-center justify-center rounded-xl bg-edren-ivory text-edren-green">
               <Sparkles className="size-5" />
             </div>
-            <CardTitle>Valor visivel</CardTitle>
+            <CardTitle>Valor visível</CardTitle>
             <CardDescription>
               Esta tela confirma a primeira fatia fullstack: frontend, API e banco trabalhando juntos.
             </CardDescription>
@@ -99,7 +99,7 @@ export function DashboardPage() {
             <div className="flex items-center gap-3 rounded-xl border border-edren-border bg-edren-background p-4">
               <Package className="size-5 text-edren-green" />
               <p className="text-sm text-edren-text-muted">
-                O proximo passo pode ser autenticar usuarios ou criar o primeiro CRUD real.
+                O próximo passo pode ser autenticar usuários ou criar o primeiro CRUD real.
               </p>
             </div>
           </CardContent>

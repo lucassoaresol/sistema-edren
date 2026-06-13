@@ -1,7 +1,6 @@
 import 'dotenv/config';
 import {
   CollectionStatus,
-  ConfigStatus,
   CustomerTypeCode,
   PrismaClient,
   UserProfileCode,
@@ -18,7 +17,7 @@ const profiles = [
   {
     code: UserProfileCode.MANAGER,
     name: 'Gerente',
-    description: 'Acesso operacional e gerencial aos cadastros e relatorios.',
+    description: 'Acesso operacional e gerencial aos cadastros e relatórios.',
   },
   {
     code: UserProfileCode.SELLER_OPERATOR,
@@ -27,7 +26,7 @@ const profiles = [
   },
 ];
 
-const categories = ['Vestido', 'Blusa', 'Calca', 'Saia', 'Short', 'Macacao', 'Conjunto', 'Outros'];
+const categories = ['Vestido', 'Blusa', 'Calça', 'Saia', 'Short', 'Macacão', 'Conjunto', 'Outros'];
 
 const colors = [
   'Preto',
@@ -46,29 +45,27 @@ const colors = [
 ];
 
 const stockLocations = [
-  { name: 'Casa EDREN', status: ConfigStatus.ACTIVE },
-  { name: 'Fabrica', status: ConfigStatus.ACTIVE },
-  { name: 'Nova Loja', status: ConfigStatus.FUTURE },
+  { name: 'Casa EDREN' },
+  { name: 'Fábrica' },
 ];
 
 const salesChannels = [
-  { name: 'Casa EDREN', status: ConfigStatus.ACTIVE },
-  { name: 'WhatsApp', status: ConfigStatus.ACTIVE },
-  { name: 'Instagram', status: ConfigStatus.ACTIVE },
-  { name: 'Atacado', status: ConfigStatus.ACTIVE },
-  { name: 'Sacoleira / Revendedora', status: ConfigStatus.ACTIVE },
-  { name: 'Nova loja', status: ConfigStatus.FUTURE },
-  { name: 'Evento EDREN', status: ConfigStatus.ACTIVE },
+  { name: 'Casa EDREN' },
+  { name: 'WhatsApp' },
+  { name: 'Instagram' },
+  { name: 'Atacado' },
+  { name: 'Sacoleira / Revendedora' },
+  { name: 'Evento EDREN' },
 ];
 
-const paymentMethods = ['Pix', 'Dinheiro', 'Cartao de credito', 'Cartao de debito', 'Em aberto / contas a receber'];
+const paymentMethods = ['Pix', 'Dinheiro', 'Cartão de crédito', 'Cartão de débito', 'Em aberto / contas a receber'];
 
 const collections = [
-  { name: 'Solar', status: CollectionStatus.ACTIVE },
-  { name: 'Signature', status: CollectionStatus.ACTIVE },
-  { name: 'Luar', status: CollectionStatus.ACTIVE },
-  { name: 'Apaixonadas pelo Brasil', status: CollectionStatus.ACTIVE },
-  { name: 'Avulsas / Sem colecao definida', status: CollectionStatus.ACTIVE },
+  { name: 'Solar', startDate: new Date('2024-01-01T00:00:00.000Z'), status: CollectionStatus.ACTIVE },
+  { name: 'Signature', startDate: new Date('2024-01-01T00:00:00.000Z'), status: CollectionStatus.ACTIVE },
+  { name: 'Luar', startDate: new Date('2024-01-01T00:00:00.000Z'), status: CollectionStatus.ACTIVE },
+  { name: 'Apaixonadas pelo Brasil', startDate: new Date('2024-01-01T00:00:00.000Z'), status: CollectionStatus.ACTIVE },
+  { name: 'Avulsas / Sem coleção definida', startDate: new Date('2024-01-01T00:00:00.000Z'), status: CollectionStatus.ACTIVE },
 ];
 
 const customerTypes = [
@@ -80,14 +77,14 @@ const customerTypes = [
   {
     code: CustomerTypeCode.RESELLER,
     name: 'Sacoleira / Revendedora',
-    description: 'Cliente que retira pecas para revenda ou acerto posterior.',
+    description: 'Cliente que retira peças para revenda ou acerto posterior.',
   },
 ];
 
 const stockMovementReasons = [
   'Estoque inicial',
   'Entrada de estoque',
-  'Transferencia entre locais',
+  'Transferência entre locais',
   'Ajuste manual',
   'Envio para condicional',
   'Retorno de condicional',
@@ -120,14 +117,19 @@ async function seedProfiles() {
 }
 
 async function seedSizeGrid() {
-  const grid = await prisma.sizeGrid.upsert({
+  await prisma.sizeGrid.updateMany({
     where: { name: 'Grade Feminina P ao GG' },
+    data: { name: 'Grade P ao GG' },
+  });
+
+  const grid = await prisma.sizeGrid.upsert({
+    where: { name: 'Grade P ao GG' },
     update: {
       isActive: true,
     },
     create: {
-      name: 'Grade Feminina P ao GG',
-      description: 'Grade padrao inicial da EDREN.',
+      name: 'Grade P ao GG',
+      description: 'Grade padrão inicial da EDREN.',
     },
   });
 
@@ -172,16 +174,16 @@ async function seedNamedRecords() {
   for (const location of stockLocations) {
     await prisma.stockLocation.upsert({
       where: { name: location.name },
-      update: { status: location.status },
-      create: location,
+      update: { isActive: true },
+      create: { ...location, isActive: true },
     });
   }
 
   for (const channel of salesChannels) {
     await prisma.salesChannel.upsert({
       where: { name: channel.name },
-      update: { status: channel.status },
-      create: channel,
+      update: { isActive: true },
+      create: { ...channel, isActive: true },
     });
   }
 
@@ -198,7 +200,7 @@ async function seedCollections() {
   for (const collection of collections) {
     await prisma.collection.upsert({
       where: { name: collection.name },
-      update: { status: collection.status },
+      update: { startDate: collection.startDate, status: collection.status },
       create: collection,
     });
   }
@@ -224,13 +226,13 @@ async function seedCustomerTypes() {
   await prisma.customer.upsert({
     where: { whatsapp: 'cliente-balcao' },
     update: {
-      name: 'Cliente Balcao',
+      name: 'Cliente Balcão',
       isCounter: true,
       isActive: true,
       typeId: finalCustomer.id,
     },
     create: {
-      name: 'Cliente Balcao',
+      name: 'Cliente Balcão',
       whatsapp: 'cliente-balcao',
       isCounter: true,
       typeId: finalCustomer.id,

@@ -43,12 +43,16 @@ async function questionHidden(prompt: string) {
       if (value === '\n' || value === '\r' || value === '\r\n') {
         stdin.off('data', onData);
         stdin.setRawMode(false);
+        stdin.pause();
         stdout.write('\n');
         resolve(buffer);
         return;
       }
 
       if (value === '\u0003') {
+        stdin.off('data', onData);
+        stdin.setRawMode(false);
+        stdin.pause();
         stdout.write('\n');
         process.exit(1);
       }
@@ -71,6 +75,10 @@ async function questionHidden(prompt: string) {
 }
 
 async function main() {
+  if (!process.stdin.isTTY) {
+    throw new Error('Este script precisa ser executado em um terminal interativo.');
+  }
+
   if (!process.env.DATABASE_URL) {
     throw new Error('DATABASE_URL nao encontrada. Verifique o .env da raiz do projeto.');
   }
@@ -118,6 +126,9 @@ async function main() {
     throw new Error('Ja existe usuario com esse login.');
   }
 
+  console.log('Nao existe senha padrao. Defina uma senha forte para este administrador.');
+  console.log('A senha precisa ter pelo menos 12 caracteres, uma letra, um numero e um simbolo.');
+
   const password = await questionHidden('Senha: ');
   const passwordConfirmation = await questionHidden('Confirmar senha: ');
 
@@ -128,7 +139,7 @@ async function main() {
   const passwordErrors = validatePassword(password);
 
   if (passwordErrors.length > 0) {
-    throw new Error(`Senha invalida. A senha deve ${passwordErrors.join(', ')}.`);
+    throw new Error(`Senha invalida. A senha precisa ${passwordErrors.join(', ')}.`);
   }
 
   const passwordHash = await argon2.hash(password, {

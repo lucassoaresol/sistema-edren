@@ -1,89 +1,126 @@
-# Project State
+# Estado do Projeto
 
-## Decisions
+Atualizado em: 2026-06-13.
 
-- Use `main` as the stable branch and `develop` as the integration branch.
-- Follow Conventional Commits for commit messages.
-- Treat root `PROJECT.md` as broad context, not closed MVP scope.
-- Use `.specs/project/PROJECT.md` as the official concise project specification.
-- MVP focuses on core operations: users, configurable registrations, collections, products, SKUs, stock, customers, sales, payments, receivables, and simple reports.
-- In the MVP, a "piece" means SKU/product variation with quantity, not an individually tracked unit.
-- Stock is controlled by SKU and location.
-- Condicional and sacoleira enter the MVP only as stock movements with a responsible customer/person; full modules are Phase 2.
-- Product commercial reference belongs to the product; SKU is identified by product + color + size.
-- Product cost is a simple product-level field in the MVP.
-- Sales with open balance require a real customer; fully paid quick sales may use seeded `Cliente Balcao`.
-- Sales, payments, and stock movements should preserve history and avoid physical deletion.
-- Full-sale cancellation is part of the MVP and must return stock, cancel/estornar payments, and require a reason.
-- Wrong payments are canceled/estornados with a required reason instead of deleted.
-- Model product images for multiple images, but the first interface may support only one main image.
-- Start development locally; published dev environment on VPS is not required initially.
-- Production target is a VPS with Nginx, PM2, PostgreSQL, Cloudflared Tunnel, and API access through `/api` only.
-- Use React with Vite for the frontend because the system will have many internal management screens and reusable UI components.
-- Use shadcn/ui as the frontend component foundation.
-- Use TanStack Router, TanStack Query, TanStack Table, React Hook Form, Zod, Sonner, and Lucide React for frontend routing, server state, tables, forms, validation, notifications, and icons.
-- Use username + password for authentication instead of email + password.
-- Use HTTP-only server-side session cookies for authentication; do not use JWT for the MVP.
-- Do not enable CORS by default because the frontend and API should run behind the same origin through `/api` in dev and production.
-- Follow EDREN's visual identity guide: light, elegant, warm, feminine, modern, and operationally clear.
-- Use EDREN green `#294F40` as the primary color and bright ivory `#FFD699` as a supporting highlight.
-- Avoid a dark theme as the default frontend identity.
-- Start Prisma with non-controversial foundation entities only: users, profiles, sessions, size grids, sizes, categories, colors, stock locations, sales channels, and payment methods.
-- Operational discovery has answered the main product, SKU, customer, stock movement, sale, payment, report, and permission rules for the MVP.
-- Product references are required, unique, manual, and never reused across collections.
-- Product price and cost belong to the product/reference, not SKU.
-- Product image is optional.
-- Initial stock is entered manually.
-- Fabrica and Casa EDREN are active stock locations; Nova Loja starts as future/inactive.
-- Every stock movement requires a reason.
-- Manual stock adjustment is administrator-only.
-- Sales support sale-level discounts, multiple payments, responsible user, required channel, and later entry with actual sale date.
-- Real customers require unique WhatsApp; open-balance sales require a real customer.
-- Payment receipt, sales cancellation, stock adjustment, product price changes, product create/update, cost visibility, and receivables access are administrator-only in the MVP.
-- Sales can only be canceled on the same day in the MVP and return stock to the original location.
-- Priority reports are sales of the day, receivables, and stock by reference.
+## Decisões
 
-## Blockers
+- Usar `main` como branch estável e `develop` como branch de integração.
+- Seguir Conventional Commits para mensagens de commit.
+- Uma spec ou tarefa só pode ser marcada como concluída depois de validação executada e commit atômico criado com Conventional Commit.
+- Specs concluídas devem registrar o commit ou a lista de commits que entregam a mudança.
+- Tratar o `PROJECT.md` da raiz como contexto amplo, não como escopo fechado do MVP.
+- Usar `.specs/project/PROJECT.md` como especificação oficial e concisa do projeto.
+- Documentação deve ser escrita em português; nomes de código, comandos, rotas, paths, APIs, schemas, commits e identificadores técnicos permanecem em inglês.
+- Código deve permanecer em inglês; somente textos visíveis para o usuário final ficam em português.
+- O MVP foca nas operações centrais: usuários, cadastros configuráveis, coleções, produtos, SKUs, estoque, clientes, vendas, pagamentos, recebíveis e relatórios simples.
+- No MVP, uma "peça" significa SKU/variação de produto com quantidade, não uma unidade individualmente rastreada.
+- O estoque é controlado por SKU e local.
+- Condicional e sacoleira entram no MVP apenas como movimentações de estoque com cliente/pessoa responsável; módulos completos ficam para a Fase 2.
+- A referência comercial pertence ao produto; o SKU é identificado por produto + cor + tamanho.
+- O custo do produto é opcional no MVP.
+- Vendas com saldo em aberto exigem cliente real; vendas rápidas totalmente pagas podem usar o seed `Cliente Balcão`.
+- Vendas, pagamentos e movimentações de estoque devem preservar histórico e evitar exclusão física.
+- Cancelamento completo de venda faz parte do MVP e deve retornar estoque, cancelar/estornar pagamentos e exigir motivo.
+- Pagamentos errados são cancelados/estornados com motivo obrigatório em vez de excluídos.
+- Modelar imagens de produto para múltiplas imagens, mas a primeira interface pode suportar apenas uma imagem principal.
+- Começar o desenvolvimento localmente; ambiente de desenvolvimento publicado no VPS não é necessário inicialmente.
+- O alvo de produção é um VPS com Nginx, PM2, PostgreSQL, Cloudflared Tunnel e acesso a API apenas por `/api`.
+- Usar React com Vite no frontend porque o sistema terá muitas telas internas de gestão e componentes reutilizáveis.
+- Usar TanStack Router, TanStack Query, TanStack Table, React Hook Form, Zod, Sonner e Lucide React para roteamento, server state, tabelas, formulários, validação, notificações e ícones.
+- Usar username + senha para autenticação em vez de email + senha.
+- Usar cookies de sessão server-side HTTP-only para autenticação; não usar JWT no MVP.
+- Não habilitar CORS por padrão porque frontend e API devem rodar na mesma origem via `/api` em desenvolvimento e produção.
+- Seguir a identidade visual da EDREN: clara, elegante, acolhedora, feminina, moderna e operacionalmente legível.
+- Usar o verde EDREN `#294F40` como cor primária e o marfim vivo `#FFD699` como destaque de apoio.
+- Evitar tema escuro como identidade padrão do frontend.
+- Começar o Prisma com entidades de fundação não controversas: usuários, perfis, sessões, grades de tamanho, tamanhos, categorias, cores, locais de estoque, canais de venda e formas de pagamento.
+- A descoberta operacional já respondeu as principais regras de produto, SKU, cliente, movimentação de estoque, venda, pagamento, relatório e permissões para o MVP.
+- Referências de produto são obrigatórias, únicas, manuais e nunca reutilizadas entre coleções.
+- Coleções têm data de início obrigatória e data de fim opcional; somente coleções vigentes podem ser escolhidas para novo vínculo em produto.
+- Preço e custo pertencem ao produto/referência, não ao SKU.
+- Imagem de produto é opcional.
+- Imagem principal de produto deve usar upload direto para Cloudinary pelo backend; URL/publicId manual foi apenas etapa intermediária e não é o fluxo final esperado.
+- Estoque inicial é lançado manualmente.
+- Fábrica e Casa EDREN são locais de estoque ativos; locais ou canais que ainda não existem operacionalmente não devem ser cadastrados como futuros no MVP.
+- Remover o conceito `FUTURE` dos cadastros configuráveis do MVP; usar apenas ativo/inativo para locais de estoque e canais de venda.
+- Toda movimentação de estoque exige motivo.
+- Ajuste manual de estoque é restrito a administradores.
+- Vendas suportam desconto no nível da venda, múltiplos pagamentos, usuário responsável, canal obrigatório e lançamento posterior com data real da venda.
+- Clientes reais exigem WhatsApp único; vendas com saldo em aberto exigem cliente real.
+- Recebimento de pagamento, cancelamento de venda, ajuste de estoque, alteração de preço, criação/edição de produto, visibilidade de custo e acesso a recebíveis são ações de administrador no MVP.
+- Vendas só podem ser canceladas no mesmo dia no MVP e devem retornar estoque ao local original.
+- Relatórios prioritários são vendas do dia, recebíveis e estoque por referência.
 
-- None currently.
+## Bloqueios
 
-## Lessons
+- Nenhum atualmente.
 
-- The first broad brief was intentionally reduced to a smaller MVP to avoid overbuilding.
-- Configuration data should be editable rather than hardcoded: size grids, categories, colors, stock locations, sales channels, and payment methods.
-- Receivables can be calculated from sale totals minus active payments; formal installments are not needed in the MVP.
-- The initial dark frontend screen conflicted with EDREN's visual identity and should be revised toward the light brand palette.
-- Prisma config must explicitly load the monorepo root `.env` because `prisma.config.ts` disables Prisma's default environment loading.
-- Initial migration and seed were successfully applied to the dev PostgreSQL database after database credentials were corrected.
-- The API now loads the root `.env` through `@edren/database` and exposes `/api/health/db` to validate database connectivity and seed counts.
-- API environment variables are validated with Zod before server startup.
-- API logging uses Fastify/Pino with pretty logs in development, JSON logs in production, and redaction for cookies, authorization, password, and password hashes.
-- API errors use `AppError` subclasses plus a centralized error handler with consistent error payloads and request IDs.
-- API requests accept `x-request-id` or generate a UUID request id.
-- API source should grow by modules under `apps/api/src/modules`, keeping routes, schemas, services, and repositories separated as features are added.
-- The frontend now has an internal app shell with EDREN navigation and a dashboard that consumes `/api/health/db` through TanStack Query.
-- Vite proxy to `/api` was validated against the Fastify API and PostgreSQL health endpoint.
-- Release `v0.1.0` completed as the initial fullstack foundation and published from `main`.
-- Initial admin users are not created by seed or default password; use the terminal-only `npm run users:create-admin` script to create the first administrator with an argon2id password hash.
+## Aprendizados
 
-## Todos
+- A próxima fatia de operações foi iniciada como spec em `.specs/features/configurable-registrations/spec.md`, antes de implementar os CRUDs de cadastros configuráveis.
+- O primeiro briefing amplo foi reduzido intencionalmente para um MVP menor e mais viável, evitando overbuilding.
+- Dados de configuração devem ser editáveis em vez de hardcoded: grades de tamanho, categorias, cores, locais de estoque, canais de venda e formas de pagamento.
+- Recebíveis podem ser calculados a partir do total da venda menos pagamentos ativos; parcelamentos formais não são necessários no MVP.
+- A primeira tela escura do frontend conflitava com a identidade visual da EDREN e deve seguir a paleta clara da marca.
+- A config do Prisma deve carregar explicitamente o `.env` da raiz do monorepo porque `prisma.config.ts` desativa o carregamento padrão do Prisma.
+- A migration inicial e o seed foram aplicados com sucesso no PostgreSQL de desenvolvimento depois da correção das credenciais do banco.
+- A API carrega o `.env` da raiz por meio de `@edren/database` e expõe `/api/health/db` para validar conectividade com banco e contagens de seed.
+- Variáveis de ambiente da API são validadas com Zod antes da inicialização do servidor.
+- O logging da API usa Fastify/Pino com pretty logs em desenvolvimento, JSON logs em produção e redaction para cookies, authorization, password e password hashes.
+- Erros da API usam subclasses de `AppError` e um error handler centralizado com payloads consistentes e request IDs.
+- Requisições da API aceitam `x-request-id` ou geram um UUID.
+- O código da API deve crescer por módulos em `apps/api/src/modules`, mantendo routes, schemas, services e repositories separados conforme as features forem adicionadas.
+- O frontend agora tem um app shell interno com navegação EDREN e dashboard consumindo `/api/health/db` via TanStack Query.
+- O proxy do Vite para `/api` foi validado contra a API Fastify e o endpoint de health do PostgreSQL.
+- A release `v0.1.0` foi concluída como fundação fullstack inicial e publicada a partir de `main`.
+- Usuários administradores iniciais não são criados por seed ou senha padrão; usar o script terminal-only `npm run users:create-admin` para criar o primeiro administrador com hash argon2id.
+- Autenticação por sessão foi implementada com username/senha, verificação argon2, cookies HTTP-only assinados, sessões no banco, `/api/auth/login`, `/api/auth/logout` e `/api/auth/me`.
+- O app shell do frontend é protegido por `/api/auth/me`; usuários não autenticados são redirecionados para `/login`.
+- Cobertura de rotas da API agora usa Vitest e cobre health routes e comportamento de auth login/me/logout.
+- Specs foram inicialmente usadas mais como memória do projeto; specs retroativas agora existem para Fundação do MVP e Autenticação por Sessão. Próximas features grandes devem ser especificadas antes da implementação.
+- Cadastros configuráveis foram implementados com migration para ativo/inativo, seed sem `Nova Loja`, rotas `/api/config`, escrita restrita a administradores, leitura autenticada, testes de API e tela `/configuracoes`.
+- UAT inicial da tela de produtos identificou ajustes de escrita em português e a regra de vigência de coleções; ambos foram incorporados à feature `products-and-collections`.
+- Specs marcadas como concluídas sem commit geram perda de rastreabilidade; o fluxo passa a exigir commit antes de atualizar status para `Implementada`, `Concluída` ou equivalente.
 
-- Model product/sales/stock transaction details from `docs/context/DECISOES_OPERACIONAIS_EDREN.md`.
-- Specify the MVP Foundation feature before implementation.
-- Add backup documentation and scripts during the VPS deploy phase.
+## Levantamento Brownfield 2026-06-12
 
-## Deferred Ideas
+- O schema do banco já antecipou muitas entidades além da primeira fatia funcional. Isso deve ser tratado como base planejada, não como produto pronto.
+- O frontend já criou a estrutura de menus e placeholders para todos os módulos centrais. Esses placeholders devem virar épicos/tarefas formais no roadmap.
+- O dashboard atual mede `profiles` e `collections` via health check; isso é uma prova fullstack, não um relatório de negócio.
+- A autenticação usa `username`, enquanto parte da especificação falava em email. A decisão registrada favorece `username`, mas futuras telas de usuário devem manter consistência.
+- Os seeds foram corrigidos para dados visiveis com acentos, incluindo `Fábrica`, `Cliente Balcão`, `Calça`, `Macacão`, formas de pagamento e `Grade P ao GG`.
+- O documento de produção usa porta `43101`, enquanto `.env.example` usa `3001`; isso é aceitável por ambiente, mas precisa ficar explícito.
+- Ainda não há CRUD real para cadastros, produtos, clientes, estoque, vendas ou relatórios.
+- Permissões por perfil ainda não são aplicadas nas funcionalidades.
+- Não há endpoints de negócio transacionais para venda/estoque; esse será o ponto de maior risco.
+- Cloudinary está previsto em env/docs/schema e o upload de imagem principal de produto foi implementado na feature `products-and-collections`; ainda falta validação manual com credenciais reais.
+- `packages/shared` e `packages/config` existem, mas parecem subutilizados.
+- Não foi validado se build/test passam nesta rodada; esta análise focou em levantamento e documentação.
 
-- Full condicional module with deadlines, alerts, and reports.
-- Full sacoleira/revendedora module with acertos and reports.
-- Expenses.
-- Commissions.
-- Formal installments, interest, fines, and automatic collection.
-- Exchanges and partial returns.
-- Exports, charts, advanced dashboard, and goals.
-- E-commerce, WhatsApp/Instagram integrations, payment gateway, invoices, barcode, labels, native mobile app, advanced production, accounting, BI, AI, and marketing automation.
+## Pendências
 
-## Preferences
+- Feature `products-and-collections` concluída, validada e promovida a candidata da release `v0.2.0` em 2026-06-13.
+- Antes de cortar `v0.2.0`, validar migration em ambiente alvo, confirmar upload Cloudinary com credenciais reais e concluir PR/merge para `main`.
+- Formalizar feature specs para `products-skus`, `stock-movements`, `customers`, `sales-payments` e `reports-mvp`.
+- Modelar detalhes de transações de produto/venda/estoque a partir de `docs/context/DECISOES_OPERACIONAIS_EDREN.md` quando suas specs forem criadas.
+- Implementar produtos/SKUs antes de venda.
+- Projetar venda/estoque como transação única no backend para evitar saldo inconsistente.
+- Criar matriz simples de permissões antes das primeiras rotas administrativas.
+- Adicionar documentação e scripts de backup durante a fase de deploy no VPS.
 
-- Keep the MVP simple, reliable, and useful for the real EDREN routine.
-- Avoid unnecessary architecture, microsservices, pnpm, yarn, and features that delay the operational core.
+## Ideias Adiadas
+
+- Módulo completo de condicional com prazos, alertas e relatórios.
+- Módulo completo de sacoleira/revendedora com acertos e relatórios.
+- Despesas.
+- Comissões.
+- Parcelamentos formais, juros, multas e cobrança automática.
+- Trocas e devoluções parciais.
+- Exportações, gráficos, dashboard avançado e metas.
+- Paginação, busca textual, filtros por status e ordenação configurável nos cadastros configuráveis quando o volume de dados justificar.
+- E-commerce, integrações com WhatsApp/Instagram, gateway de pagamento, notas fiscais, código de barras, etiquetas, app mobile nativo, produção avançada, contabilidade, BI, IA e automação de marketing.
+
+## Preferências
+
+- Manter o MVP simples, confiável e útil para a rotina real da EDREN.
+- Evitar arquitetura desnecessária, microsserviços, pnpm, yarn e features que atrasem o núcleo operacional.

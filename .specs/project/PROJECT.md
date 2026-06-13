@@ -1,170 +1,170 @@
 # EDREN
 
-**Vision:** Build a simple, reliable internal management system for EDREN that tracks the operational life of each product variation from collection and stock entry through sale, payment, stock movement, and basic reporting.
-**For:** EDREN owners, administrative staff, sellers/operators, and people responsible for products, stock, customers, sales, and receivables.
-**Solves:** Replaces notebooks and spreadsheets with a centralized system that shows what is in stock, where it is, what was sold, what was paid, and what is still receivable.
+**Visão:** Construir um sistema interno simples e confiável para a EDREN acompanhar a vida operacional de cada variação de produto, da coleção e entrada de estoque até venda, pagamento, movimentação de estoque e relatórios básicos.
+**Para:** Donas da EDREN, equipe administrativa, vendedoras/operadoras e pessoas responsáveis por produtos, estoque, clientes, vendas e recebíveis.
+**Resolve:** Substitui cadernos e planilhas por um sistema centralizado que mostra o que existe em estoque, onde está, o que foi vendido, o que foi pago e o que ainda está a receber.
 
-## Goals
+## Objetivos
 
-- Deliver an MVP that supports EDREN's core daily operation: products, SKUs, stock, customers, sales, payments, and receivables.
-- Keep the first version small enough to ship and use in practice, postponing advanced finance, commission, e-commerce, and automation features.
-- Preserve operational history for sales, payments, and stock movements so reports and corrections remain trustworthy.
+- Entregar um MVP que suporte a operação diária central da EDREN: produtos, SKUs, estoque, clientes, vendas, pagamentos e recebíveis.
+- Manter a primeira versão pequena o suficiente para ser entregue e usada na prática, adiando finanças avançadas, comissões, e-commerce e automações.
+- Preservar histórico operacional de vendas, pagamentos e movimentações de estoque para manter relatórios e correções confiáveis.
 
-## Tech Stack
+## Stack Técnica
 
-**Core:**
+- Frontend: Vite + React + TypeScript + Tailwind CSS + componentes UI próprios.
+- Backend: Fastify.
+- Banco de dados: PostgreSQL.
+- ORM: Prisma.
+- Gerenciador de pacotes: npm.
+- Estrutura do repositório: monorepo com npm workspaces.
+- Bibliotecas frontend: TanStack Router, TanStack Query, TanStack Table, React Hook Form, Zod, Sonner, Lucide React.
+- Utilitários de UI: class-variance-authority, clsx, tailwind-merge.
+- Armazenamento de imagens: Cloudinary.
+- Alvo de deploy: VPS com Nginx, PM2 e Cloudflared Tunnel.
+- Exposição da API: frontend consome backend pelo Nginx em `/api`; sem domínio público separado para API.
 
-- Frontend: Vite + React + TypeScript + Tailwind CSS + shadcn/ui
-- Backend: Fastify
-- Database: PostgreSQL
-- ORM: Prisma
+## Escopo
 
-**Key dependencies and infrastructure:**
+**MVP inclui:**
 
-- Package manager: npm
-- Repository structure: npm workspaces monorepo
-- Frontend libraries: TanStack Router, TanStack Query, TanStack Table, React Hook Form, Zod, Sonner, Lucide React
-- UI utilities: class-variance-authority, clsx, tailwind-merge
-- Image storage: Cloudinary
-- Deployment target: VPS with Nginx, PM2, and Cloudflared Tunnel
-- API exposure: frontend consumes backend through Nginx at `/api`; no public API domain
+- Autenticação com username e senha.
+- Usuários básicos e permissões por perfil.
+- Cadastros configuráveis para grades de tamanho, tamanhos, categorias, cores, locais de estoque, canais de venda e formas de pagamento.
+- Seeds iniciais para perfis, dados de configuração, coleções, locais de estoque, canais de venda, formas de pagamento e `Cliente Balcão`.
+- Coleções.
+- Produtos com referência/código comercial.
+- SKUs/variações identificadas por produto + cor + tamanho.
+- Imagens de produto via Cloudinary, com suporte no banco para múltiplas imagens e interface inicial focada em uma imagem principal.
+- Clientes.
+- Saldos de estoque por SKU e local.
+- Entradas e movimentações de estoque.
+- Tratamento de condicional e sacoleira apenas como movimentações de estoque com cliente/pessoa responsável, não como módulos completos.
+- Vendas, itens de venda, pagamentos, pagamentos parciais e recebíveis calculados.
+- Cancelamento completo de venda com retorno de estoque e cancelamento/estorno de pagamentos.
+- Painel inicial simples e relatórios mínimos com filtros e totais.
+- Entrada manual de estoque inicial por SKU e local.
+- Ajuste manual de estoque restrito a administradores.
+- Fluxo rápido de venda com busca por referência de produto.
+- Relatórios operacionais priorizados para vendas do dia, recebíveis e estoque por referência.
 
-## Scope
+**Explicitamente fora do MVP:**
 
-**MVP includes:**
+- Módulo completo de condicional com prazos, alertas, fluxo detalhado de retorno/acerto e relatórios específicos.
+- Módulo completo de sacoleira/revendedora com acertos, prazos e relatórios específicos.
+- Comissões.
+- Despesas.
+- Parcelamentos formais, carnê, juros, multas e cobrança automática.
+- Trocas detalhadas e devoluções parciais.
+- E-commerce ou pedidos públicos de clientes.
+- Integrações com WhatsApp, Instagram, gateway de pagamento, nota fiscal, código de barras ou impressora de etiquetas.
+- App mobile nativo.
+- Produção avançada, contabilidade, fiscal, BI, IA, dashboards, gráficos ou exportações avançadas.
+- Permissões customizadas por usuário.
 
-- Authentication with username and password.
-- Basic users and profile-based permissions.
-- Configurable registrations for size grids, sizes, categories, colors, stock locations, sales channels, and payment methods.
-- Initial seeds for profiles, default size grid, categories, colors, stock locations, sales channels, payment methods, and `Cliente Balcao`.
-- Collections.
-- Products with commercial reference/code.
-- SKUs/product variations identified by product + color + size.
-- Product images through Cloudinary, with database support for multiple images and an initial interface focused on one main image.
-- Customers.
-- Stock balances by SKU and location.
-- Stock entries and stock movements.
-- Condicional and sacoleira handling only as stock movements with a responsible customer/person, not as full modules.
-- Sales, sale items, payments, partial payments, and calculated receivables.
-- Full-sale cancellation with stock return and payment cancellation/estorno.
-- Simple home panel and minimum reports using filters and totals.
-- Manual initial stock entry by SKU and location.
-- Manual stock adjustment restricted to administrators.
-- Fast point-of-sale flow with product reference search.
-- Operational reports prioritized for sales of the day, receivables, and stock by reference.
+## Regras de Negócio
 
-**Explicitly out of scope for MVP:**
+- Usuários autenticam com `username` único e senha, não email.
+- Registros de usuário incluem nome de exibição, username, password hash, perfil e status ativo/inativo.
+- Autenticação usa cookies de sessão server-side com `HttpOnly`, `Secure` em produção e `SameSite=Lax`.
+- JWT não faz parte da estratégia de autenticação do MVP.
+- CORS não é necessário por padrão porque frontend e API são servidos pela mesma origem via `/api`; Vite e Nginx devem fazer proxy de `/api` para o Fastify.
+- No MVP, uma "peça" significa SKU/variação de produto com quantidade, não unidade individualmente rastreada.
+- Estoque é controlado por SKU e local.
+- A referência comercial pertence ao produto; SKUs são produto + cor + tamanho.
+- Custo é opcional no MVP.
+- Referência do produto é obrigatória, única, preenchida manualmente e segue a sequência contínua da EDREN.
+- Modelos refeitos ou repaginados recebem nova referência de produto.
+- Preço de venda e custo são armazenados no produto, não no SKU.
+- Imagem de produto é opcional.
+- Produto pertence a uma coleção; coleções iniciais incluem `Solar`, `Signature`, `Luar`, `Apaixonadas pelo Brasil` e `Avulsas / Sem coleção definida`.
+- Vendas confirmadas baixam estoque imediatamente, mesmo com pagamento parcial ou em aberto.
+- Vendas podem ter desconto simples no nível da venda com motivo obrigatório quando aplicado.
+- Vendas podem ter múltiplos pagamentos.
+- Toda venda deve ter usuário responsável e canal de venda obrigatório.
+- Vendas podem ser lançadas depois de terem ocorrido, preservando data da venda e data de entrada.
+- Vendas com saldo em aberto exigem cliente real cadastrado.
+- Vendas rápidas totalmente pagas podem usar o seed `Cliente Balcão`.
+- Recebíveis são calculados a partir do total da venda menos pagamentos ativos.
+- Recebíveis em aberto podem existir sem data de vencimento obrigatória.
+- Pagamentos podem ser parciais e podem ser cancelados/estornados com motivo obrigatório; não são excluídos fisicamente depois de vinculados a uma venda.
+- Apenas administradores podem marcar pagamentos como recebidos no MVP.
+- Vendas não são excluídas fisicamente; podem ser canceladas com motivo obrigatório.
+- Apenas administradores podem cancelar vendas no MVP.
+- Vendas só podem ser canceladas no mesmo dia da venda no MVP.
+- Cancelar uma venda completa retorna estoque ao local original e cancela/estorna pagamentos vinculados.
+- Movimentações de estoque não são excluídas fisicamente; correções usam movimentação inversa ou cancelamento controlado.
+- Toda movimentação de estoque deve ter motivo obrigatório, manual ou gerado automaticamente pelo sistema.
+- Movimentações de condicional e sacoleira podem sair da Casa EDREN ou da Fábrica.
+- Produtos/SKUs e clientes com histórico são inativados em vez de excluídos.
+- Usuários com histórico são inativados em vez de excluídos.
+- Condicional não é venda; sacoleira não é venda até acerto/confirmação de venda.
+- Movimentações de condicional e sacoleira reservam estoque e mantêm vínculo com pessoa/cliente responsável.
+- Clientes reais exigem nome e WhatsApp; WhatsApp deve ser único.
+- Clientes podem ser classificados pelo menos como cliente final ou sacoleira/revendedora.
+- Cidade, bairro, tamanho usual, preferências e observações do cliente são opcionais.
+- Não é necessário limite de crédito de cliente no MVP.
+- Ações somente de administrador incluem cancelar vendas, ajustar estoque, marcar pagamentos como recebidos, alterar preços, criar/editar produtos, ver custo e acessar recebíveis.
+- Gerente/vendedor pode aplicar desconto na venda, mas não pode alterar preço cadastrado do produto.
 
-- Full condicional module with deadlines, alerts, detailed return/acerto flow, and specific reports.
-- Full sacoleira/revendedora module with acertos, deadlines, and specific reports.
-- Commissions.
-- Expenses.
-- Formal installments, carnê, interest, fines, and automatic collection.
-- Detailed exchanges and partial returns.
-- E-commerce or public customer ordering.
-- WhatsApp, Instagram, payment gateway, invoice, barcode, or label-printer integrations.
-- Native mobile app.
-- Advanced production, accounting, fiscal, BI, AI, dashboards, charts, or exports.
-- Custom per-user permissions.
+## Seeds Iniciais
 
-## Business Rules
+- Perfis: `Administrador`, `Gerente`, `Vendedor/Operador`.
+- Grade de tamanho: `Grade P ao GG` com `P`, `M`, `G`, `GG`.
+- Categorias: `Vestido`, `Blusa`, `Calça`, `Saia`, `Short`, `Macacão`, `Conjunto`, `Outros`.
+- Cores: `Preto`, `Branco`, `Off White`, `Azul`, `Verde`, `Vermelho`, `Rosa`, `Amarelo`, `Bege`, `Marrom`, `Estampado`, `Xadrez`, `Outros`.
+- Locais de estoque: `Casa EDREN`, `Fábrica`.
+- Status inicial dos locais: `Casa EDREN` ativa, `Fábrica` ativa.
+- Canais de venda: `Casa EDREN`, `WhatsApp`, `Instagram`, `Atacado`, `Sacoleira / Revendedora`, `Evento EDREN`.
+- Formas de pagamento: `Pix`, `Dinheiro`, `Cartão de crédito`, `Cartão de débito`, `Em aberto / contas a receber`.
+- Cliente: `Cliente Balcão` para vendas rápidas totalmente pagas.
+- Coleções: `Solar`, `Signature`, `Luar`, `Apaixonadas pelo Brasil`, `Avulsas / Sem coleção definida`.
 
-- Users authenticate with a unique `username` and password, not email.
-- User records include display name, username, password hash, profile, and active/inactive status.
-- Authentication uses server-side session cookies with `HttpOnly`, `Secure` in production, and `SameSite=Lax`.
-- JWT is not part of the MVP authentication strategy.
-- CORS is not required by default because frontend and API are served from the same origin via `/api`; Vite and Nginx should proxy `/api` to Fastify.
-- In the MVP, a "piece" means a SKU/product variation with quantity, not an individually tracked unit.
-- Stock is controlled by SKU and location.
-- Product commercial reference belongs to the product; SKUs are product + color + size.
-- Cost is optional in the MVP.
-- Product reference is required, unique, manually entered, and follows EDREN's continuous sequence.
-- Product reference belongs to the product and does not repeat across collections.
-- Reworked or repaginated models receive a new product reference.
-- Product sale price and product cost are stored on the product, not on the SKU.
-- Product image is optional.
-- Product belongs to a collection; initial collections include `Solar`, `Signature`, `Luar`, `Apaixonadas pelo Brasil`, and `Avulsas / Sem colecao definida`.
-- Confirmed sales reduce stock immediately, even when payment is partial or open.
-- Sales can include a simple sale-level discount with a required reason when applied.
-- Sales can have multiple payments.
-- Every sale must have a responsible user and a required sales channel.
-- Sales can be entered after they occurred, preserving both sale date and entry date.
-- Sales with open balance require a real registered customer.
-- Fully paid quick sales may use seeded `Cliente Balcao`.
-- Receivables are calculated from sale total minus active payments.
-- Open receivables may exist without a required due date.
-- Payments may be partial and can be canceled/estornados with a required reason; they are not physically deleted after being linked to a sale.
-- Partial payments may include an optional note.
-- Only administrators can mark payments as received in the MVP.
-- Sales are not physically deleted; they can be canceled with a required reason.
-- Only administrators can cancel sales in the MVP.
-- Sales can only be canceled on the same day as the sale in the MVP.
-- Canceling a full sale returns stock to the original stock location and cancels/estorna linked payments.
-- Stock movements are not physically deleted; corrections use inverse movement or controlled cancellation.
-- Every stock movement must have a required reason, manual or generated automatically by the system.
-- Condicional and sacoleira movements may originate from Casa EDREN or Fabrica.
-- Products/SKUs and customers with history are inactivated instead of deleted.
-- Users are inactivated instead of deleted when they have history.
-- Condicional is not a sale; sacoleira is not a sale until acerto/sale confirmation.
-- Condicional and sacoleira stock movements reserve stock and keep a responsible person/customer link.
-- Real customers require name and WhatsApp; WhatsApp must be unique.
-- Customers can be classified at least as final customer or sacoleira/revendedora.
-- Customer city, neighborhood, usual size, preferences, and notes are optional.
-- No customer credit limit is required in the MVP.
-- Administrator-only actions include canceling sales, adjusting stock, marking payments as received, changing prices, creating/updating products, viewing cost, and accessing receivables.
-- Manager/seller can apply sale discount but cannot change registered product price.
+## Relatórios Mínimos
 
-## Initial Seeds
+- Vendas por período.
+- Vendas do dia.
+- Vendas do mês.
+- Estoque por produto/SKU.
+- Estoque por local.
+- Recebíveis.
+- Clientes com saldo em aberto.
+- Vendas por coleção.
+- Vendas por canal.
+- Estoque por referência.
 
-- Profiles: `Administrador`, `Gerente`, `Vendedor/Operador`.
-- Size grid: `Grade Feminina P ao GG` with `P`, `M`, `G`, `GG`.
-- Categories: `Vestido`, `Blusa`, `Calca`, `Saia`, `Short`, `Macacao`, `Conjunto`, `Outros`.
-- Colors: `Preto`, `Branco`, `Off White`, `Azul`, `Verde`, `Vermelho`, `Rosa`, `Amarelo`, `Bege`, `Marrom`, `Estampado`, `Xadrez`, `Outros`.
-- Stock locations: `Casa EDREN`, `Fabrica`, `Nova Loja`.
-- Initial stock location status: `Casa EDREN` active, `Fabrica` active, `Nova Loja` future/inactive.
-- Sales channels: `Casa EDREN`, `WhatsApp`, `Instagram`, `Atacado`, `Sacoleira / Revendedora`, `Nova loja`, `Evento EDREN`.
-- Payment methods: `Pix`, `Dinheiro`, `Cartao de credito`, `Cartao de debito`, `Em aberto / contas a receber`.
-- Customer: `Cliente Balcao` for fully paid quick sales.
-- Collections: `Solar`, `Signature`, `Luar`, `Apaixonadas pelo Brasil`, `Avulsas / Sem colecao definida`.
+## Restrições
 
-## Minimum Reports
+- Prazo: TBD.
+- Técnica: começar com desenvolvimento local; ambiente de desenvolvimento publicado no VPS não é necessário inicialmente.
+- Técnica: a API não deve ser exposta publicamente por domínio separado.
+- Técnica: evitar expor tokens de autenticação ao JavaScript do navegador; usar cookies de sessão HTTP-only.
+- Técnica: backups devem ser documentados inicialmente e implementados como scripts básicos quando a fase de deploy no VPS começar.
+- Produto: priorizar um MVP pequeno e utilizável em vez de um sistema amplo.
 
-- Sales by period.
-- Sales of the day.
-- Sales of the month.
-- Stock by product/SKU.
-- Stock by location.
-- Receivables.
-- Customers with open balance.
-- Sales by collection.
-- Sales by channel.
-- Stock by reference.
+## Identidade Visual
 
-## Constraints
+- A interface deve ser predominantemente clara, elegante, serena, moderna e acolhedora.
+- Cor primária da marca: verde EDREN `#294F40` para ações principais, títulos, navegação ativa e presença forte de marca.
+- Cor de apoio: marfim vivo `#FFD699` para destaques sutis, badges, hover states e ênfase decorativa.
+- Cores base do sistema devem usar superfícies claras e quentes: background `#FFF8ED`, surface `#FFFCF6`, muted surface `#F6EAD8`, text `#213D33`, muted text `#6F6558`.
+- Evitar tema escuro como identidade visual padrão.
+- Evitar visual genérico, frio, excessivamente tecnológico, colorido demais ou com aparência de e-commerce.
+- Usar a marca textual `EDREN / VESTUÁRIO FEMININO` se os assets oficiais do logo não estiverem disponíveis; não inventar símbolo ou ícone como logo.
+- Priorizar tipografia legível para tabelas, formulários, menus, filtros, relatórios e dados operacionais.
+- Usar `docs/context/GUIA_IDENTIDADE_VISUAL_EDREN.md` como guia visual detalhado para trabalhos de frontend.
 
-- Timeline: TBD.
-- Technical: Start with local development; published dev environment on VPS is not required initially.
-- Technical: The API must not be publicly exposed through a separate domain.
-- Technical: Avoid exposing auth tokens to browser JavaScript; use HTTP-only session cookies instead.
-- Technical: Backups should be documented initially and implemented as basic scripts when the VPS deploy phase starts.
-- Product: Prioritize a small, usable MVP over a broad system.
+## Análise Brownfield Atual
 
-## Visual Identity
+- O código atual confirma uma fundação fullstack com web, API, banco, seed, autenticação e shell visual.
+- O schema Prisma já cobre grande parte do MVP operacional, mas os fluxos de negócio ainda não foram implementados.
+- O dashboard atual é uma prova técnica de conectividade com banco, não um dashboard de negócio.
+- As rotas de vendas, clientes, produtos, coleções, estoque, contas a receber, relatórios e configurações existem como placeholders no frontend.
 
-- The interface should be predominantly light, elegant, serene, modern, and welcoming.
-- Primary brand color: EDREN green `#294F40` for main actions, titles, active navigation, and strong brand presence.
-- Supporting brand color: bright ivory `#FFD699` for subtle highlights, badges, hover states, and decorative emphasis.
-- Base system colors should use warm light surfaces: background `#FFF8ED`, surface `#FFFCF6`, muted surface `#F6EAD8`, text `#213D33`, muted text `#6F6558`.
-- Avoid a dark theme as the default visual identity.
-- Avoid generic, cold, overly technological, overly colorful, or e-commerce-like visuals.
-- Use the textual brand `EDREN / VESTUARIO FEMININO` if official logo assets are not available; do not invent a symbol or icon as a logo.
-- Prioritize readable UI typography for tables, forms, menus, filters, reports, and operational data.
-- Use `docs/context/GUIA_IDENTIDADE_VISUAL_EDREN.md` as the detailed visual guidance for frontend work.
+## Documentos de Contexto
 
-## Context Documents
-
-- `docs/context/PROJECT_ORIGINAL_BRIEF.md`: original broad project brief.
-- `docs/context/DEVOLUTIVA_TECNICA_EDREN.md`: technical scope reduction and MVP recommendation.
-- `docs/context/DECISOES_FINAIS_ESPECIFICACAO_EDREN.md`: final practical decisions used to create this official project specification.
-- `docs/context/GUIA_IDENTIDADE_VISUAL_EDREN.md`: visual identity guidance for the frontend.
-- `docs/context/DECISOES_OPERACIONAIS_EDREN.md`: operational decisions from EDREN discovery used to model products, stock, customers, sales, payments, reports, and permissions.
+- `docs/context/PROJECT_ORIGINAL_BRIEF.md`
+- `docs/context/DEVOLUTIVA_TECNICA_EDREN.md`
+- `docs/context/DECISOES_FINAIS_ESPECIFICACAO_EDREN.md`
+- `docs/context/DECISOES_OPERACIONAIS_EDREN.md`
+- `docs/deploy/PRODUCAO.md`

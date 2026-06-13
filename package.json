@@ -21,6 +21,7 @@
     "db:seed": "npm run db:seed -w packages/database",
     "db:studio": "npm run db:studio -w packages/database",
     "users:create-admin": "npm run users:create-admin -w packages/database",
+    "test": "npm run test --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present"
   },

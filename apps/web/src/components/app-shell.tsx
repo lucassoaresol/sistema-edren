@@ -1,4 +1,6 @@
 import { Link, Outlet, useRouterState } from '@tanstack/react-router';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from '@tanstack/react-router';
 import {
   BarChart3,
   Boxes,
@@ -11,22 +13,53 @@ import {
   Users,
 } from 'lucide-react';
 import { BrandLogo } from '@/components/brand-logo';
+import { Button } from '@/components/ui/button';
+import { authQueryKey } from '@/lib/auth';
+import { getCurrentUser, logout } from '@/lib/api';
 import { cn } from '@/lib/utils';
 
 const navItems = [
   { label: 'Painel', to: '/', icon: Home },
-  { label: 'Vendas', to: '/vendas', icon: ShoppingBag },
-  { label: 'Clientes', to: '/clientes', icon: Users },
-  { label: 'Produtos', to: '/produtos', icon: Package },
-  { label: 'Colecoes', to: '/colecoes', icon: Tags },
-  { label: 'Estoque', to: '/estoque', icon: Boxes },
-  { label: 'Contas a receber', to: '/contas-a-receber', icon: CreditCard },
-  { label: 'Relatorios', to: '/relatorios', icon: BarChart3 },
-  { label: 'Configuracoes', to: '/configuracoes', icon: Settings },
+  { label: 'Vendas', to: '/sales', icon: ShoppingBag },
+  { label: 'Clientes', to: '/customers', icon: Users },
+  { label: 'Produtos', to: '/products', icon: Package },
+  { label: 'Coleções', to: '/collections', icon: Tags },
+  { label: 'Estoque', to: '/stock', icon: Boxes },
+  { label: 'Contas a receber', to: '/accounts-receivable', icon: CreditCard },
+  { label: 'Relatórios', to: '/reports', icon: BarChart3 },
+  { label: 'Configurações', to: '/settings', icon: Settings },
 ] as const;
 
 export function AppShell() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const currentUser = useQuery({
+    queryKey: authQueryKey,
+    queryFn: getCurrentUser,
+  });
+
+  const logoutMutation = useMutation({
+    mutationFn: logout,
+    onSuccess: async () => {
+      queryClient.setQueryData(authQueryKey, null);
+      await navigate({ to: '/login' });
+    },
+  });
+
+  if (currentUser.isLoading) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-edren-background text-edren-text-muted">
+        Carregando sistema...
+      </main>
+    );
+  }
+
+  if (!currentUser.data) {
+    void navigate({ to: '/login' });
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-edren-background text-edren-text">
@@ -56,9 +89,20 @@ export function AppShell() {
           })}
         </nav>
 
-        <p className="text-xs leading-5 text-edren-surface/65">
-          Sistema interno para acompanhar produtos, estoque, vendas e recebiveis.
-        </p>
+        <div className="space-y-3">
+          <div className="rounded-2xl bg-edren-surface/10 p-3">
+            <p className="text-sm font-medium text-edren-surface">{currentUser.data.name}</p>
+            <p className="mt-1 text-xs text-edren-surface/65">{currentUser.data.profile.name}</p>
+          </div>
+          <Button
+            className="w-full justify-center border-edren-surface/20 bg-transparent text-edren-surface hover:bg-edren-surface/10"
+            disabled={logoutMutation.isPending}
+            onClick={() => logoutMutation.mutate()}
+            variant="secondary"
+          >
+            Sair
+          </Button>
+        </div>
       </aside>
 
       <div className="lg:pl-72">
@@ -68,7 +112,7 @@ export function AppShell() {
               <BrandLogo className="h-7 w-32 text-edren-green" />
             </div>
             <span className="rounded-full bg-edren-ivory px-3 py-1 text-xs font-medium text-edren-green">
-              MVP
+              {currentUser.data.name}
             </span>
           </div>
           <nav className="mt-4 flex gap-2 overflow-x-auto pb-1">

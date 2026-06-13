@@ -1,187 +1,192 @@
 # Roadmap
 
-**Current Milestone:** MVP Foundation
-**Status:** Planning
+**Marco atual:** Operações do MVP
+**Situação:** Catálogo em release candidate para `v0.2.0`; estoque é a próxima fatia funcional planejada
 
----
+## Fundação do MVP
 
-## MVP Foundation
+**Objetivo:** Criar o monorepo, os apps base, a camada de banco, a autenticação e os dados configuráveis iniciais necessários para todas as features do MVP.
+**Alvo:** Concluído quando o desenvolvimento local puder executar frontend, backend, Prisma e dados PostgreSQL semeados.
 
-**Goal:** Create the monorepo, base apps, database layer, authentication, and initial configurable data needed for all MVP features.
-**Target:** Complete when local development can run frontend, backend, Prisma, and seeded PostgreSQL data.
+### Funcionalidades
 
-### Features
+**Monorepo Setup** - FEITO
 
-**Monorepo Setup** - PLANNED
+- Configurar npm workspaces.
+- Criar `apps/web` com Vite, React, TypeScript e Tailwind CSS.
+- Criar `apps/api` com Fastify.
+- Criar estrutura de packages compartilhados e de banco conforme necessário.
 
-- Configure npm workspaces.
-- Create `apps/web` with Vite, React, TypeScript, Tailwind CSS, and shadcn/ui.
-- Create `apps/api` with Fastify.
-- Create shared/database package structure as needed.
+**Database Foundation** - FEITO
 
-**Database Foundation** - PLANNED
+- Configurar PostgreSQL e Prisma.
+- Modelar usuários, perfis, sessões, cadastros configuráveis, coleções, produtos, SKUs, clientes, estoque, vendas, pagamentos e motivos de movimentação/cancelamento conforme as decisões operacionais.
+- Adicionar seeds iniciais para perfis, dados de configuração, coleções, locais de estoque, canais de venda, formas de pagamento e locais futuros/inativos.
 
-- Configure PostgreSQL and Prisma.
-- Model users, profiles, sessions, configurable registrations, collections, products, SKUs, customers, stock, sales, payments, and movement/cancellation reasons according to operational decisions.
-- Add initial seeds for profiles, configuration data, collections, stock locations, sales channels, payment methods, and future/inactive locations.
+**Authentication And Permissions** - EM ANDAMENTO
 
-**Authentication And Permissions** - PLANNED
+- Implementar login com username/senha.
+- Armazenar senhas com hash seguro.
+- Usar cookies de sessão HTTP-only.
+- Adicionar permissões simples baseadas em perfil.
+- Suportar ativação/inativação de usuários.
+- Planejar gestão de usuários por administradores, sem spec criada ainda.
 
-- Implement username/password login.
-- Store passwords with secure hashing.
-- Use HTTP-only session cookies.
-- Add simple profile-based permissions.
-- Support user activation/inactivation.
+**Situação atual:** login com usuário/senha, verificação argon2, sessões no banco, cookies HTTP-only assinados, app shell protegido, tela de login, script de bootstrap de administrador e cobertura de rotas da API já foram implementados. A gestão de usuários por tela administrativa e a aplicação fina de permissões por perfil ainda ficam pendentes para as futuras telas/ações de negócio.
 
----
+## Operações do MVP
 
-## MVP Operations
+**Objetivo:** Suportar o fluxo diário central da EDREN para produtos, estoque, clientes, vendas, pagamentos e recebíveis.
+**Alvo:** Concluído quando usuários puderem cadastrar produtos/SKUs, movimentar estoque, vender itens, registrar pagamentos e visualizar saldos em aberto.
 
-**Goal:** Support EDREN's core daily workflow for products, stock, customers, sales, payments, and receivables.
-**Target:** Complete when users can register products/SKUs, move stock, sell items, record payments, and view open balances.
+### Funcionalidades
 
-### Features
+**Configurable Registrations** - FEITO
 
-**Configurable Registrations** - PLANNED
+- Gerenciar grades de tamanho e tamanhos.
+- Gerenciar categorias, cores, locais de estoque, canais de venda e formas de pagamento.
 
-- Manage size grids and sizes.
-- Manage categories, colors, stock locations, sales channels, and payment methods.
+**Products And Collections** - RELEASE CANDIDATE
 
-**Products And Collections** - PLANNED
+- Gerenciar coleções.
+- Gerenciar produtos com referência comercial e custo opcional.
+- Gerenciar SKUs por produto, cor e tamanho.
+- Enviar uma imagem principal de produto mantendo o modelo preparado para múltiplas imagens.
+- Manter preço de venda e custo no nível de produto/referência.
+- Permitir produto sem imagem.
 
-- Manage collections.
-- Manage products with commercial reference and optional cost.
-- Manage SKUs by product, color, and size.
-- Upload one main product image while storing images in a multi-image-ready model.
-- Keep product sale price and cost at product/reference level.
-- Allow product without image.
+**Situação atual:** implementada e validada em `develop` com typecheck, testes e build. Antes do corte final da `v0.2.0`, validar migration e Cloudinary no ambiente alvo, abrir PR para `main` e atualizar release/tag.
 
-**Customers** - PLANNED
+**Customers** - PLANEJADA
 
-- Manage customers.
-- Use `Cliente Balcao` for fully paid quick sales.
-- Require real customers for sales with open balance.
-- Require name and unique WhatsApp for real customers.
-- Support final customer and sacoleira/revendedora classification.
+- Gerenciar clientes.
+- Usar `Cliente Balcão` para vendas rápidas totalmente pagas.
+- Exigir cliente real para vendas com saldo em aberto.
+- Exigir nome e WhatsApp único para clientes reais.
+- Suportar classificação de cliente final e sacoleira/revendedora.
 
-**Stock Control** - PLANNED
+**Stock Control** - PLANEJADA
 
-- Track stock balances by SKU and location.
-- Register stock entries.
-- Register stock movements.
-- Require movement reason.
-- Support manual initial stock entry.
-- Restrict manual stock adjustment to administrators.
-- Support condicional and sacoleira only as stock movements with responsible customer/person.
+- Controlar saldos por SKU e local de estoque.
+- Registrar entradas de estoque.
+- Registrar movimentações de estoque.
+- Exigir motivo da movimentação.
+- Suportar entrada manual de estoque inicial.
+- Restringir ajuste manual de estoque a administradores.
+- Suportar condicional e sacoleira apenas como movimentações de estoque com cliente/pessoa responsável.
 
-**Sales And Payments** - PLANNED
+**Sales And Payments** - PLANEJADA
 
-- Register sales and sale items.
-- Support fast sale flow with product reference search.
-- Reduce stock on confirmed sales.
-- Support multiple and partial payments.
-- Support sale-level discount and discount reason.
-- Require responsible user and sales channel.
-- Allow sale entry after occurrence while preserving sale date and entry date.
-- Calculate receivables from sale total minus active payments.
-- Cancel full sales with required reason, stock return, and payment cancellation/estorno.
-- Cancel/estornar wrong payments with required reason.
-- Restrict payment receipt and sales cancellation to administrators.
+- Registrar vendas e itens de venda.
+- Suportar fluxo rápido de venda com busca por referência do produto.
+- Baixar estoque em vendas confirmadas.
+- Suportar pagamentos múltiplos e parciais.
+- Suportar desconto no nível da venda com motivo obrigatório.
+- Exigir usuário responsável e canal de venda.
+- Permitir lançamento posterior preservando data da venda e data de entrada.
+- Calcular recebíveis a partir do total da venda menos pagamentos ativos.
+- Cancelar vendas completas com motivo obrigatório, retorno de estoque e cancelamento/estorno dos pagamentos.
+- Cancelar/estornar pagamentos errados com motivo obrigatório.
+- Restringir recebimento de pagamento e cancelamento de venda a administradores.
 
----
+## Visibilidade Do MVP
 
-## MVP Visibility
+**Objetivo:** Fornecer visibilidade operacional simples sem dashboards avançados ou exportações.
+**Alvo:** Concluído quando a EDREN puder responder perguntas básicas de vendas, estoque e recebíveis pelo sistema.
 
-**Goal:** Provide simple operational visibility without advanced dashboards or exports.
-**Target:** Complete when EDREN can answer basic sales, stock, and receivables questions from the system.
+### Funcionalidades
 
-### Features
+**Home Panel** - PLANEJADA
 
-**Home Panel** - PLANNED
+- Mostrar indicadores operacionais práticos.
+- Manter o painel simples e sem excesso de gráficos.
 
-- Show practical operational indicators.
-- Keep the panel simple and non-graph-heavy.
+**Minimum Reports** - PLANEJADA
 
-**Minimum Reports** - PLANNED
+- Vendas por período, dia e mês.
+- Estoque por produto/SKU, referência e local.
+- Recebíveis e clientes com saldo em aberto.
+- Vendas por coleção e canal.
 
-- Sales by period, day, and month.
-- Stock by product/SKU, reference, and location.
-- Receivables and customers with open balance.
-- Sales by collection and channel.
+## Deploy e Operações
 
----
+**Objetivo:** Preparar o deploy de produção no VPS da EDREN depois que o MVP funcionar localmente.
+**Alvo:** Concluído quando a produção puder rodar com Nginx, PM2, PostgreSQL e Cloudflared Tunnel.
 
-## Deploy And Operations
+### Funcionalidades
 
-**Goal:** Prepare production deployment on the EDREN VPS after the MVP works locally.
-**Target:** Complete when production can run through Nginx, PM2, PostgreSQL, and Cloudflared Tunnel.
+**Production Build** - DOCUMENTADA
 
-### Features
+- Buildar assets estáticos do frontend.
+- Buildar backend para execução com PM2.
+- Configurar variáveis de ambiente de produção.
 
-**Production Build** - PLANNED
+**VPS Deployment** - DOCUMENTADA
 
-- Build frontend static assets.
-- Build backend for PM2 execution.
-- Configure environment variables for production.
+- Servir frontend pelo Nginx.
+- Fazer proxy de `/api` para o Fastify local.
+- Manter backend sem domínio público separado para API.
+- Configurar processo PM2.
 
-**VPS Deployment** - PLANNED
+**Backup Preparation** - PLANEJADA
 
-- Serve frontend through Nginx.
-- Proxy `/api` to local Fastify.
-- Keep backend without public API domain.
-- Configure PM2 process.
+- Documentar backup e restore do PostgreSQL.
+- Adicionar script básico de backup durante a fase de deploy.
 
-**Backup Preparation** - PLANNED
+## Qualidade Técnica e Evolução Arquitetural
 
-- Document PostgreSQL backup and restore.
-- Add basic backup script during deploy phase.
+**Objetivo:** Reduzir o custo de manutenção antes das próximas fatias críticas de estoque, vendas e recebíveis.
+**Alvo:** Concluído quando os módulos mais extensos estiverem divididos por responsabilidade, regras de negócio críticas estiverem fora das rotas e padrões reutilizáveis estiverem documentados.
 
----
+### Funcionalidades
 
-## Phase 2
+**Product UI Decomposition** - PLANEJADA
 
-**Goal:** Expand operational coverage after the MVP is stable in daily use.
+- Dividir `apps/web/src/routes/products.tsx` em rota, componentes de coleção, formulário/lista/detalhe de produto, SKUs, imagem e utilitários.
+- Preservar comportamento atual de catálogo, upload de imagem e permissões.
+- Reduzir o risco de regressão antes de evoluir estoque e vendas sobre produtos/SKUs.
 
-### Features
+**Catalog API Service Layer** - PLANEJADA
 
-**Condicional Module** - PLANNED
+- Extrair regras de catálogo de `apps/api/src/modules/catalog/routes.ts` para serviços/repositórios/serializadores pequenos.
+- Centralizar validações reutilizáveis de coleção vigente, referência única, relações de produto e SKU.
+- Preparar transações e reuso por estoque/vendas sem duplicar regra em rotas.
 
-- Dedicated condicional screens.
-- Return deadlines.
-- Late alerts.
-- Condicional-specific reports.
+**Shared Frontend API Patterns** - PLANEJADA
 
-**Sacoleira Module** - PLANNED
+- Separar tipos, query keys e clientes de API por domínio em vez de manter tudo em `apps/web/src/lib/api.ts`.
+- Criar padrões reutilizáveis para estados de formulário, selects, query state, invalidação e mensagens de erro.
+- Melhorar mensagens de erro da UI usando payloads da API quando disponíveis.
 
-- Dedicated sacoleira/revendedora screens.
-- Detailed acertos.
-- History by sacoleira.
-- Sacoleira-specific reports.
+## Análise do Estado Atual
 
-**Finance Extensions** - PLANNED
+- Fundação técnica: parcialmente concluída e já demonstrada com web, API, banco e seed.
+- Autenticação: implementada para login/logout/me com usuário/senha; falta gestão de usuários e enforcement de permissões por perfil nas ações de negócio.
+- Cadastros configuráveis: modelados e seedados; faltam endpoints e telas CRUD.
+- Produtos/SKUs/estoque: modelados; faltam fluxos operacionais e atualização transacional de saldos.
+- Clientes: modelados e Cliente Balcão seedado; falta CRUD e histórico financeiro.
+- Vendas/pagamentos: modelados; falta API transacional, baixa de estoque, cancelamento e contas a receber calculadas.
+- Relatórios: ainda não implementados; dashboard atual é apenas uma prova fullstack.
+- Deploy: documento de produção existe; não foi validado nesta análise.
 
-- Expenses.
-- Commissions.
-- Formal installments.
-- Exchanges and partial returns.
+## Fase 2
 
-**Reporting Extensions** - PLANNED
+- Módulo completo de condicional com prazos, alertas e relatórios.
+- Módulo completo de sacoleira/revendedora com acertos e relatórios.
+- Despesas.
+- Comissões.
+- Parcelamentos formais.
+- Trocas e devoluções parciais.
+- Exportações, gráficos, dashboard avançado, metas e comparativos.
 
-- Exports.
-- Charts.
-- Advanced dashboard.
-- Goals and comparisons.
+## Considerações Futuras
 
----
-
-## Future Considerations
-
-- E-commerce or public customer ordering.
-- WhatsApp and Instagram integrations.
-- Payment gateway integration.
-- Invoice/fiscal integration.
-- Barcode and label printer support.
-- Native mobile app.
-- Advanced production control.
-- Advanced accounting, BI, AI, and marketing automation.
-- Published dev environment on VPS if needed.
+- E-commerce ou pedidos públicos de clientes.
+- Integrações com WhatsApp e Instagram.
+- Integração com gateway de pagamento.
+- Integração fiscal/nota.
+- Código de barras e etiquetas.
+- App mobile nativo.
+- Controle de produção avançado.
+- Contabilidade avançada, BI, IA e automação de marketing.
+- Ambiente de desenvolvimento publicado no VPS, se necessário.

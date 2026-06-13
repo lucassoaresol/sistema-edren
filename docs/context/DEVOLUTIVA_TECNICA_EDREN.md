@@ -499,13 +499,13 @@ Despesas entram melhor na fase 2, depois que a operação principal estiver func
 
 A autenticação da V1 deve usar:
 
-- email;
+- usuário de login;
 - senha.
 
 Usuário do sistema deve ter:
 
 - nome;
-- email;
+- usuário de login;
 - senha;
 - perfil;
 - status ativo/inativo.
@@ -569,7 +569,7 @@ Sem acesso a:
 - Backend: Fastify.
 - Banco de dados: PostgreSQL.
 - ORM: Prisma.
-- Autenticação: email + senha.
+- Autenticação: usuário de login + senha.
 - Upload de imagens: Cloudinary.
 - Deploy: VPS com Nginx, PM2 e Cloudflared Tunnel.
 - Gerenciador de pacotes: npm.

@@ -1,62 +1,94 @@
 import { createRootRoute, createRoute, createRouter, Outlet } from '@tanstack/react-router';
 import { AppShell } from '@/components/app-shell';
 import { DashboardPage } from '@/routes/dashboard';
+import { SettingsPage } from '@/routes/settings';
+import { ProductDetailPage, ProductsPage } from '@/routes/products';
+import { LoginPage } from '@/routes/login';
 import { PlaceholderPage } from '@/routes/placeholder';
 
 const rootRoute = createRootRoute({
+  component: () => <Outlet />,
+});
+
+const protectedRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  id: 'protected',
   component: AppShell,
 });
 
 const indexRoute = createRoute({
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => protectedRoute,
   path: '/',
   component: DashboardPage,
 });
 
+const loginRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/login',
+  component: LoginPage,
+});
+
+const productsRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/products',
+  component: ProductsPage,
+});
+
+const productDetailRoute = createRoute({
+  getParentRoute: () => protectedRoute,
+  path: '/products/$productId',
+  component: ProductDetailRoute,
+});
+
 const placeholderRoutes = [
   createRoute({
-    getParentRoute: () => rootRoute,
-    path: '/vendas',
-    component: () => <PlaceholderPage description="Venda rapida, pagamentos e baixa de estoque." title="Vendas" />,
+    getParentRoute: () => protectedRoute,
+    path: '/sales',
+    component: () => <PlaceholderPage description="Venda rápida, pagamentos e baixa de estoque." title="Vendas" />,
   }),
   createRoute({
-    getParentRoute: () => rootRoute,
-    path: '/clientes',
-    component: () => <PlaceholderPage description="Cadastro e historico das clientes." title="Clientes" />,
+    getParentRoute: () => protectedRoute,
+    path: '/customers',
+    component: () => <PlaceholderPage description="Cadastro e histórico das clientes." title="Clientes" />,
+  }),
+  productsRoute,
+  productDetailRoute,
+  createRoute({
+    getParentRoute: () => protectedRoute,
+    path: '/collections',
+    component: () => <PlaceholderPage description="Organização dos produtos por coleção." title="Coleções" />,
   }),
   createRoute({
-    getParentRoute: () => rootRoute,
-    path: '/produtos',
-    component: () => <PlaceholderPage description="Referencias, colecoes, SKUs e imagens." title="Produtos" />,
+    getParentRoute: () => protectedRoute,
+    path: '/stock',
+    component: () => <PlaceholderPage description="Saldos por SKU e local, entradas e movimentações." title="Estoque" />,
   }),
   createRoute({
-    getParentRoute: () => rootRoute,
-    path: '/colecoes',
-    component: () => <PlaceholderPage description="Organizacao dos produtos por colecao." title="Colecoes" />,
+    getParentRoute: () => protectedRoute,
+    path: '/accounts-receivable',
+    component: () => <PlaceholderPage description="Saldos em aberto e histórico financeiro." title="Contas a receber" />,
   }),
   createRoute({
-    getParentRoute: () => rootRoute,
-    path: '/estoque',
-    component: () => <PlaceholderPage description="Saldos por SKU e local, entradas e movimentacoes." title="Estoque" />,
+    getParentRoute: () => protectedRoute,
+    path: '/reports',
+    component: () => <PlaceholderPage description="Vendas do dia, contas a receber e estoque por referência." title="Relatórios" />,
   }),
   createRoute({
-    getParentRoute: () => rootRoute,
-    path: '/contas-a-receber',
-    component: () => <PlaceholderPage description="Saldos em aberto e historico financeiro." title="Contas a receber" />,
-  }),
-  createRoute({
-    getParentRoute: () => rootRoute,
-    path: '/relatorios',
-    component: () => <PlaceholderPage description="Vendas do dia, contas a receber e estoque por referencia." title="Relatorios" />,
-  }),
-  createRoute({
-    getParentRoute: () => rootRoute,
-    path: '/configuracoes',
-    component: () => <PlaceholderPage description="Cadastros configuraveis e usuarios do sistema." title="Configuracoes" />,
+    getParentRoute: () => protectedRoute,
+    path: '/settings',
+    component: SettingsPage,
   }),
 ];
 
-const routeTree = rootRoute.addChildren([indexRoute, ...placeholderRoutes]);
+function ProductDetailRoute() {
+  const { productId } = productDetailRoute.useParams();
+  return <ProductDetailPage productId={productId} />;
+}
+
+const routeTree = rootRoute.addChildren([
+  loginRoute,
+  protectedRoute.addChildren([indexRoute, ...placeholderRoutes]),
+]);
 
 export const router = createRouter({ routeTree });
 
