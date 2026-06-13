@@ -10,9 +10,9 @@
   - Requisitos: REQ-FE-API-002, REQ-FE-API-005.
   - Verificação: `npm run typecheck` passou em 2026-06-13; testes existentes da API continuam passando com `npm test`.
 
-- [ ] TASK-FE-API-004: Extrair padrões reutilizados da tela de configurações para componentes de domínio sem alterar visual ou comportamento.
+- [x] TASK-FE-API-004: Extrair padrões reutilizados da tela de configurações para componentes de domínio sem alterar visual ou comportamento.
   - Requisitos: REQ-FE-API-004, REQ-FE-API-006, REQ-FE-API-007.
-  - Verificação: `npm run typecheck`; checagem manual da tela de configurações.
+  - Verificação: `npm run typecheck` passou em 2026-06-13; checagem manual da tela de configurações.
 
 - [ ] TASK-FE-API-005: Rodar validação final da spec e registrar resultado.
   - Requisitos: todos.
