@@ -3,6 +3,7 @@ import type { FastifyPluginAsync } from 'fastify';
 import { removeProductImage, uploadProductImage } from '../../lib/cloudinary.js';
 import { BadRequestError, BusinessRuleError, ConflictError, NotFoundError } from '../../lib/errors.js';
 import { requireAdmin, requireAuth } from '../auth/auth-context.js';
+import { ensureCollectionDateRange, ensureCollectionExists, ensureUniqueCollectionName, isCurrentCollection } from './collections.js';
 import { serializeProduct } from './serializers.js';
 import {
   createCollectionSchema,
@@ -74,9 +75,7 @@ export const catalogRoutes: FastifyPluginAsync = async (app) => {
     const nextStartDate = input.startDate ?? currentCollection.startDate;
     const nextEndDate = input.endDate === undefined ? currentCollection.endDate : input.endDate;
 
-    if (nextEndDate && nextEndDate < nextStartDate) {
-      throw new BusinessRuleError('A data de fim deve ser maior ou igual a data de inicio.');
-    }
+    ensureCollectionDateRange({ startDate: nextStartDate, endDate: nextEndDate });
 
     const collection = await app.prisma.collection.update({
       where: { id: params.id },
@@ -337,26 +336,6 @@ function isFileTooLargeError(error: unknown) {
   return typeof error === 'object' && error !== null && 'code' in error && error.code === 'FST_REQ_FILE_TOO_LARGE';
 }
 
-async function ensureCollectionExists(prisma: PrismaClient, id: string) {
-  const collection = await prisma.collection.findUnique({ where: { id } });
-
-  if (!collection) {
-    throw new NotFoundError('Colecao nao encontrada.');
-  }
-
-  return collection;
-}
-
-async function ensureUniqueCollectionName(prisma: PrismaClient, name: string, ignoreId?: string) {
-  const existing = await prisma.collection.findFirst({
-    where: { name, ...(ignoreId ? { id: { not: ignoreId } } : {}) },
-  });
-
-  if (existing) {
-    throw new ConflictError('Ja existe uma colecao com este nome.');
-  }
-}
-
 async function ensureProductReferenceIsUnique(prisma: PrismaClient, reference: string, ignoreId?: string) {
   const existing = await prisma.product.findFirst({
     where: { reference, ...(ignoreId ? { id: { not: ignoreId } } : {}) },
@@ -389,18 +368,6 @@ async function ensureProductRelations(prisma: PrismaClient, collectionId: string
   if (!sizeGrid) {
     throw new NotFoundError('Grade de tamanho nao encontrada.');
   }
-}
-
-function isCurrentCollection(collection: { endDate: Date | null; startDate: Date; status: string }) {
-  const now = new Date();
-  const endDate = collection.endDate ? endOfDay(collection.endDate) : null;
-  return collection.status === 'ACTIVE' && collection.startDate <= now && (!endDate || endDate >= now);
-}
-
-function endOfDay(date: Date) {
-  const value = new Date(date);
-  value.setUTCHours(23, 59, 59, 999);
-  return value;
 }
 
 async function ensureProductExists(prisma: PrismaClient, id: string) {
