@@ -1,5 +1,5 @@
 import type { Color, ConfigRecord, SizeGrid } from './config';
-import { type ApiResponse, request } from './request';
+import { ensureOk, type ApiResponse, request } from './request';
 
 export type CollectionStatus = 'ACTIVE' | 'ARCHIVED';
 
@@ -176,9 +176,7 @@ export async function uploadMainProductImage(productId: string, file: File) {
     method: 'POST',
   });
 
-  if (!response.ok) {
-    throw new Error(`API request failed with status ${response.status}`);
-  }
+  await ensureOk(response);
 
   const data = await response.json() as ApiResponse<ProductImage>;
 
