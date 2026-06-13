@@ -1,7 +1,7 @@
 # Roadmap
 
 **Marco atual:** Operações do MVP
-**Situação:** Fundação publicada; autenticação concluída; operações em planejamento
+**Situação:** Catálogo em release candidate para `v0.2.0`; estoque é a próxima fatia funcional planejada
 
 ## Fundação do MVP
 
@@ -46,7 +46,7 @@
 - Gerenciar grades de tamanho e tamanhos.
 - Gerenciar categorias, cores, locais de estoque, canais de venda e formas de pagamento.
 
-**Products And Collections** - PLANEJADA
+**Products And Collections** - RELEASE CANDIDATE
 
 - Gerenciar coleções.
 - Gerenciar produtos com referência comercial e custo opcional.
@@ -54,6 +54,8 @@
 - Enviar uma imagem principal de produto mantendo o modelo preparado para múltiplas imagens.
 - Manter preço de venda e custo no nível de produto/referência.
 - Permitir produto sem imagem.
+
+**Situação atual:** implementada e validada em `develop` com typecheck, testes e build. Antes do corte final da `v0.2.0`, validar migration e Cloudinary no ambiente alvo, abrir PR para `main` e atualizar release/tag.
 
 **Customers** - PLANEJADA
 

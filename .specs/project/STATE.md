@@ -99,7 +99,8 @@ Atualizado em: 2026-06-13.
 
 ## Pendências
 
-- Feature `products-and-collections` concluída e validada em 2026-06-13, incluindo typecheck, testes, build e checagem manual.
+- Feature `products-and-collections` concluída, validada e promovida a candidata da release `v0.2.0` em 2026-06-13.
+- Antes de cortar `v0.2.0`, validar migration em ambiente alvo, confirmar upload Cloudinary com credenciais reais e concluir PR/merge para `main`.
 - Formalizar feature specs para `products-skus`, `stock-movements`, `customers`, `sales-payments` e `reports-mvp`.
 - Modelar detalhes de transações de produto/venda/estoque a partir de `docs/context/DECISOES_OPERACIONAIS_EDREN.md` quando suas specs forem criadas.
 - Implementar produtos/SKUs antes de venda.

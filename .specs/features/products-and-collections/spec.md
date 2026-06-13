@@ -1,6 +1,6 @@
 # Spec de Produtos, Coleções e SKUs
 
-**Situação:** Implementada e validada.
+**Situação:** Implementada, validada e candidata à release `v0.2.0`.
 **Rastreabilidade:** Roadmap `Products And Collections` em Operações do MVP; `.specs/project/PROJECT.md`; `docs/context/DECISOES_OPERACIONAIS_EDREN.md` seções 2, 9 e 11; `docs/context/DECISOES_FINAIS_ESPECIFICACAO_EDREN.md` decisões 3, 9 e 10; achados de UAT da tela de produtos em 2026-06-13.
 
 ## Propósito
@@ -154,6 +154,14 @@ Validação automática executada em 2026-06-13:
 - `npm run test`: passou, 26 testes.
 - `npm run build`: passou; Vite emitiu apenas aviso de chunk JS acima de 500 kB.
 
+Validação de release candidate executada em 2026-06-13:
+
+- `npm run typecheck`: passou.
+- `npm test`: passou, 4 arquivos e 26 testes.
+- `npm run build`: passou; Vite emitiu apenas aviso de chunk JS acima de 500 kB.
+- Commit funcional associado: `6e7b93e`.
+- Commit de spec associado: `d334347`.
+
 Validação manual registrada em 2026-06-13:
 
 - `/products`: checada manualmente.
@@ -168,3 +176,4 @@ Validação manual registrada em 2026-06-13:
 - O schema Prisma atual já possui `Collection`, `Product`, `ProductImage` e `ProductVariant`, mas a implementação deve validar se alguma migration adicional é necessária antes de codar.
 - Decisão em 2026-06-13: a primeira entrega deve incluir upload real para Cloudinary. A etapa intermediária de URL/publicId manual deixa de ser o fluxo esperado e deve ser substituída por upload de arquivo.
 - Como a feature envolve múltiplas telas, permissões, API e possível upload de imagem, o próximo passo recomendado é criar `design.md` e `tasks.md` antes de implementar.
+- Para cortar a release `v0.2.0`, ainda é necessário validar a migration em ambiente de teste/produção alvo, confirmar Cloudinary com credenciais reais e concluir PR/merge para `main`.
